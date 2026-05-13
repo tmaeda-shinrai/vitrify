@@ -19,42 +19,42 @@ A plataforma trata dados pessoais sob as seguintes bases legais (Art. 7º LGPD):
 
 ### 1.3 Dados pessoais coletados
 
-| Dado | Quando | Base legal | Compartilhado |
-|---|---|---|---|
-| E-mail | Cadastro | Contrato | Resend (envio) |
-| Nome | Cadastro | Contrato | — |
-| Senha (hash) | Cadastro | Contrato | Supabase Auth |
-| Foto de perfil | Onboarding | Contrato | Supabase Storage |
-| WhatsApp | Onboarding | Contrato | — (visível na vitrine pública por intenção da usuária) |
-| Bio | Onboarding | Contrato | — (público) |
-| IP (hash) | Visitas e intents | Legítimo interesse | — |
-| Dados de pagamento | Checkout | Contrato | Asaas (processamento) |
-| CPF/CNPJ (faturamento) | Checkout | Obrigação legal | Asaas, contador |
+| Dado                   | Quando            | Base legal         | Compartilhado                                          |
+| ---------------------- | ----------------- | ------------------ | ------------------------------------------------------ |
+| E-mail                 | Cadastro          | Contrato           | Resend (envio)                                         |
+| Nome                   | Cadastro          | Contrato           | —                                                      |
+| Senha (hash)           | Cadastro          | Contrato           | Supabase Auth                                          |
+| Foto de perfil         | Onboarding        | Contrato           | Supabase Storage                                       |
+| WhatsApp               | Onboarding        | Contrato           | — (visível na vitrine pública por intenção da usuária) |
+| Bio                    | Onboarding        | Contrato           | — (público)                                            |
+| IP (hash)              | Visitas e intents | Legítimo interesse | —                                                      |
+| Dados de pagamento     | Checkout          | Contrato           | Asaas (processamento)                                  |
+| CPF/CNPJ (faturamento) | Checkout          | Obrigação legal    | Asaas, contador                                        |
 
 ### 1.4 Direitos do titular
 
 A plataforma garante todos os direitos do Art. 18 LGPD:
 
-| Direito | Implementação |
-|---|---|
-| Confirmação e acesso | Tela "Meus dados" com export em JSON |
-| Correção | Edição direta no perfil |
-| Anonimização ou eliminação | Botão "Excluir minha conta" — anonimização em 30 dias |
-| Portabilidade | Export de produtos e dados pessoais em CSV/JSON |
-| Eliminação dos dados tratados com consentimento | Aceite revogável a qualquer momento |
-| Informação sobre compartilhamento | Política de privacidade lista todos os terceiros |
-| Revogação do consentimento | Disponível em "Configurações > Privacidade" |
+| Direito                                         | Implementação                                         |
+| ----------------------------------------------- | ----------------------------------------------------- |
+| Confirmação e acesso                            | Tela "Meus dados" com export em JSON                  |
+| Correção                                        | Edição direta no perfil                               |
+| Anonimização ou eliminação                      | Botão "Excluir minha conta" — anonimização em 30 dias |
+| Portabilidade                                   | Export de produtos e dados pessoais em CSV/JSON       |
+| Eliminação dos dados tratados com consentimento | Aceite revogável a qualquer momento                   |
+| Informação sobre compartilhamento               | Política de privacidade lista todos os terceiros      |
+| Revogação do consentimento                      | Disponível em "Configurações > Privacidade"           |
 
 ### 1.5 Política de retenção
 
-| Dado | Tempo de retenção | Justificativa |
-|---|---|---|
-| Conta ativa | Enquanto a conta estiver ativa | Execução de contrato |
-| Conta excluída | Anonimização em 30 dias, exclusão completa em 90 dias | Direito de arrependimento + segurança |
-| Logs de auditoria | 180 dias | Legítimo interesse (segurança) |
-| Dados fiscais (NF-e) | 5 anos | Obrigação legal (tributária) |
-| Backups | 90 dias (rotativo) | Continuidade do serviço |
-| Hash de IP em order_intents | 12 meses | Analytics agregada para a vendedora |
+| Dado                        | Tempo de retenção                                     | Justificativa                         |
+| --------------------------- | ----------------------------------------------------- | ------------------------------------- |
+| Conta ativa                 | Enquanto a conta estiver ativa                        | Execução de contrato                  |
+| Conta excluída              | Anonimização em 30 dias, exclusão completa em 90 dias | Direito de arrependimento + segurança |
+| Logs de auditoria           | 180 dias                                              | Legítimo interesse (segurança)        |
+| Dados fiscais (NF-e)        | 5 anos                                                | Obrigação legal (tributária)          |
+| Backups                     | 90 dias (rotativo)                                    | Continuidade do serviço               |
+| Hash de IP em order_intents | 12 meses                                              | Analytics agregada para a vendedora   |
 
 ### 1.6 Encarregado de Proteção de Dados (DPO)
 
@@ -87,6 +87,7 @@ Transferência internacional para EUA (Resend, Sentry) está coberta pela LGPD v
 Revendedoras usam fotos oficiais das marcas (Avon, Natura, Hinode) que são **protegidas por direito autoral e marcas registradas**. Tecnicamente, sem autorização específica, não há licença para reproduzir essas imagens em uma plataforma de terceiros para uso comercial.
 
 Na prática:
+
 - As marcas raramente acionam revendedores individuais (revendedora é parceira comercial, mesmo que indireta)
 - Mas se a plataforma cresce, ela mesma vira alvo potencial de notificação extrajudicial ou judicial
 
@@ -169,11 +170,11 @@ Sistema de monitoramento (manual no início, semi-automatizado depois) detecta e
 
 A plataforma usa cookies em três categorias:
 
-| Categoria | Cookies | Necessita consentimento? |
-|---|---|---|
-| Essenciais | Sessão de login, CSRF token | Não |
-| Funcionais | Preferência de tema, idioma | Não (legítimo interesse) |
-| Analíticos | Plausible (sem cookies) ou GA (com cookies) | Sim, se GA |
+| Categoria  | Cookies                                     | Necessita consentimento? |
+| ---------- | ------------------------------------------- | ------------------------ |
+| Essenciais | Sessão de login, CSRF token                 | Não                      |
+| Funcionais | Preferência de tema, idioma                 | Não (legítimo interesse) |
+| Analíticos | Plausible (sem cookies) ou GA (com cookies) | Sim, se GA               |
 
 **Recomendação:** usar **Plausible Analytics**, que não usa cookies e dispensa banner. Reduz fricção e simplifica conformidade.
 
@@ -182,6 +183,7 @@ A plataforma usa cookies em três categorias:
 A Lei Brasileira de Inclusão (LBI, Lei 13.146/2015) torna acessibilidade obrigatória para serviços digitais. WCAG 2.1 AA é o padrão referência.
 
 Compromissos:
+
 - Contraste mínimo AA em todo texto
 - Navegação completa via teclado
 - Alt text obrigatório em imagens de produto
@@ -207,6 +209,7 @@ Necessária para receber via Asaas. Bancos digitais (Inter, Stone, Cora) têm co
 ### 7.3 Contador
 
 Não-opcional. Custo R$ 200-500/mês. Tarefas:
+
 - Apuração mensal de impostos
 - Emissão de NF-e (ou supervisão da emissão automatizada)
 - Declaração anual

@@ -1,13 +1,13 @@
 # [0021] Conformidade legal e LGPD (termos, privacidade, export, audit logs)
 
-| | |
-|---|---|
-| **Milestone** | M6 — Conformidade e polimento |
-| **Roadmap** | Fase 3, Semanas 11–12 |
-| **Prioridade** | Must |
-| **Planos** | Todos |
+|                |                                                 |
+| -------------- | ----------------------------------------------- |
+| **Milestone**  | M6 — Conformidade e polimento                   |
+| **Roadmap**    | Fase 3, Semanas 11–12                           |
+| **Prioridade** | Must                                            |
+| **Planos**     | Todos                                           |
 | **Depende de** | #0003 (`audit_logs`), #0009 (exclusão de conta) |
-| **Bloqueia** | #0025 (lançamento exige conformidade pronta) |
+| **Bloqueia**   | #0025 (lançamento exige conformidade pronta)    |
 
 ## Contexto
 

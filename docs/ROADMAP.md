@@ -11,21 +11,23 @@ Mês 0 (Setup)      ──► Mês 1 (Core)      ──► Mês 2 (Vitrine + UX)
 Mês 5+ (Crescimento) ◄── Mês 4 (Lançamento) ◄── Mês 3 (Pagamento + Polimento)
 ```
 
-| Fase | Duração | Resultado |
-|---|---|---|
-| 0. Setup | Semana 0 | Ambiente, contas, repositório, base do app |
-| 1. Core | Semanas 1-4 | Auth, CRUD de produtos, painel funcional |
-| 2. Vitrine + UX | Semanas 5-8 | Vitrine pública, intent de pedido, PWA |
-| 3. Pagamento + Polimento | Semanas 9-12 | Asaas, planos, polish |
-| 4. Lançamento | Semanas 13-14 | Beta com embaixadoras, ajustes finais |
-| 5. Crescimento | Semana 15+ | Aquisição, iterações com base em feedback |
+| Fase                     | Duração       | Resultado                                  |
+| ------------------------ | ------------- | ------------------------------------------ |
+| 0. Setup                 | Semana 0      | Ambiente, contas, repositório, base do app |
+| 1. Core                  | Semanas 1-4   | Auth, CRUD de produtos, painel funcional   |
+| 2. Vitrine + UX          | Semanas 5-8   | Vitrine pública, intent de pedido, PWA     |
+| 3. Pagamento + Polimento | Semanas 9-12  | Asaas, planos, polish                      |
+| 4. Lançamento            | Semanas 13-14 | Beta com embaixadoras, ajustes finais      |
+| 5. Crescimento           | Semana 15+    | Aquisição, iterações com base em feedback  |
 
 ## Fase 0 — Setup (Semana 0)
 
 ### Objetivos
+
 Preparar todo o ferramental e a base do projeto para começar a desenvolver sem fricção.
 
 ### Entregáveis
+
 - [ ] Repositório GitHub criado, com branch protection no `main`
 - [ ] Projeto Next.js 14 inicial com TypeScript, Tailwind, shadcn/ui configurados
 - [ ] Projeto Supabase criado na região São Paulo
@@ -39,11 +41,13 @@ Preparar todo o ferramental e a base do projeto para começar a desenvolver sem 
 - [ ] ESLint + Prettier + Husky configurados
 
 ### Definição de pronto
+
 `pnpm dev` roda localmente, deploy de "hello world" passa para o domínio em staging.
 
 ## Fase 1 — Core (Semanas 1 a 4)
 
 ### Objetivos
+
 Construir o fluxo essencial: cadastro, login, criação de vitrine inicial, CRUD completo de produtos. Sem ainda ter a vitrine pública renderizada nem PWA.
 
 ### Semana 1 — Autenticação e estrutura
@@ -82,11 +86,13 @@ Construir o fluxo essencial: cadastro, login, criação de vitrine inicial, CRUD
 - [ ] Reordenação manual (drag-and-drop)
 
 ### Marco fim da Fase 1
+
 Uma usuária consegue se cadastrar, completar o onboarding, e cadastrar 5 produtos com fotos. Tudo persiste no banco. Vitrine pública ainda não acessível.
 
 ## Fase 2 — Vitrine + UX (Semanas 5 a 8)
 
 ### Objetivos
+
 Tornar a vitrine pública acessível, registrar intenções de pedido, implementar PWA, polir o painel.
 
 ### Semana 5 — Vitrine pública
@@ -125,11 +131,13 @@ Tornar a vitrine pública acessível, registrar intenções de pedido, implement
 - [ ] Sentry configurado
 
 ### Marco fim da Fase 2
+
 Uma usuária pode compartilhar `vitri.app/maria-silva` com clientes, eles abrem no celular, navegam, clicam em "Pedir no WhatsApp" e a conversa abre com mensagem pronta. A usuária vê os pedidos no painel e pode instalar o app no celular.
 
 ## Fase 3 — Pagamento + Polimento (Semanas 9 a 12)
 
 ### Objetivos
+
 Permitir cobrança real, lidar com upgrades, refinar tudo o que já está pronto.
 
 ### Semana 9 — Integração Asaas
@@ -169,6 +177,7 @@ Permitir cobrança real, lidar com upgrades, refinar tudo o que já está pronto
 - [ ] Health check e alertas
 
 ### Marco fim da Fase 3
+
 Sistema funcional ponta a ponta. Uma usuária pode subir do Free para o Pro, pagar via PIX, voltar e ver o limite removido. Webhook funcionando, fatura emitida, e-mail de confirmação enviado. Documentação de suporte publicada.
 
 ## Fase 4 — Lançamento (Semanas 13 a 14)
@@ -191,6 +200,7 @@ Sistema funcional ponta a ponta. Uma usuária pode subir do Free para o Pro, pag
 - [ ] Lançar publicamente com cupom de primeira mensalidade
 
 ### Marco fim da Fase 4
+
 Aplicação em produção, aceitando cadastros públicos, com pelo menos as 10 embaixadoras como base inicial e primeiras 5-10 assinaturas pagas convertidas.
 
 ## Fase 5 — Crescimento (Semana 15 em diante)
@@ -198,12 +208,14 @@ Aplicação em produção, aceitando cadastros públicos, com pelo menos as 10 e
 A partir daqui o roadmap deixa de ser linear e passa a ser orientado por dados e feedback. Ver [GTM.md](./GTM.md) para estratégia de aquisição em fases. Algumas iniciativas previstas:
 
 ### Curto prazo (mês 4-5)
+
 - [ ] Programa de indicação ("traga uma amiga")
 - [ ] Importação em lote de produtos via CSV
 - [ ] Personalização de cores da vitrine (Pro+)
 - [ ] Origem do tráfego nas estatísticas
 
 ### Médio prazo (mês 6-8)
+
 - [ ] Vídeos nos produtos (Plus)
 - [ ] Múltiplas vitrines (Plus)
 - [ ] Domínio próprio (Plus)
@@ -211,6 +223,7 @@ A partir daqui o roadmap deixa de ser linear e passa a ser orientado por dados e
 - [ ] App nativo iOS/Android (decisão pós-PMF)
 
 ### Longo prazo (mês 9+)
+
 - [ ] Variantes de produto (cor, tamanho)
 - [ ] Marketplace ou descoberta entre vitrines (decisão estratégica)
 - [ ] Integração API com gateways das marcas
@@ -218,13 +231,13 @@ A partir daqui o roadmap deixa de ser linear e passa a ser orientado por dados e
 
 ## Riscos do cronograma
 
-| Risco | Probabilidade | Plano B |
-|---|---|---|
-| Disponibilidade real abaixo de 15h/semana | Alta | Estender cada fase em 1 semana, não cortar escopo |
-| Complexidade do PWA maior que esperada | Média | Lançar como web puro, PWA vira melhoria pós-lançamento |
-| Webhook Asaas com bugs | Baixa | Sandbox extensivo, fallback manual em primeiras assinaturas |
-| Beta com feedback que exige refazer fluxo principal | Média | Já reservar semana 14 para ajustes; se necessário, atrasar lançamento 1-2 semanas |
-| Bugs em produção bloqueantes | Média | Disponibilidade alta nas 4 primeiras semanas pós-lançamento |
+| Risco                                               | Probabilidade | Plano B                                                                           |
+| --------------------------------------------------- | ------------- | --------------------------------------------------------------------------------- |
+| Disponibilidade real abaixo de 15h/semana           | Alta          | Estender cada fase em 1 semana, não cortar escopo                                 |
+| Complexidade do PWA maior que esperada              | Média         | Lançar como web puro, PWA vira melhoria pós-lançamento                            |
+| Webhook Asaas com bugs                              | Baixa         | Sandbox extensivo, fallback manual em primeiras assinaturas                       |
+| Beta com feedback que exige refazer fluxo principal | Média         | Já reservar semana 14 para ajustes; se necessário, atrasar lançamento 1-2 semanas |
+| Bugs em produção bloqueantes                        | Média         | Disponibilidade alta nas 4 primeiras semanas pós-lançamento                       |
 
 ## Princípios para gerir o cronograma
 

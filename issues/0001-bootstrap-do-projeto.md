@@ -1,13 +1,13 @@
 # [0001] Bootstrap do projeto e ferramental
 
-| | |
-|---|---|
-| **Milestone** | M0 — Fundação |
-| **Roadmap** | Fase 0 — Setup (Semana 0) |
-| **Prioridade** | Must |
-| **Planos** | — |
-| **Depende de** | — |
-| **Bloqueia** | praticamente todas |
+|                |                           |
+| -------------- | ------------------------- |
+| **Milestone**  | M0 — Fundação             |
+| **Roadmap**    | Fase 0 — Setup (Semana 0) |
+| **Prioridade** | Must                      |
+| **Planos**     | —                         |
+| **Depende de** | —                         |
+| **Bloqueia**   | praticamente todas        |
 
 ## Contexto
 

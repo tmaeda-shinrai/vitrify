@@ -28,45 +28,45 @@ Loading states bem feitos, transições suaves, optimistic UI no painel. Nada co
 
 A paleta foi pensada para parecer feminina sem cair no rosa óbvio, profissional sem parecer corporativa, e quente sem ser cansativa.
 
-| Token | Hex | Uso |
-|---|---|---|
-| `--brand-primary` | `#7C3AED` | Roxo violeta — botões primários, links, destaque |
-| `--brand-primary-dark` | `#6D28D9` | Hover/active do primário |
-| `--brand-secondary` | `#EC4899` | Rosa magenta — acentos, badges promocionais |
-| `--brand-accent` | `#F59E0B` | Âmbar — alertas, destaques de promoção |
-| `--neutral-900` | `#111827` | Texto principal |
-| `--neutral-700` | `#374151` | Texto secundário |
-| `--neutral-500` | `#6B7280` | Texto desbotado, placeholders |
-| `--neutral-200` | `#E5E7EB` | Bordas, divisores |
-| `--neutral-100` | `#F3F4F6` | Fundos secundários |
-| `--neutral-50` | `#F9FAFB` | Fundo principal |
-| `--success` | `#10B981` | Confirmações, "produto disponível" |
-| `--warning` | `#F59E0B` | Alertas suaves |
-| `--danger` | `#EF4444` | Erros, exclusão |
-| `--whatsapp` | `#25D366` | Cor oficial do WhatsApp para o botão de pedido |
+| Token                  | Hex       | Uso                                              |
+| ---------------------- | --------- | ------------------------------------------------ |
+| `--brand-primary`      | `#7C3AED` | Roxo violeta — botões primários, links, destaque |
+| `--brand-primary-dark` | `#6D28D9` | Hover/active do primário                         |
+| `--brand-secondary`    | `#EC4899` | Rosa magenta — acentos, badges promocionais      |
+| `--brand-accent`       | `#F59E0B` | Âmbar — alertas, destaques de promoção           |
+| `--neutral-900`        | `#111827` | Texto principal                                  |
+| `--neutral-700`        | `#374151` | Texto secundário                                 |
+| `--neutral-500`        | `#6B7280` | Texto desbotado, placeholders                    |
+| `--neutral-200`        | `#E5E7EB` | Bordas, divisores                                |
+| `--neutral-100`        | `#F3F4F6` | Fundos secundários                               |
+| `--neutral-50`         | `#F9FAFB` | Fundo principal                                  |
+| `--success`            | `#10B981` | Confirmações, "produto disponível"               |
+| `--warning`            | `#F59E0B` | Alertas suaves                                   |
+| `--danger`             | `#EF4444` | Erros, exclusão                                  |
+| `--whatsapp`           | `#25D366` | Cor oficial do WhatsApp para o botão de pedido   |
 
 Modo escuro inverte as neutras e mantém as marcas com saturação 5% maior para compensar o fundo escuro.
 
 ### 2.2 Tipografia
 
-| Token | Família | Pesos | Uso |
-|---|---|---|---|
-| `--font-sans` | Inter | 400, 500, 600, 700 | Interface geral |
-| `--font-display` | Plus Jakarta Sans | 600, 700, 800 | Títulos grandes, hero da vitrine |
+| Token            | Família           | Pesos              | Uso                              |
+| ---------------- | ----------------- | ------------------ | -------------------------------- |
+| `--font-sans`    | Inter             | 400, 500, 600, 700 | Interface geral                  |
+| `--font-display` | Plus Jakarta Sans | 600, 700, 800      | Títulos grandes, hero da vitrine |
 
 Inter é gratuita, neutra, otimizada para tela e tem ótimo suporte a português. Plus Jakarta dá um toque de personalidade nos títulos sem ficar carregada. Ambas via Google Fonts ou self-hosted via `next/font`.
 
 Escala (mobile-first):
 
-| Token | Tamanho | Line-height | Uso |
-|---|---|---|---|
-| `text-xs` | 12px | 1.4 | Legendas, metadados |
-| `text-sm` | 14px | 1.5 | Texto auxiliar |
-| `text-base` | 16px | 1.5 | Texto padrão |
-| `text-lg` | 18px | 1.4 | Subtítulos |
-| `text-xl` | 22px | 1.3 | Títulos de seção |
-| `text-2xl` | 28px | 1.2 | Títulos de tela |
-| `text-3xl` | 34px | 1.1 | Hero (apenas vitrine pública) |
+| Token       | Tamanho | Line-height | Uso                           |
+| ----------- | ------- | ----------- | ----------------------------- |
+| `text-xs`   | 12px    | 1.4         | Legendas, metadados           |
+| `text-sm`   | 14px    | 1.5         | Texto auxiliar                |
+| `text-base` | 16px    | 1.5         | Texto padrão                  |
+| `text-lg`   | 18px    | 1.4         | Subtítulos                    |
+| `text-xl`   | 22px    | 1.3         | Títulos de seção              |
+| `text-2xl`  | 28px    | 1.2         | Títulos de tela               |
+| `text-3xl`  | 34px    | 1.1         | Hero (apenas vitrine pública) |
 
 ### 2.3 Espaçamento
 
@@ -76,15 +76,15 @@ Padding mínimo lateral em mobile: 16px. Em desktop: container de 1200px com pad
 
 ### 2.4 Bordas e sombras
 
-| Token | Valor |
-|---|---|
-| `--radius-sm` | 6px (inputs, badges) |
-| `--radius-md` | 10px (botões, cards) |
+| Token         | Valor                              |
+| ------------- | ---------------------------------- |
+| `--radius-sm` | 6px (inputs, badges)               |
+| `--radius-md` | 10px (botões, cards)               |
 | `--radius-lg` | 16px (modals, contêineres maiores) |
-| `--radius-xl` | 24px (hero da vitrine) |
-| `--shadow-sm` | `0 1px 2px rgba(0,0,0,0.04)` |
-| `--shadow-md` | `0 4px 12px rgba(0,0,0,0.08)` |
-| `--shadow-lg` | `0 12px 32px rgba(0,0,0,0.12)` |
+| `--radius-xl` | 24px (hero da vitrine)             |
+| `--shadow-sm` | `0 1px 2px rgba(0,0,0,0.04)`       |
+| `--shadow-md` | `0 4px 12px rgba(0,0,0,0.08)`      |
+| `--shadow-lg` | `0 12px 32px rgba(0,0,0,0.12)`     |
 
 ### 2.5 Iconografia
 
@@ -101,6 +101,7 @@ Placeholder quando não há foto: ilustração SVG amigável com texto "Foto em 
 A base é o **shadcn/ui**, customizado com nossos tokens. Lista de componentes essenciais para o MVP:
 
 ### Componentes primitivos
+
 - Button (primary, secondary, ghost, danger, whatsapp)
 - Input, Textarea, Select
 - Checkbox, Switch
@@ -114,6 +115,7 @@ A base é o **shadcn/ui**, customizado com nossos tokens. Lista de componentes e
 - Tabs
 
 ### Componentes compostos do produto
+
 - ProductCard (card de produto na vitrine)
 - ProductForm (formulário de cadastro/edição)
 - ImageUploader (upload com preview e crop)
@@ -156,13 +158,13 @@ Bottom navigation com 4 ícones:
 
 ### 4.4 Padrões de feedback
 
-| Tipo de evento | Componente | Duração |
-|---|---|---|
-| Sucesso (salvo, copiado) | Toast verde, topo | 2.5s |
-| Erro de rede | Toast vermelho com botão "Tentar novamente" | 5s |
-| Confirmação destrutiva (excluir) | Dialog modal | até confirmar |
-| Loading curto (<1s) | Spinner inline | até completar |
-| Loading longo (>1s) | Skeleton da estrutura final | até completar |
+| Tipo de evento                   | Componente                                  | Duração       |
+| -------------------------------- | ------------------------------------------- | ------------- |
+| Sucesso (salvo, copiado)         | Toast verde, topo                           | 2.5s          |
+| Erro de rede                     | Toast vermelho com botão "Tentar novamente" | 5s            |
+| Confirmação destrutiva (excluir) | Dialog modal                                | até confirmar |
+| Loading curto (<1s)              | Spinner inline                              | até completar |
+| Loading longo (>1s)              | Skeleton da estrutura final                 | até completar |
 
 ### 4.5 Imagens e performance
 

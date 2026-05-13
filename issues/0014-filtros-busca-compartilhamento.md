@@ -1,12 +1,12 @@
 # [0014] Filtros, busca, compartilhamento e empty states
 
-| | |
-|---|---|
-| **Milestone** | M2 — Produtos e vitrine |
-| **Roadmap** | Fase 2, Semana 6 |
+|                |                                                                          |
+| -------------- | ------------------------------------------------------------------------ |
+| **Milestone**  | M2 — Produtos e vitrine                                                  |
+| **Roadmap**    | Fase 2, Semana 6                                                         |
 | **Prioridade** | Must (filtros por categoria/marca) · Should (busca por texto, Web Share) |
-| **Planos** | Todos |
-| **Depende de** | #0011 (categorias/marcas), #0012 (vitrine pública) |
+| **Planos**     | Todos                                                                    |
+| **Depende de** | #0011 (categorias/marcas), #0012 (vitrine pública)                       |
 
 ## Contexto
 

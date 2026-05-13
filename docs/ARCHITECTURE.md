@@ -77,44 +77,44 @@ Discutido em detalhe em [PRICING.md](./PRICING.md). Em resumo: Stripe não aceit
 
 ### 3.1 Frontend
 
-| Camada | Ferramenta | Versão alvo |
-|---|---|---|
-| Framework | Next.js | 14.x (App Router) |
-| Linguagem | TypeScript | 5.x |
-| Estilização | Tailwind CSS | 3.x |
-| Componentes | shadcn/ui (Radix UI) | latest |
-| Ícones | Lucide React | latest |
-| Forms | React Hook Form + Zod | latest |
-| Estado servidor | TanStack Query | 5.x |
-| Animações | Framer Motion (uso pontual) | latest |
-| PWA | next-pwa ou Serwist | latest |
-| Compressão de imagem | browser-image-compression | latest |
+| Camada               | Ferramenta                  | Versão alvo       |
+| -------------------- | --------------------------- | ----------------- |
+| Framework            | Next.js                     | 14.x (App Router) |
+| Linguagem            | TypeScript                  | 5.x               |
+| Estilização          | Tailwind CSS                | 3.x               |
+| Componentes          | shadcn/ui (Radix UI)        | latest            |
+| Ícones               | Lucide React                | latest            |
+| Forms                | React Hook Form + Zod       | latest            |
+| Estado servidor      | TanStack Query              | 5.x               |
+| Animações            | Framer Motion (uso pontual) | latest            |
+| PWA                  | next-pwa ou Serwist         | latest            |
+| Compressão de imagem | browser-image-compression   | latest            |
 
 ### 3.2 Backend
 
-| Camada | Ferramenta |
-|---|---|
-| Runtime | Node 20 (Vercel) + Edge Functions Supabase |
-| Banco | Postgres 15 (Supabase) |
-| Auth | Supabase Auth (JWT) |
-| Storage | Supabase Storage |
-| ORM/Query | Supabase Client + SQL puro quando preciso |
-| Validação | Zod (compartilhado com frontend) |
-| E-mail | Resend (transacional) |
-| Pagamento | Asaas (recorrência) |
-| Observability | Sentry + Vercel Analytics + Plausible |
+| Camada        | Ferramenta                                 |
+| ------------- | ------------------------------------------ |
+| Runtime       | Node 20 (Vercel) + Edge Functions Supabase |
+| Banco         | Postgres 15 (Supabase)                     |
+| Auth          | Supabase Auth (JWT)                        |
+| Storage       | Supabase Storage                           |
+| ORM/Query     | Supabase Client + SQL puro quando preciso  |
+| Validação     | Zod (compartilhado com frontend)           |
+| E-mail        | Resend (transacional)                      |
+| Pagamento     | Asaas (recorrência)                        |
+| Observability | Sentry + Vercel Analytics + Plausible      |
 
 ### 3.3 DevOps e ferramentas
 
-| Função | Ferramenta |
-|---|---|
-| Versionamento | Git + GitHub |
-| CI/CD | GitHub Actions + Vercel |
-| Testes E2E | Playwright |
-| Testes unitários | Vitest |
-| Lint/Format | ESLint + Prettier |
-| Pre-commit | Husky + lint-staged |
-| Gerenciador de pacotes | pnpm |
+| Função                 | Ferramenta              |
+| ---------------------- | ----------------------- |
+| Versionamento          | Git + GitHub            |
+| CI/CD                  | GitHub Actions + Vercel |
+| Testes E2E             | Playwright              |
+| Testes unitários       | Vitest                  |
+| Lint/Format            | ESLint + Prettier       |
+| Pre-commit             | Husky + lint-staged     |
+| Gerenciador de pacotes | pnpm                    |
 
 ## 4. Estrutura de pastas
 
@@ -247,12 +247,12 @@ O webhook do Asaas valida HMAC antes de processar. Idempotência garantida via `
 
 ### 6.4 Limites e rate limiting
 
-| Endpoint | Limite |
-|---|---|
-| `/api/intent` (público) | 10 req/min por IP |
-| `/api/products` POST | 30 req/min por usuário |
-| Login | 5 tentativas / 15 min por IP |
-| Upload de imagem | 10 uploads / hora no Free, 100/hora no Pro |
+| Endpoint                | Limite                                     |
+| ----------------------- | ------------------------------------------ |
+| `/api/intent` (público) | 10 req/min por IP                          |
+| `/api/products` POST    | 30 req/min por usuário                     |
+| Login                   | 5 tentativas / 15 min por IP               |
+| Upload de imagem        | 10 uploads / hora no Free, 100/hora no Pro |
 
 Implementado via Upstash Redis ou rate-limit em memória do edge.
 
@@ -267,12 +267,12 @@ Implementado via Upstash Redis ou rate-limit em memória do edge.
 
 ### 7.1 Metas
 
-| Métrica | Vitrine pública | Painel |
-|---|---|---|
-| LCP | < 2.0s | < 2.5s |
-| FID/INP | < 200ms | < 200ms |
-| CLS | < 0.05 | < 0.1 |
-| Bundle JS inicial | < 100KB | < 200KB |
+| Métrica           | Vitrine pública | Painel  |
+| ----------------- | --------------- | ------- |
+| LCP               | < 2.0s          | < 2.5s  |
+| FID/INP           | < 200ms         | < 200ms |
+| CLS               | < 0.05          | < 0.1   |
+| Bundle JS inicial | < 100KB         | < 200KB |
 
 ### 7.2 Estratégias
 
@@ -302,21 +302,21 @@ Sentry com source maps. Alertas no Slack/Discord para erros críticos. Filtro de
 
 ### 8.4 Alertas
 
-| Condição | Canal | Severidade |
-|---|---|---|
-| Webhook Asaas falhando 3x seguidas | Slack | Alta |
-| Banco com latência > 1s p95 | Slack | Média |
-| Erro 5xx > 1% do tráfego | Slack + e-mail | Alta |
-| Storage acima de 80% da quota | E-mail | Baixa |
+| Condição                           | Canal          | Severidade |
+| ---------------------------------- | -------------- | ---------- |
+| Webhook Asaas falhando 3x seguidas | Slack          | Alta       |
+| Banco com latência > 1s p95        | Slack          | Média      |
+| Erro 5xx > 1% do tráfego           | Slack + e-mail | Alta       |
+| Storage acima de 80% da quota      | E-mail         | Baixa      |
 
 ## 9. Deploy e ambientes
 
-| Ambiente | URL | Branch | Banco |
-|---|---|---|---|
-| Local | localhost:3000 | qualquer | Supabase local (Docker) |
-| Preview | `preview-*.vercel.app` | qualquer PR | Supabase staging |
-| Staging | `staging.vitri.app` | `staging` | Supabase staging |
-| Produção | `vitri.app` | `main` | Supabase produção |
+| Ambiente | URL                    | Branch      | Banco                   |
+| -------- | ---------------------- | ----------- | ----------------------- |
+| Local    | localhost:3000         | qualquer    | Supabase local (Docker) |
+| Preview  | `preview-*.vercel.app` | qualquer PR | Supabase staging        |
+| Staging  | `staging.vitri.app`    | `staging`   | Supabase staging        |
+| Produção | `vitri.app`            | `main`      | Supabase produção       |
 
 CI executa: typecheck, lint, testes unitários, testes E2E em preview.
 Deploy para produção é manual (botão), mesmo com CI passando, durante MVP.
@@ -332,15 +332,15 @@ Deploy para produção é manual (botão), mesmo com CI passando, durante MVP.
 
 Com até 1.500 usuárias ativas e tráfego de até 100k pageviews/mês:
 
-| Serviço | Plano | Custo estimado (USD) |
-|---|---|---|
-| Vercel | Hobby (free) ou Pro | $0–$20 |
-| Supabase | Pro | $25 |
-| Resend | Free (3k e-mails) ou Pro | $0–$20 |
-| Asaas | Sem mensalidade, taxa por transação (~2.99% cartão, R$ 1,99 PIX) | variável |
-| Sentry | Free tier | $0 |
-| Domínio + DNS | Cloudflare | $1 |
-| Total fixo | | **~$50–$80/mês** |
+| Serviço       | Plano                                                            | Custo estimado (USD) |
+| ------------- | ---------------------------------------------------------------- | -------------------- |
+| Vercel        | Hobby (free) ou Pro                                              | $0–$20               |
+| Supabase      | Pro                                                              | $25                  |
+| Resend        | Free (3k e-mails) ou Pro                                         | $0–$20               |
+| Asaas         | Sem mensalidade, taxa por transação (~2.99% cartão, R$ 1,99 PIX) | variável             |
+| Sentry        | Free tier                                                        | $0                   |
+| Domínio + DNS | Cloudflare                                                       | $1                   |
+| Total fixo    |                                                                  | **~$50–$80/mês**     |
 
 Projeção: 100 usuárias pagas no Pro a R$ 39 já cobrem custo fixo + folga para tráfego pago.
 
@@ -365,6 +365,7 @@ Adotamos Supabase pelo conjunto integrado, RLS, e free tier generoso.
 ```
 
 ADRs sugeridos para escrever no início:
+
 - ADR-001: Supabase como BaaS
 - ADR-002: Asaas como gateway de pagamento
 - ADR-003: Next.js App Router em vez de Pages Router

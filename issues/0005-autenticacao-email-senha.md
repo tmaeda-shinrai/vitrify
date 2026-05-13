@@ -1,13 +1,13 @@
 # [0005] Autenticação por e-mail/senha e recuperação
 
-| | |
-|---|---|
-| **Milestone** | M1 — Conta e autenticação |
-| **Roadmap** | Fase 1, Semana 1 |
-| **Prioridade** | Must |
-| **Planos** | Todos |
-| **Depende de** | #0001, #0002, #0003, #0004 |
-| **Relacionada** | #0006, #0007, #0008 |
+|                 |                            |
+| --------------- | -------------------------- |
+| **Milestone**   | M1 — Conta e autenticação  |
+| **Roadmap**     | Fase 1, Semana 1           |
+| **Prioridade**  | Must                       |
+| **Planos**      | Todos                      |
+| **Depende de**  | #0001, #0002, #0003, #0004 |
+| **Relacionada** | #0006, #0007, #0008        |
 
 ## Contexto
 

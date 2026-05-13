@@ -1,13 +1,13 @@
 # [0011] CRUD de produtos — parte 2 (imagens, categorias, marcas, promo)
 
-| | |
-|---|---|
-| **Milestone** | M2 — Produtos e vitrine |
-| **Roadmap** | Fase 1, Semana 4 |
+|                |                                                                                                                   |
+| -------------- | ----------------------------------------------------------------------------------------------------------------- |
+| **Milestone**  | M2 — Produtos e vitrine                                                                                           |
+| **Roadmap**    | Fase 1, Semana 4                                                                                                  |
 | **Prioridade** | Must (edição/exclusão, múltiplas imagens, categorias, marcas, esgotado, promo) · Should (drag-and-drop, duplicar) |
-| **Planos** | Todos |
-| **Depende de** | #0010 |
-| **Bloqueia** | #0014 (filtros usam categorias/marcas) |
+| **Planos**     | Todos                                                                                                             |
+| **Depende de** | #0010                                                                                                             |
+| **Bloqueia**   | #0014 (filtros usam categorias/marcas)                                                                            |
 
 ## Contexto
 

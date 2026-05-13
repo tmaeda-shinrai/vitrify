@@ -1,13 +1,13 @@
 # [0007] Shell do dashboard e navegação mobile
 
-| | |
-|---|---|
-| **Milestone** | M1 — Conta e autenticação |
-| **Roadmap** | Fase 1, Semana 1 |
-| **Prioridade** | Must |
-| **Planos** | Todos |
-| **Depende de** | #0005 |
-| **Bloqueia** | #0008, #0009, #0010, #0015, #0016, #0019 |
+|                |                                          |
+| -------------- | ---------------------------------------- |
+| **Milestone**  | M1 — Conta e autenticação                |
+| **Roadmap**    | Fase 1, Semana 1                         |
+| **Prioridade** | Must                                     |
+| **Planos**     | Todos                                    |
+| **Depende de** | #0005                                    |
+| **Bloqueia**   | #0008, #0009, #0010, #0015, #0016, #0019 |
 
 ## Contexto
 

@@ -1,13 +1,13 @@
 # [0008] Onboarding em 4 passos
 
-| | |
-|---|---|
-| **Milestone** | M1 — Conta e autenticação |
-| **Roadmap** | Fase 1, Semana 2 |
-| **Prioridade** | Must |
-| **Planos** | Todos |
-| **Depende de** | #0005/#0006, #0007 |
-| **Bloqueia** | #0010 (precisa de vitrine ativa com slug), #0012 |
+|                |                                                  |
+| -------------- | ------------------------------------------------ |
+| **Milestone**  | M1 — Conta e autenticação                        |
+| **Roadmap**    | Fase 1, Semana 2                                 |
+| **Prioridade** | Must                                             |
+| **Planos**     | Todos                                            |
+| **Depende de** | #0005/#0006, #0007                               |
+| **Bloqueia**   | #0010 (precisa de vitrine ativa com slug), #0012 |
 
 ## Contexto
 

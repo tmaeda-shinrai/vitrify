@@ -1,13 +1,13 @@
 # [0003] Schema do banco, triggers e seed de desenvolvimento
 
-| | |
-|---|---|
-| **Milestone** | M0 — Fundação |
-| **Roadmap** | Fase 1, Semana 1 (parte do schema) e Semana 3 (products e relacionados) |
-| **Prioridade** | Must |
-| **Planos** | Todos |
-| **Depende de** | #0002 |
-| **Bloqueia** | #0004, #0005, #0009, #0010, #0015, #0018 |
+|                |                                                                         |
+| -------------- | ----------------------------------------------------------------------- |
+| **Milestone**  | M0 — Fundação                                                           |
+| **Roadmap**    | Fase 1, Semana 1 (parte do schema) e Semana 3 (products e relacionados) |
+| **Prioridade** | Must                                                                    |
+| **Planos**     | Todos                                                                   |
+| **Depende de** | #0002                                                                   |
+| **Bloqueia**   | #0004, #0005, #0009, #0010, #0015, #0018                                |
 
 ## Contexto
 

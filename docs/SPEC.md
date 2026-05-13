@@ -48,14 +48,14 @@ A North Star é **vitrines ativas com pelo menos um clique de pedido nos último
 
 ### Métricas operacionais
 
-| Métrica | Meta MVP (mês 6) | Cálculo |
-|---|---|---|
-| Usuárias cadastradas | 1.500 | Total de contas criadas |
-| Vitrines com 5+ produtos | 600 | Filtro pelo banco |
-| Conversão Free → Pro | 8% | Pagas / Total |
-| Churn mensal Pro+ | < 6% | Cancelamentos / Base do mês |
-| LTV / CAC | ≥ 3 | LTV médio dividido pelo custo de aquisição |
-| NPS | ≥ 50 | Survey trimestral |
+| Métrica                  | Meta MVP (mês 6) | Cálculo                                    |
+| ------------------------ | ---------------- | ------------------------------------------ |
+| Usuárias cadastradas     | 1.500            | Total de contas criadas                    |
+| Vitrines com 5+ produtos | 600              | Filtro pelo banco                          |
+| Conversão Free → Pro     | 8%               | Pagas / Total                              |
+| Churn mensal Pro+        | < 6%             | Cancelamentos / Base do mês                |
+| LTV / CAC                | ≥ 3              | LTV médio dividido pelo custo de aquisição |
+| NPS                      | ≥ 50             | Survey trimestral                          |
 
 ### Métricas técnicas
 
@@ -87,14 +87,14 @@ Tempo de carregamento da vitrine pública abaixo de 2 segundos no 3G simulado. D
 
 ## 7. Riscos e mitigações
 
-| Risco | Probabilidade | Impacto | Mitigação |
-|---|---|---|---|
-| Marcas (Avon, Natura) acionarem por uso de imagens | Baixa no início, sobe com escala | Alto | Cláusula de responsabilidade do usuário, sistema de denúncia, parcerias futuras (ver LEGAL.md) |
-| Concorrentes (Vendizap) baixarem preço para reagir | Média | Médio | Diferenciação por nicho multimarcas e UX superior, não por preço |
-| LGPD: vazamento ou notificação ANPD | Baixa com boas práticas | Alto | Hosting Brasil, política clara, criptografia, auditoria trimestral (ver LEGAL.md) |
-| Custo de aquisição maior que LTV | Média no início | Alto | Foco em canais orgânicos antes de pagos (ver GTM.md) |
-| Adoção lenta por desconforto técnico do público | Média | Alto | Onboarding guiado, vídeos curtos, suporte humano via WhatsApp nos 3 primeiros meses |
-| Dependência de fornecedor único (Supabase) | Baixa | Médio | Schema padrão Postgres, dados exportáveis, possibilidade de migração futura |
+| Risco                                              | Probabilidade                    | Impacto | Mitigação                                                                                      |
+| -------------------------------------------------- | -------------------------------- | ------- | ---------------------------------------------------------------------------------------------- |
+| Marcas (Avon, Natura) acionarem por uso de imagens | Baixa no início, sobe com escala | Alto    | Cláusula de responsabilidade do usuário, sistema de denúncia, parcerias futuras (ver LEGAL.md) |
+| Concorrentes (Vendizap) baixarem preço para reagir | Média                            | Médio   | Diferenciação por nicho multimarcas e UX superior, não por preço                               |
+| LGPD: vazamento ou notificação ANPD                | Baixa com boas práticas          | Alto    | Hosting Brasil, política clara, criptografia, auditoria trimestral (ver LEGAL.md)              |
+| Custo de aquisição maior que LTV                   | Média no início                  | Alto    | Foco em canais orgânicos antes de pagos (ver GTM.md)                                           |
+| Adoção lenta por desconforto técnico do público    | Média                            | Alto    | Onboarding guiado, vídeos curtos, suporte humano via WhatsApp nos 3 primeiros meses            |
+| Dependência de fornecedor único (Supabase)         | Baixa                            | Médio   | Schema padrão Postgres, dados exportáveis, possibilidade de migração futura                    |
 
 ## 8. Critérios de pronto do MVP
 

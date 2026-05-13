@@ -1,13 +1,13 @@
 # [0012] Vitrine pública `/[slug]` (ISR, header, grid, modal, SEO)
 
-| | |
-|---|---|
-| **Milestone** | M2 — Produtos e vitrine |
-| **Roadmap** | Fase 2, Semana 5 |
-| **Prioridade** | Must |
-| **Planos** | Todos |
+|                |                                                                                    |
+| -------------- | ---------------------------------------------------------------------------------- |
+| **Milestone**  | M2 — Produtos e vitrine                                                            |
+| **Roadmap**    | Fase 2, Semana 5                                                                   |
+| **Prioridade** | Must                                                                               |
+| **Planos**     | Todos                                                                              |
 | **Depende de** | #0004 (RLS de leitura pública), #0008 (slug/vitrine ativa), #0010/#0011 (produtos) |
-| **Bloqueia** | #0013, #0014, #0015 |
+| **Bloqueia**   | #0013, #0014, #0015                                                                |
 
 ## Contexto
 

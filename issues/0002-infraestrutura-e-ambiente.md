@@ -1,13 +1,13 @@
 # [0002] Infraestrutura externa e variáveis de ambiente
 
-| | |
-|---|---|
-| **Milestone** | M0 — Fundação |
-| **Roadmap** | Fase 0 — Setup (Semana 0) |
-| **Prioridade** | Must |
-| **Planos** | — |
-| **Depende de** | #0001 |
-| **Bloqueia** | #0003, #0004, #0005, #0018 |
+|                |                            |
+| -------------- | -------------------------- |
+| **Milestone**  | M0 — Fundação              |
+| **Roadmap**    | Fase 0 — Setup (Semana 0)  |
+| **Prioridade** | Must                       |
+| **Planos**     | —                          |
+| **Depende de** | #0001                      |
+| **Bloqueia**   | #0003, #0004, #0005, #0018 |
 
 ## Contexto
 

@@ -1,13 +1,13 @@
 # [0006] Login com Google (OAuth)
 
-| | |
-|---|---|
-| **Milestone** | M1 — Conta e autenticação |
-| **Roadmap** | Fase 1, Semana 1 |
-| **Prioridade** | Must |
-| **Planos** | Todos |
-| **Depende de** | #0002 (OAuth configurado no Supabase), #0005 |
-| **Relacionada** | #0008 |
+|                 |                                              |
+| --------------- | -------------------------------------------- |
+| **Milestone**   | M1 — Conta e autenticação                    |
+| **Roadmap**     | Fase 1, Semana 1                             |
+| **Prioridade**  | Must                                         |
+| **Planos**      | Todos                                        |
+| **Depende de**  | #0002 (OAuth configurado no Supabase), #0005 |
+| **Relacionada** | #0008                                        |
 
 ## Contexto
 

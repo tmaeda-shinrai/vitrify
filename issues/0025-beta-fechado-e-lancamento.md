@@ -1,11 +1,11 @@
 # [0025] Beta fechado com embaixadoras e go-live
 
-| | |
-|---|---|
-| **Milestone** | M7 — Lançamento |
-| **Roadmap** | Fase 4 — Lançamento (Semanas 13–14) |
-| **Prioridade** | Must |
-| **Planos** | Todos (embaixadoras recebem Plus vitalício) |
+|                |                                               |
+| -------------- | --------------------------------------------- |
+| **Milestone**  | M7 — Lançamento                               |
+| **Roadmap**    | Fase 4 — Lançamento (Semanas 13–14)           |
+| **Prioridade** | Must                                          |
+| **Planos**     | Todos (embaixadoras recebem Plus vitalício)   |
 | **Depende de** | #0001–#0024 (produto funcional ponta a ponta) |
 
 ## Contexto
@@ -15,6 +15,7 @@ Fechar o ciclo do MVP: validar o produto com revendedoras reais, ajustar com bas
 ## Escopo
 
 ### Semana 13 — Beta fechado (`docs/ROADMAP.md` Fase 4, `docs/GTM.md` §2.1)
+
 - Recrutar **10 embaixadoras** (revendedoras reais via Instagram/indicação/grupos) com critérios de engajamento real (`docs/GTM.md` §2.1: posta com regularidade, responde DMs, clientela real, idealmente 2+ marcas; validar com NotJustAnalytics/Modash).
 - Criar **plano "embaixadora" interno**: Plus gratuito vitalício enquanto a parceria estiver ativa + selo "Embaixadora Pioneira" (flag gerenciável pelo admin — coordena com #0023).
 - **Onboarding 1:1** via WhatsApp/call (30 min) com cada embaixadora.
@@ -23,6 +24,7 @@ Fechar o ciclo do MVP: validar o produto com revendedoras reais, ajustar com bas
 - **Acordo com Embaixadoras** (documento de parceria — `docs/LEGAL.md` §9 item 4): compromisso de uso por 90 dias, 2 posts (1 nos primeiros 30d, 1 entre 60–90d), feedback quinzenal, permissão de uso de foto/nome em estudos de caso (`docs/GTM.md` §2.1).
 
 ### Semana 14 — Ajustes e go-live (`docs/ROADMAP.md` Fase 4, `docs/GTM.md` §6)
+
 - Implementar **top 5 melhorias** do feedback do beta.
 - **Stress test** do servidor (k6 ou similar) — cenário de tráfego de lançamento.
 - **Pagamento testado em produção**: ≥ 5 transações reais (assinaturas pagas de verdade) confirmadas via webhook, com NF-e emitida (coordena com #0018/#0024).
@@ -33,6 +35,7 @@ Fechar o ciclo do MVP: validar o produto com revendedoras reais, ajustar com bas
 - **Checklist pré-lançamento de `docs/LEGAL.md` §8** verificado (CNPJ ativo, conta PJ, contador, termos/privacidade publicados e aceitos, exclusão e export de dados funcionando, `dpo@`/`direitos@` ativos, denúncia funcionando, audit logs, backup testado, plano de incidentes, revisão jurídica feita, NF-e automática).
 
 ### Fora de escopo (vai em outra issue / fases seguintes)
+
 - Estratégia de aquisição das Fases 2 e 3 do GTM (conteúdo orgânico contínuo, tráfego pago, microinfluencers, eventos) → `docs/GTM.md` §3–4 / `docs/ROADMAP.md` Fase 5
 - Features de v1.1+ (CSV, personalização de cores, origem do tráfego rica, vídeos no produto, múltiplas vitrines, domínio próprio, push) → backlog / `docs/ROADMAP.md` Fase 5
 - Constituição da empresa em si (CNPJ, contador) — pré-requisito operacional, não código

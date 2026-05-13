@@ -1,13 +1,13 @@
 # [0024] Polimento, acessibilidade, E2E e backup
 
-| | |
-|---|---|
-| **Milestone** | M6 — Conformidade e polimento |
-| **Roadmap** | Fase 3, Semana 12 |
-| **Prioridade** | Must |
-| **Planos** | Todos |
+|                |                                         |
+| -------------- | --------------------------------------- |
+| **Milestone**  | M6 — Conformidade e polimento           |
+| **Roadmap**    | Fase 3, Semana 12                       |
+| **Prioridade** | Must                                    |
+| **Planos**     | Todos                                   |
 | **Depende de** | praticamente todas as issues de feature |
-| **Bloqueia** | #0025 |
+| **Bloqueia**   | #0025                                   |
 
 ## Contexto
 

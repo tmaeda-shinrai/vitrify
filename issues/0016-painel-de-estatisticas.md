@@ -1,12 +1,12 @@
 # [0016] Painel de estatísticas
 
-| | |
-|---|---|
-| **Milestone** | M3 — Pedidos e estatísticas |
-| **Roadmap** | Fase 2, Semana 7 |
+|                |                                                                                           |
+| -------------- | ----------------------------------------------------------------------------------------- |
+| **Milestone**  | M3 — Pedidos e estatísticas                                                               |
+| **Roadmap**    | Fase 2, Semana 7                                                                          |
 | **Prioridade** | Must (views, cliques, top produtos) · Should (gráfico temporal, origem do tráfego — Pro+) |
-| **Planos** | Todos (origem do tráfego e gráficos: Pro+) |
-| **Depende de** | #0010 (produtos), #0015 (order_intents/views) |
+| **Planos**     | Todos (origem do tráfego e gráficos: Pro+)                                                |
+| **Depende de** | #0010 (produtos), #0015 (order_intents/views)                                             |
 
 ## Contexto
 

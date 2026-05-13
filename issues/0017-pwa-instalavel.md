@@ -1,13 +1,13 @@
 # [0017] PWA instalável (manifest, service worker, offline)
 
-| | |
-|---|---|
-| **Milestone** | M4 — PWA |
-| **Roadmap** | Fase 2, Semana 8 |
-| **Prioridade** | Must (manifest + service worker básico, instalável) · Should (cache offline, atalhos) |
-| **Planos** | Todos |
-| **Depende de** | #0007 (shell), #0012 (vitrine pública) |
-| **Relacionada** | #0024 (auditoria Lighthouse final, Sentry) |
+|                 |                                                                                       |
+| --------------- | ------------------------------------------------------------------------------------- |
+| **Milestone**   | M4 — PWA                                                                              |
+| **Roadmap**     | Fase 2, Semana 8                                                                      |
+| **Prioridade**  | Must (manifest + service worker básico, instalável) · Should (cache offline, atalhos) |
+| **Planos**      | Todos                                                                                 |
+| **Depende de**  | #0007 (shell), #0012 (vitrine pública)                                                |
+| **Relacionada** | #0024 (auditoria Lighthouse final, Sentry)                                            |
 
 ## Contexto
 

@@ -1,13 +1,13 @@
 # [0004] Políticas de Row Level Security (RLS)
 
-| | |
-|---|---|
-| **Milestone** | M0 — Fundação |
-| **Roadmap** | Fase 1, Semana 1 (profiles/vitrines/subscriptions) e Semana 3 (products e relacionados) |
-| **Prioridade** | Must |
-| **Planos** | Todos |
-| **Depende de** | #0003 |
-| **Bloqueia** | #0005, #0010, #0012, #0015 |
+|                |                                                                                         |
+| -------------- | --------------------------------------------------------------------------------------- |
+| **Milestone**  | M0 — Fundação                                                                           |
+| **Roadmap**    | Fase 1, Semana 1 (profiles/vitrines/subscriptions) e Semana 3 (products e relacionados) |
+| **Prioridade** | Must                                                                                    |
+| **Planos**     | Todos                                                                                   |
+| **Depende de** | #0003                                                                                   |
+| **Bloqueia**   | #0005, #0010, #0012, #0015                                                              |
 
 ## Contexto
 

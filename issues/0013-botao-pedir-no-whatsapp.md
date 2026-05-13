@@ -1,12 +1,12 @@
 # [0013] Botão "Pedir no WhatsApp" e WhatsApp flutuante
 
-| | |
-|---|---|
-| **Milestone** | M2 — Produtos e vitrine |
-| **Roadmap** | Fase 2, Semana 5 |
-| **Prioridade** | Must |
-| **Planos** | Todos |
-| **Depende de** | #0012 |
+|                 |                                                       |
+| --------------- | ----------------------------------------------------- |
+| **Milestone**   | M2 — Produtos e vitrine                               |
+| **Roadmap**     | Fase 2, Semana 5                                      |
+| **Prioridade**  | Must                                                  |
+| **Planos**      | Todos                                                 |
+| **Depende de**  | #0012                                                 |
 | **Relacionada** | #0015 (o clique também registra a intenção de pedido) |
 
 ## Contexto

@@ -1,12 +1,12 @@
 # [0009] Perfil, conta e exclusão de conta (LGPD)
 
-| | |
-|---|---|
-| **Milestone** | M1 — Conta e autenticação |
-| **Roadmap** | Fase 1, Semana 2 |
-| **Prioridade** | Must |
-| **Planos** | Todos |
-| **Depende de** | #0003, #0007 |
+|                 |                                                        |
+| --------------- | ------------------------------------------------------ |
+| **Milestone**   | M1 — Conta e autenticação                              |
+| **Roadmap**     | Fase 1, Semana 2                                       |
+| **Prioridade**  | Must                                                   |
+| **Planos**      | Todos                                                  |
+| **Depende de**  | #0003, #0007                                           |
 | **Relacionada** | #0008 (reusa `ImageUploader`), #0021 (export de dados) |
 
 ## Contexto

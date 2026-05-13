@@ -1,12 +1,12 @@
 # [0020] Programa de indicação (referrals)
 
-| | |
-|---|---|
-| **Milestone** | M5 — Pagamento e planos |
-| **Roadmap** | Fase 3, Semana 10 / Fase 5 (curto prazo) |
+|                |                                                                          |
+| -------------- | ------------------------------------------------------------------------ |
+| **Milestone**  | M5 — Pagamento e planos                                                  |
+| **Roadmap**    | Fase 3, Semana 10 / Fase 5 (curto prazo)                                 |
 | **Prioridade** | Should (versão simples no MVP; painel completo é v2 — `docs/SPEC.md` §6) |
-| **Planos** | Pro, Plus (quem indica); indicada ganha 30 dias de Pro |
-| **Depende de** | #0003 (`referrals`), #0018/#0019 (assinaturas/cupons) |
+| **Planos**     | Pro, Plus (quem indica); indicada ganha 30 dias de Pro                   |
+| **Depende de** | #0003 (`referrals`), #0018/#0019 (assinaturas/cupons)                    |
 
 ## Contexto
 

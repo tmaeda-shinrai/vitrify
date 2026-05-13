@@ -1,11 +1,11 @@
 # [0023] Administração interna e moderação
 
-| | |
-|---|---|
-| **Milestone** | M6 — Conformidade e polimento |
-| **Roadmap** | Fase 3, Semana 12 (e item de FEATURES §8) |
-| **Prioridade** | Must |
-| **Planos** | — (uso interno) |
+|                |                                                                                      |
+| -------------- | ------------------------------------------------------------------------------------ |
+| **Milestone**  | M6 — Conformidade e polimento                                                        |
+| **Roadmap**    | Fase 3, Semana 12 (e item de FEATURES §8)                                            |
+| **Prioridade** | Must                                                                                 |
+| **Planos**     | — (uso interno)                                                                      |
 | **Depende de** | #0004 (RLS / service role), #0012 (botão "Denunciar" na vitrine), #0021 (audit logs) |
 
 ## Contexto

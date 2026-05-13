@@ -1,13 +1,13 @@
 # [0022] Suporte e conteúdo (FAQ, vídeos, tour guiado)
 
-| | |
-|---|---|
-| **Milestone** | M6 — Conformidade e polimento |
-| **Roadmap** | Fase 3, Semana 11 |
+|                |                                                                                                                                      |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| **Milestone**  | M6 — Conformidade e polimento                                                                                                        |
+| **Roadmap**    | Fase 3, Semana 11                                                                                                                    |
 | **Prioridade** | Must (FAQ com busca, tutorial em vídeo no 1º acesso, chat de suporte via WhatsApp) · Should (tour guiado, central de ajuda completa) |
-| **Planos** | Todos (suporte prioritário é Plus) |
-| **Depende de** | #0007 (shell), #0008 (onboarding) |
-| **Bloqueia** | #0025 (lançamento exige FAQ + 5 tutoriais) |
+| **Planos**     | Todos (suporte prioritário é Plus)                                                                                                   |
+| **Depende de** | #0007 (shell), #0008 (onboarding)                                                                                                    |
+| **Bloqueia**   | #0025 (lançamento exige FAQ + 5 tutoriais)                                                                                           |
 
 ## Contexto
 

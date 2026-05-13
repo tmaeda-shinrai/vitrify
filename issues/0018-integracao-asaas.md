@@ -1,13 +1,13 @@
 # [0018] Integração Asaas (camada de pagamento, checkout, webhook)
 
-| | |
-|---|---|
-| **Milestone** | M5 — Pagamento e planos |
-| **Roadmap** | Fase 3, Semana 9 |
-| **Prioridade** | Must |
-| **Planos** | Pro, Plus |
+|                |                                                                  |
+| -------------- | ---------------------------------------------------------------- |
+| **Milestone**  | M5 — Pagamento e planos                                          |
+| **Roadmap**    | Fase 3, Semana 9                                                 |
+| **Prioridade** | Must                                                             |
+| **Planos**     | Pro, Plus                                                        |
 | **Depende de** | #0002 (Asaas sandbox + env), #0003 (`subscriptions`, `invoices`) |
-| **Bloqueia** | #0019, #0020, #0025 |
+| **Bloqueia**   | #0019, #0020, #0025                                              |
 
 ## Contexto
 

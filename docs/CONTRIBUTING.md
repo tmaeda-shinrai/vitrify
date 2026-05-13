@@ -58,17 +58,17 @@ Mesmo solo, fazer review do próprio PR depois de 2h ou no dia seguinte. Distân
 
 ### 2.2 Nomenclatura
 
-| Item | Convenção | Exemplo |
-|---|---|---|
-| Arquivos de componente | kebab-case | `product-card.tsx` |
-| Componentes React | PascalCase | `<ProductCard />` |
-| Hooks | camelCase com prefixo `use` | `useCurrentUser()` |
-| Funções utilitárias | camelCase | `formatCurrency()` |
-| Constantes globais | SCREAMING_SNAKE_CASE | `MAX_PRODUCTS_FREE` |
-| Tipos TS | PascalCase | `type Product = {...}` |
-| Tabelas SQL | snake_case plural | `product_images` |
-| Colunas SQL | snake_case | `created_at` |
-| Variáveis de ambiente | SCREAMING_SNAKE_CASE com prefixo | `NEXT_PUBLIC_SUPABASE_URL` |
+| Item                   | Convenção                        | Exemplo                    |
+| ---------------------- | -------------------------------- | -------------------------- |
+| Arquivos de componente | kebab-case                       | `product-card.tsx`         |
+| Componentes React      | PascalCase                       | `<ProductCard />`          |
+| Hooks                  | camelCase com prefixo `use`      | `useCurrentUser()`         |
+| Funções utilitárias    | camelCase                        | `formatCurrency()`         |
+| Constantes globais     | SCREAMING_SNAKE_CASE             | `MAX_PRODUCTS_FREE`        |
+| Tipos TS               | PascalCase                       | `type Product = {...}`     |
+| Tabelas SQL            | snake_case plural                | `product_images`           |
+| Colunas SQL            | snake_case                       | `created_at`               |
+| Variáveis de ambiente  | SCREAMING_SNAKE_CASE com prefixo | `NEXT_PUBLIC_SUPABASE_URL` |
 
 ### 2.3 Estrutura de arquivos
 
@@ -115,11 +115,11 @@ Quanto menos client components, mais rápido.
 
 ### 3.1 Estratégia
 
-| Camada | Ferramenta | Cobertura alvo |
-|---|---|---|
-| Unitários | Vitest | Funções utilitárias, validators, hooks complexos |
-| Integração | Vitest + Testing Library | Componentes com lógica de estado |
-| E2E | Playwright | Fluxos críticos: cadastro, criar produto, vitrine pública, pagamento |
+| Camada     | Ferramenta               | Cobertura alvo                                                       |
+| ---------- | ------------------------ | -------------------------------------------------------------------- |
+| Unitários  | Vitest                   | Funções utilitárias, validators, hooks complexos                     |
+| Integração | Vitest + Testing Library | Componentes com lógica de estado                                     |
+| E2E        | Playwright               | Fluxos críticos: cadastro, criar produto, vitrine pública, pagamento |
 
 **Não buscar 100% de cobertura.** Buscar cobertura **dos caminhos críticos**.
 
@@ -170,7 +170,7 @@ Arquivos `.test.ts` ou `.spec.ts` ao lado do código testado.
 
 ### 5.3 Bundle
 
-- Imports nominais (`import { Button } from 'lucide-react'`), nunca import * 
+- Imports nominais (`import { Button } from 'lucide-react'`), nunca import \*
 - Lazy load de componentes pesados: `dynamic()` do Next
 - Análise periódica com `@next/bundle-analyzer`
 

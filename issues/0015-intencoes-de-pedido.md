@@ -1,13 +1,13 @@
 # [0015] Intenções de pedido (`/api/intent` e tela "Pedidos")
 
-| | |
-|---|---|
-| **Milestone** | M3 — Pedidos e estatísticas |
-| **Roadmap** | Fase 2, Semana 7 |
-| **Prioridade** | Must |
-| **Planos** | Todos (origem do tráfego é Pro+) |
-| **Depende de** | #0003, #0004, #0012, #0013 |
-| **Bloqueia** | #0016 (estatísticas usam intents) |
+|                |                                   |
+| -------------- | --------------------------------- |
+| **Milestone**  | M3 — Pedidos e estatísticas       |
+| **Roadmap**    | Fase 2, Semana 7                  |
+| **Prioridade** | Must                              |
+| **Planos**     | Todos (origem do tráfego é Pro+)  |
+| **Depende de** | #0003, #0004, #0012, #0013        |
+| **Bloqueia**   | #0016 (estatísticas usam intents) |
 
 ## Contexto
 

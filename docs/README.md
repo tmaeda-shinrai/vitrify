@@ -16,17 +16,17 @@ MVP em fase de planejamento. Esta documentação é o ponto de partida.
 
 ## Índice da documentação
 
-| Documento | Quando consultar |
-|---|---|
-| [SPEC.md](./SPEC.md) | Visão geral do produto, problema, solução, KPIs e métricas de sucesso |
-| [FEATURES.md](./FEATURES.md) | Lista detalhada de funcionalidades, priorização MoSCoW e divisão por plano |
-| [DESIGN.md](./DESIGN.md) | Identidade visual, design system, princípios de UX e fluxos de tela |
-| [ARCHITECTURE.md](./ARCHITECTURE.md) | Stack técnica, diagramas de arquitetura, decisões e trade-offs |
-| [DATABASE.md](./DATABASE.md) | Schema do banco, relações entre tabelas, políticas RLS e migrações |
-| [ROADMAP.md](./ROADMAP.md) | Cronograma do MVP em fases, marcos e critérios de pronto |
-| [PRICING.md](./PRICING.md) | Modelo de monetização, planos, gateway de pagamento e estratégia de conversão |
-| [LEGAL.md](./LEGAL.md) | LGPD, propriedade intelectual, termos de uso e itens regulatórios |
-| [GTM.md](./GTM.md) | Estratégia de aquisição, canais e plano de lançamento |
+| Documento                            | Quando consultar                                                              |
+| ------------------------------------ | ----------------------------------------------------------------------------- |
+| [SPEC.md](./SPEC.md)                 | Visão geral do produto, problema, solução, KPIs e métricas de sucesso         |
+| [FEATURES.md](./FEATURES.md)         | Lista detalhada de funcionalidades, priorização MoSCoW e divisão por plano    |
+| [DESIGN.md](./DESIGN.md)             | Identidade visual, design system, princípios de UX e fluxos de tela           |
+| [ARCHITECTURE.md](./ARCHITECTURE.md) | Stack técnica, diagramas de arquitetura, decisões e trade-offs                |
+| [DATABASE.md](./DATABASE.md)         | Schema do banco, relações entre tabelas, políticas RLS e migrações            |
+| [ROADMAP.md](./ROADMAP.md)           | Cronograma do MVP em fases, marcos e critérios de pronto                      |
+| [PRICING.md](./PRICING.md)           | Modelo de monetização, planos, gateway de pagamento e estratégia de conversão |
+| [LEGAL.md](./LEGAL.md)               | LGPD, propriedade intelectual, termos de uso e itens regulatórios             |
+| [GTM.md](./GTM.md)                   | Estratégia de aquisição, canais e plano de lançamento                         |
 
 ## Stack resumida
 

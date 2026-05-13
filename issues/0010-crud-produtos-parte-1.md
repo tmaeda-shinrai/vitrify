@@ -1,13 +1,13 @@
 # [0010] CRUD de produtos — parte 1 (cadastro, upload, limite)
 
-| | |
-|---|---|
-| **Milestone** | M2 — Produtos e vitrine |
-| **Roadmap** | Fase 1, Semana 3 |
-| **Prioridade** | Must |
-| **Planos** | Todos (limite difere) |
+|                |                                              |
+| -------------- | -------------------------------------------- |
+| **Milestone**  | M2 — Produtos e vitrine                      |
+| **Roadmap**    | Fase 1, Semana 3                             |
+| **Prioridade** | Must                                         |
+| **Planos**     | Todos (limite difere)                        |
 | **Depende de** | #0003, #0004, #0008, #0009 (`ImageUploader`) |
-| **Bloqueia** | #0011, #0012, #0016 |
+| **Bloqueia**   | #0011, #0012, #0016                          |
 
 ## Contexto
 

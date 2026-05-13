@@ -40,6 +40,7 @@ Comunidades              Indicação + SEO           Microinfluencers + Eventos
 **Quem buscar:**
 
 10 revendedoras com perfis ativos no Instagram (3-15k seguidores, com engajamento real). Filtrar por:
+
 - Posta produtos com regularidade
 - Comenta e responde DMs
 - Tem clientela em comentários (não só seguidores fantasmas)
@@ -88,6 +89,7 @@ Taxa de resposta esperada: 15-30%. Convertência para embaixadora: 50-70% das qu
 **Mapeamento:**
 
 Listar 30-50 grupos relevantes, com nomes do tipo:
+
 - "Revendedoras Avon Brasil"
 - "Consultoras Natura SP"
 - "Empresárias Hinode"
@@ -268,38 +270,38 @@ Cada degrau do funil é uma oportunidade de melhoria. Instrumentar todos no anal
 
 ### 6.2 Cronograma do lançamento (semana 14)
 
-| Dia | Ação |
-|---|---|
-| Seg | Embaixadoras postam que estão usando há semanas |
-| Ter | Post oficial nas contas próprias da plataforma |
-| Qua | E-mail para lista de espera + ativação do cupom |
-| Qui | Story com depoimentos de embaixadoras |
-| Sex | Live no Instagram com fundadora + 2 embaixadoras |
-| Sáb-Dom | Conteúdo orgânico contínuo |
+| Dia       | Ação                                                    |
+| --------- | ------------------------------------------------------- |
+| Seg       | Embaixadoras postam que estão usando há semanas         |
+| Ter       | Post oficial nas contas próprias da plataforma          |
+| Qua       | E-mail para lista de espera + ativação do cupom         |
+| Qui       | Story com depoimentos de embaixadoras                   |
+| Sex       | Live no Instagram com fundadora + 2 embaixadoras        |
+| Sáb-Dom   | Conteúdo orgânico contínuo                              |
 | Próx. seg | Análise: quantos cadastros, quantas conversões, ajustes |
 
 ## 7. Métricas de aquisição
 
-| Métrica | Meta mês 6 |
-|---|---|
-| Visitas únicas no domínio | 15.000/mês |
-| Cadastros novos | 800/mês |
-| Custo por cadastro Free | < R$ 5 |
-| Custo por cadastro pago (CAC) | < R$ 80 |
-| Conversão visita → cadastro | > 5% |
-| Conversão cadastro → ativo | > 35% |
-| Conversão ativo → pago | > 20% |
-| Conversão indicação | > 30% |
+| Métrica                       | Meta mês 6 |
+| ----------------------------- | ---------- |
+| Visitas únicas no domínio     | 15.000/mês |
+| Cadastros novos               | 800/mês    |
+| Custo por cadastro Free       | < R$ 5     |
+| Custo por cadastro pago (CAC) | < R$ 80    |
+| Conversão visita → cadastro   | > 5%       |
+| Conversão cadastro → ativo    | > 35%      |
+| Conversão ativo → pago        | > 20%      |
+| Conversão indicação           | > 30%      |
 
 Painel interno de analytics deve mostrar essas métricas em tempo real, segmentadas por canal de origem.
 
 ## 8. Riscos de aquisição
 
-| Risco | Mitigação |
-|---|---|
-| Embaixadoras pouco engajadas | Critério de seleção rigoroso, processo de "graduação" para quem cumpre, substituição rápida de quem não cumpre |
-| Banimento em grupos por percepção de spam | Política rígida de "ajudar antes de divulgar"; monitorar reações |
-| CAC alto demais em ads pagos | Pausar imediatamente se CAC > R$ 100 sustentado por 2 semanas |
-| Concorrente lançando feature similar antes | Diferenciação por nicho multimarcas e UX, não por feature isolada |
-| Contas falsas no Free para abusar do limite | Verificação de e-mail obrigatória; rate limit em criação de conta por IP |
-| Concorrente compra ads na sua marca | Defender com Google Ads em "vitri.app" + termos correlatos |
+| Risco                                       | Mitigação                                                                                                      |
+| ------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| Embaixadoras pouco engajadas                | Critério de seleção rigoroso, processo de "graduação" para quem cumpre, substituição rápida de quem não cumpre |
+| Banimento em grupos por percepção de spam   | Política rígida de "ajudar antes de divulgar"; monitorar reações                                               |
+| CAC alto demais em ads pagos                | Pausar imediatamente se CAC > R$ 100 sustentado por 2 semanas                                                  |
+| Concorrente lançando feature similar antes  | Diferenciação por nicho multimarcas e UX, não por feature isolada                                              |
+| Contas falsas no Free para abusar do limite | Verificação de e-mail obrigatória; rate limit em criação de conta por IP                                       |
+| Concorrente compra ads na sua marca         | Defender com Google Ads em "vitri.app" + termos correlatos                                                     |

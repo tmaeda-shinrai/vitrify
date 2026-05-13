@@ -1,12 +1,12 @@
 # [0019] Gestão de plano, faturas, inadimplência e cupons
 
-| | |
-|---|---|
-| **Milestone** | M5 — Pagamento e planos |
-| **Roadmap** | Fase 3, Semana 10 |
+|                |                                                                                                                                                                                     |
+| -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Milestone**  | M5 — Pagamento e planos                                                                                                                                                             |
+| **Roadmap**    | Fase 3, Semana 10                                                                                                                                                                   |
 | **Prioridade** | Must (tela de plano, comparação, aviso de limite, cancelamento self-service, histórico de faturas, garantia 7 dias, comportamento de expiração) · Should (cupons, plano anual -20%) |
-| **Planos** | Free (upgrade), Pro, Plus |
-| **Depende de** | #0010 (gancho do limite), #0018 (Asaas) |
+| **Planos**     | Free (upgrade), Pro, Plus                                                                                                                                                           |
+| **Depende de** | #0010 (gancho do limite), #0018 (Asaas)                                                                                                                                             |
 
 ## Contexto
 
