@@ -1,0 +1,31 @@
+{
+  "common": {
+    "loading": "Carregando…",
+    "save": "Salvar",
+    "cancel": "Cancelar",
+    "delete": "Excluir",
+    "edit": "Editar",
+    "back": "Voltar",
+    "next": "Próximo",
+    "confirm": "Confirmar"
+  },
+  "landing": {
+    "title": "Sua vitrine digital em um link",
+    "subtitle": "Monte sua loja, compartilhe nas redes e venda pelo WhatsApp.",
+    "cta": "Começar agora"
+  },
+  "auth": {
+    "login": "Entrar",
+    "signup": "Criar conta",
+    "logout": "Sair",
+    "forgotPassword": "Esqueci a senha",
+    "email": "E-mail",
+    "password": "Senha"
+  },
+  "dashboard": {
+    "products": "Produtos",
+    "orders": "Pedidos",
+    "stats": "Estatísticas",
+    "account": "Conta"
+  }
+}
