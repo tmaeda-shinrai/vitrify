@@ -193,7 +193,7 @@ Tempo-alvo: 90 segundos do clique em "adicionar" ao produto salvo.
 ### 5.2 Fluxo do cliente final na vitrine
 
 ```
-[Cliente recebe link no WhatsApp] → [Abre vitri.app/maria-silva]
+[Cliente recebe link no WhatsApp] → [Abre vitrinio.com.br/maria-silva]
   ↓
 [Vê foto, nome, bio da Maria + grid de produtos]
   ↓
@@ -202,7 +202,7 @@ Tempo-alvo: 90 segundos do clique em "adicionar" ao produto salvo.
 [Toca em "Pedir no WhatsApp"]
   ↓ (registra intent no banco)
   ↓
-[Abre WhatsApp com mensagem: "Olá Maria, tenho interesse: Batom Avon Tom 234 — R$ 32,90. Vitrine: vitri.app/maria-silva"]
+[Abre WhatsApp com mensagem: "Olá Maria, tenho interesse: Batom Avon Tom 234 — R$ 32,90. Vitrine: vitrinio.com.br/maria-silva"]
 ```
 
 Tempo-alvo do cliente: 15 segundos da abertura do link ao WhatsApp aberto.

@@ -17,7 +17,7 @@ Criar e conectar os serviços gerenciados que sustentam a aplicação e padroniz
 
 - **Supabase**: criar projeto na região **South America (São Paulo)** (importante para latência e LGPD — ver `docs/LEGAL.md` §1.8). Anotar `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, `SUPABASE_PROJECT_REF`, `SUPABASE_DB_PASSWORD`. Configurar `supabase` CLI e `supabase start` (Docker local).
 - **Vercel**: conectar o repositório, deploy automático (`main` → produção, PRs → preview, `staging` → staging). Configurar Environment Variables (Production / Preview / Development) com os valores acima.
-- **Domínio + DNS**: adquirir domínio (definir nome — docs citam `vitri.app` e `vitrinio.com.br`; decidir) e apontar DNS (Cloudflare). Configurar subdomínio `staging.`.
+- **Domínio + DNS**: o domínio do produto é **`vitrinio.com.br`** (já adquirido). Apontar DNS (Cloudflare) e configurar subdomínio `staging.vitrinio.com.br`.
 - **Resend**: criar conta, domínio de envio verificado, `RESEND_API_KEY`, `EMAIL_FROM`, `EMAIL_REPLY_TO`.
 - **Asaas**: criar conta e pegar credenciais de **sandbox** (`ASAAS_API_URL=https://sandbox.asaas.com/api/v3`, `ASAAS_API_KEY`, `ASAAS_WEBHOOK_SECRET` gerado com `openssl rand -hex 32`). Os IDs de plano (`ASAAS_PLAN_*`) ficam vazios por ora (criados no painel após deploy, em #0018).
 - **Sentry**: criar projeto, `NEXT_PUBLIC_SENTRY_DSN`, `SENTRY_AUTH_TOKEN`, `SENTRY_ORG`, `SENTRY_PROJECT` (wiring completo + alertas ficam em #0024).

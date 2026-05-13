@@ -12,7 +12,7 @@ When asked to start building, the canonical scaffold and decisions are in `docs/
 
 A PWA where Brazilian multi-brand direct-sales resellers (Avon + Natura + Hinode + Mary Kay, etc.) build one shareable digital storefront ("vitrine") at `app-domain/their-slug`. The public storefront lists products (photo, name, price); each product has a **"Pedir no WhatsApp"** button that records an order-intent and opens WhatsApp with a pre-filled message. The sale itself is closed in WhatsApp — the app never handles a cart or checkout for end-customers. Monetization is a recurring SaaS subscription (Free / Pro / Plus) billed via Asaas (PIX/card/boleto). All UI copy is **pt-BR**.
 
-> Naming note: the repo folder is `vitrify`; the docs call the product **"Vitri"** (`vitri.app`) in most places but `README.md` also references `vitrinio.com.br`. The name isn't finalized — confirm before hard-coding it anywhere.
+> Naming note: the product is **Vitrinio** (domain `vitrinio.com.br`, already acquired). The repo folder is still named `vitrify` for historical reasons — don't rename it. In code/configs use `vitrinio` (e.g. `package.json` name, `NEXT_PUBLIC_APP_NAME=Vitrinio`, `SENTRY_PROJECT=vitrinio`).
 
 ## Documentation map
 

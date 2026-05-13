@@ -163,7 +163,7 @@ Quando alguém busca "Maria Silva Avon Campo Grande" ou "consultora Natura RJ", 
 
 Implementar técnicamente conforme [PRICING.md](./PRICING.md):
 
-- Cada usuária ganha link próprio (`vitri.app?ref=maria123`)
+- Cada usuária ganha link próprio (`vitrinio.com.br?ref=maria123`)
 - Cada amiga indicada que assina Pro+: 1 mês grátis para a indicadora
 - Indicada ganha 30 dias de Pro como bônus
 - Painel de indicações no perfil mostrando quantas pendentes/convertidas
@@ -259,7 +259,7 @@ Cada degrau do funil é uma oportunidade de melhoria. Instrumentar todos no anal
 
 ### 6.1 Materiais a preparar
 
-- [ ] Landing page (`vitri.app`) com hero, demo em vídeo, depoimentos, planos, FAQ
+- [ ] Landing page (`vitrinio.com.br`) com hero, demo em vídeo, depoimentos, planos, FAQ
 - [ ] 3 vídeos curtos para Instagram/TikTok mostrando o produto
 - [ ] Post de lançamento no Instagram (carrossel de 7 telas mostrando a jornada)
 - [ ] E-mail de lançamento para lista de espera (se houver)
@@ -304,4 +304,4 @@ Painel interno de analytics deve mostrar essas métricas em tempo real, segmenta
 | CAC alto demais em ads pagos                | Pausar imediatamente se CAC > R$ 100 sustentado por 2 semanas                                                  |
 | Concorrente lançando feature similar antes  | Diferenciação por nicho multimarcas e UX, não por feature isolada                                              |
 | Contas falsas no Free para abusar do limite | Verificação de e-mail obrigatória; rate limit em criação de conta por IP                                       |
-| Concorrente compra ads na sua marca         | Defender com Google Ads em "vitri.app" + termos correlatos                                                     |
+| Concorrente compra ads na sua marca         | Defender com Google Ads em "vitrinio.com.br" + termos correlatos                                               |
