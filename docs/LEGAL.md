@@ -58,7 +58,7 @@ A plataforma garante todos os direitos do Art. 18 LGPD:
 
 ### 1.6 Encarregado de Proteção de Dados (DPO)
 
-Empresas pequenas podem nomear o próprio sócio ou contratar DPO terceirizado. Para o MVP, o sócio assume a função, com e-mail dedicado: `dpo@vitri.app` (ou domínio escolhido).
+Empresas pequenas podem nomear o próprio sócio ou contratar DPO terceirizado. Para o MVP, o sócio assume a função, com e-mail dedicado: `dpo@vitrinio.com.br`.
 
 ### 1.7 Resposta a incidentes
 

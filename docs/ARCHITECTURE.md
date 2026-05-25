@@ -216,7 +216,7 @@ vitrine/
 ### 5.4 Renderização da vitrine pública (ISR)
 
 ```
-1. Cliente acessa vitri.app/maria-silva
+1. Cliente acessa vitrinio.com.br/maria-silva
 2. Vercel verifica cache:
    - Cache hit (< 60s): serve direto do edge (~50ms)
    - Cache miss ou stale: regera no servidor e serve
@@ -311,12 +311,12 @@ Sentry com source maps. Alertas no Slack/Discord para erros críticos. Filtro de
 
 ## 9. Deploy e ambientes
 
-| Ambiente | URL                    | Branch      | Banco                   |
-| -------- | ---------------------- | ----------- | ----------------------- |
-| Local    | localhost:3000         | qualquer    | Supabase local (Docker) |
-| Preview  | `preview-*.vercel.app` | qualquer PR | Supabase staging        |
-| Staging  | `staging.vitri.app`    | `staging`   | Supabase staging        |
-| Produção | `vitri.app`            | `main`      | Supabase produção       |
+| Ambiente | URL                       | Branch      | Banco                   |
+| -------- | ------------------------- | ----------- | ----------------------- |
+| Local    | localhost:3000            | qualquer    | Supabase local (Docker) |
+| Preview  | `preview-*.vercel.app`    | qualquer PR | Supabase staging        |
+| Staging  | `staging.vitrinio.com.br` | `staging`   | Supabase staging        |
+| Produção | `vitrinio.com.br`         | `main`      | Supabase produção       |
 
 CI executa: typecheck, lint, testes unitários, testes E2E em preview.
 Deploy para produção é manual (botão), mesmo com CI passando, durante MVP.

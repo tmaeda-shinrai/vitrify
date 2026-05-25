@@ -16,7 +16,7 @@ A ação central da vitrine: levar o cliente até o WhatsApp da vendedora com um
 ## Escopo
 
 - Componente `WhatsAppButton` (`docs/DESIGN.md` §3): botão verde (cor `--whatsapp` `#25D366`), ícone do WhatsApp, presente em **cada produto** (no card e no modal de detalhe).
-- Mensagem pré-formatada por produto, em pt-BR, contendo nome do produto, preço (ou preço promocional quando houver) e o link da vitrine. Ex.: `Olá Maria, tenho interesse no produto: Batom Avon Tom 234 — R$ 32,90. Vitrine: vitri.app/maria-silva` (`docs/SPEC.md` §2, `docs/DESIGN.md` §5.2).
+- Mensagem pré-formatada por produto, em pt-BR, contendo nome do produto, preço (ou preço promocional quando houver) e o link da vitrine. Ex.: `Olá Maria, tenho interesse no produto: Batom Avon Tom 234 — R$ 32,90. Vitrine: vitrinio.com.br/maria-silva` (`docs/SPEC.md` §2, `docs/DESIGN.md` §5.2).
 - Redirecionamento via `wa.me/{whatsapp}?text={mensagem_url_encoded}` (usa `profiles.whatsapp` em E.164 sem `+`).
 - **Botão WhatsApp flutuante geral** na vitrine para dúvidas sem produto específico (mensagem genérica do tipo "Olá {Nome}, vi sua vitrine e queria tirar uma dúvida").
 - Produto "esgotado" (`is_available = FALSE`): botão de pedido desabilitado (com tooltip/label "Esgotado"); o flutuante geral continua ativo.
