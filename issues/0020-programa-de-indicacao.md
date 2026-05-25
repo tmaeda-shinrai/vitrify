@@ -14,7 +14,7 @@ Revendedoras de venda direta vivem de indicação — "é a língua nativa delas
 
 ## Escopo
 
-- Cada usuária tem um **código/link de indicação** (`referrals.code`, ex.: `vitri.app?ref=maria123`) — gerar no cadastro ou sob demanda.
+- Cada usuária tem um **código/link de indicação** (`referrals.code`, ex.: `vitrinio.com.br?ref=maria123`) — gerar no cadastro ou sob demanda.
 - Captura do `ref` no cadastro da indicada → cria registro `referrals` ligando `referrer_id`/`referred_id`.
 - Recompensa (`docs/PRICING.md` §5.3):
   - **Indicada**: ganha **30 dias de Pro grátis** em vez de cair direto no Free.

@@ -132,7 +132,7 @@ Tornar a vitrine pública acessível, registrar intenções de pedido, implement
 
 ### Marco fim da Fase 2
 
-Uma usuária pode compartilhar `vitri.app/maria-silva` com clientes, eles abrem no celular, navegam, clicam em "Pedir no WhatsApp" e a conversa abre com mensagem pronta. A usuária vê os pedidos no painel e pode instalar o app no celular.
+Uma usuária pode compartilhar `vitrinio.com.br/maria-silva` com clientes, eles abrem no celular, navegam, clicam em "Pedir no WhatsApp" e a conversa abre com mensagem pronta. A usuária vê os pedidos no painel e pode instalar o app no celular.
 
 ## Fase 3 — Pagamento + Polimento (Semanas 9 a 12)
 
