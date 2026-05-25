@@ -5,7 +5,7 @@ import { getLocale, getMessages } from "next-intl/server";
 
 import { QueryProvider } from "@/components/shared/query-provider";
 import { Toaster } from "@/components/ui/sonner";
-import { env } from "@/lib/env";
+import { clientEnv } from "@/lib/env";
 import "@/styles/globals.css";
 
 const inter = Inter({
@@ -23,9 +23,9 @@ const display = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: `${env.NEXT_PUBLIC_APP_NAME} — sua vitrine digital em um link`,
+  title: `${clientEnv.NEXT_PUBLIC_APP_NAME} — sua vitrine digital em um link`,
   description: "Monte sua vitrine, compartilhe o link nas redes e venda direto pelo WhatsApp.",
-  applicationName: env.NEXT_PUBLIC_APP_NAME,
+  applicationName: clientEnv.NEXT_PUBLIC_APP_NAME,
 };
 
 export const viewport: Viewport = {

@@ -32,6 +32,29 @@ pnpm dev
 
 Abra [http://localhost:3000](http://localhost:3000).
 
+## Variáveis de ambiente
+
+Lista completa em [`.env.example`](./.env.example). Tipagem e validação em [`lib/env.ts`](./lib/env.ts) (Zod) — em `NODE_ENV=production`, o build falha se faltar qualquer variável obrigatória. Em desenvolvimento o schema é permissivo, então você consegue rodar `pnpm dev` antes de ter todas as integrações configuradas.
+
+Onde pegar cada chave:
+
+- **Supabase** — criar projeto na região **South America (São Paulo)**. Em `Settings → API` copie `Project URL` (→ `NEXT_PUBLIC_SUPABASE_URL`), `anon public` (→ `NEXT_PUBLIC_SUPABASE_ANON_KEY`) e `service_role` (→ `SUPABASE_SERVICE_ROLE_KEY`, server-only, **nunca** comitar). `SUPABASE_PROJECT_REF` é o ID do projeto; `SUPABASE_DB_PASSWORD` está em `Settings → Database`.
+- **Vercel** — rode `vercel link` no repo. Configure as variáveis em `Project Settings → Environment Variables`, separadas por escopo: **Production** (branch `main`), **Preview** (PRs) e **Development** (`vercel env pull`).
+- **Resend** — verifique o domínio `vitrinio.com.br` (registros SPF + DKIM via Cloudflare). Em `API Keys` gere `RESEND_API_KEY`.
+- **Asaas** — crie conta sandbox em [sandbox.asaas.com](https://sandbox.asaas.com). Em `Integrações → API` copie `ASAAS_API_KEY`. Gere `ASAAS_WEBHOOK_SECRET` localmente:
+  ```bash
+  openssl rand -hex 32
+  # Windows sem openssl:
+  node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+  ```
+  Os `ASAAS_PLAN_*_ID` ficam vazios até a issue #0018 (criação dos planos no painel pós-deploy).
+- **Sentry** — crie projeto Next.js. `Settings → Client Keys` dá o DSN (→ `NEXT_PUBLIC_SENTRY_DSN`). Wiring real do SDK e alertas é #0024.
+- **Plausible** — adicione `vitrinio.com.br` no painel. Use o mesmo nome do site em `NEXT_PUBLIC_PLAUSIBLE_DOMAIN`. Analytics sem cookies (dispensa banner — ver `docs/LEGAL.md` §5).
+- **Upstash Redis** — crie um database global. Na aba `REST API`, copie `UPSTASH_REDIS_REST_URL` e `UPSTASH_REDIS_REST_TOKEN`.
+- **Google OAuth** — no Google Cloud Console, crie um `OAuth 2.0 Client ID` (tipo Web), callback `https://<project-ref>.supabase.co/auth/v1/callback`. Cole client id/secret em **Supabase Auth → Providers → Google**. Não vai no `.env`.
+
+Tabela de ambientes (Production / Preview / Staging / Local) em [`docs/ARCHITECTURE.md`](./docs/ARCHITECTURE.md) §9.
+
 ## Scripts
 
 | Comando             | O que faz                                         |
