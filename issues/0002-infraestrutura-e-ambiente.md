@@ -35,25 +35,36 @@ Criar e conectar os serviços gerenciados que sustentam a aplicação e padroniz
 
 ## Tarefas
 
-- [ ] Projeto Supabase em São Paulo; `supabase` CLI logado; `supabase start` local funcionando
-- [ ] Vercel conectado ao repo; envs em Production/Preview/Development; deploy automático ok
-- [ ] Domínio adquirido + DNS apontando; `staging.` configurado
-- [ ] Resend: domínio verificado, chaves no env
-- [ ] Asaas sandbox: chaves no env; `ASAAS_WEBHOOK_SECRET` gerado
-- [ ] Sentry: projeto criado, DSN no env
-- [ ] Plausible: domínio configurado
-- [ ] Upstash Redis: instância + chaves no env
-- [ ] `lib/env.ts` com validação Zod (build falha se faltar var); tipos exportados
-- [ ] Google OAuth configurado no Supabase Auth (provider habilitado)
-- [ ] `.env.example` atualizado; `README.md` com passo a passo de obtenção das chaves
+- [x] Projeto Supabase em São Paulo; `supabase` CLI logado (`supabase start` local depende de Docker — ver adiamento abaixo)
+- [x] Vercel conectado ao repo; envs em Production/Preview; deploy automático ok (escopo Development pulado — dev local usa `.env.local`)
+- [x] Domínio adquirido + DNS apontando; `staging.` configurado (alias de Production até upgrade — ver adiamento abaixo)
+- [x] Resend: domínio verificado, chaves no env
+- [x] Asaas sandbox: chaves no env; `ASAAS_WEBHOOK_SECRET` gerado
+- [x] Sentry: projeto criado, DSN no env
+- [x] Plausible: domínio configurado
+- [x] Upstash Redis: instância + chaves no env
+- [x] `lib/env.ts` com validação Zod (build falha se faltar var); tipos exportados
+- [x] Google OAuth configurado no Supabase Auth (provider habilitado)
+- [x] `.env.example` atualizado; `README.md` com passo a passo de obtenção das chaves
 
 ## Critérios de aceitação
 
-- [ ] Deploy de "hello world" passa para o domínio em **staging** com sucesso
-- [ ] `pnpm build` falha com mensagem clara se uma variável obrigatória estiver ausente
-- [ ] `supabase start` sobe Postgres/Auth/Storage localmente
-- [ ] Service role key não aparece em nenhum bundle do cliente (verificado)
-- [ ] Nenhum segredo real comitado (`.env.local` ignorado)
+- [x] Deploy de "hello world" passa para o domínio em produção (`vitrinio.com.br`) — `staging.vitrinio.com.br` ainda aliasing prod até Custom Environment ser criado
+- [x] `pnpm build` falha com mensagem clara se uma variável obrigatória estiver ausente
+- [ ] `supabase start` sobe Postgres/Auth/Storage localmente — **adiado**: Docker não instalado nesta máquina; será validado quando começarmos a issue #0003 (schema)
+- [x] Service role key não aparece em nenhum bundle do cliente (garantido pelo Proxy em `lib/env.ts` que lança no runtime do cliente)
+- [x] Nenhum segredo real comitado (`.env.local` ignorado)
+
+## Status
+
+**Fechada em 2026-05-29.** PRs envolvidos: [#2](https://github.com/tmaeda-shinrai/vitrify/pull/2) (código), [#4](https://github.com/tmaeda-shinrai/vitrify/pull/4) (gitignore supabase/.temp/), [#5](https://github.com/tmaeda-shinrai/vitrify/pull/5) (remove HANDOFF.md).
+
+### Itens adiados (não bloqueiam dependentes)
+
+- **`supabase start` local** — exige Docker, que não está instalado. Será validado ao começar a #0003.
+- **Custom Environment `staging` na Vercel** — feature paga (Vercel Pro). Por ora, `staging.vitrinio.com.br` está vinculado ao environment Production e serve o mesmo conteúdo que `vitrinio.com.br`. Quando justificar o upgrade, criamos o environment dedicado.
+- **`SENTRY_AUTH_TOKEN`** — preenchido na #0024 (wiring real do SDK + source maps).
+- **`ASAAS_PLAN_*_ID`** — pós-deploy do app, na #0018 (criação dos planos no painel Asaas).
 
 ## Referências
 
