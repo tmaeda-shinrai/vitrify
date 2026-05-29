@@ -46,3 +46,6 @@ Thumbs.db
 
 # Sentry
 .sentryclirc
+
+# Supabase CLI (local link state, contains project-ref)
+supabase/.temp/
