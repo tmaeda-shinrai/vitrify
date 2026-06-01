@@ -52,7 +52,7 @@ RLS é a camada de segurança no banco — sem ela, a `anon key` no cliente exp�
 
 ## Status
 
-**Implementada e validada localmente** (Postgres 17, stack Supabase local). Falta o merge.
+**Fechada em 2026-06-01** (PR [#8](https://github.com/tmaeda-shinrai/vitrify/pull/8)). Implementada e validada em Postgres 17 (stack Supabase local) e com o job `rls` verde no CI.
 
 ### Entregue
 

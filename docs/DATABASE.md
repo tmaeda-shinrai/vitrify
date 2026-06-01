@@ -471,6 +471,16 @@ CREATE POLICY "subscriptions_select_own" ON subscriptions
 -- Updates só via service role (webhook do Asaas) — sem policy de UPDATE para usuário
 ```
 
+### 4.6 Implementação (#0004)
+
+As políticas acima são **exemplos das principais**. O conjunto completo e autoritativo está em `supabase/migrations/20260601152521_rls_policies.sql`, cobrindo as 14 tabelas. Convenções aplicadas:
+
+- `(select auth.uid())` (subselect) em vez de `auth.uid()` direto — o planner avalia uma vez por query (recomendação Supabase).
+- `TO anon` / `TO authenticated` explícitos em cada política.
+- **A leitura pública é da vitrine inteira**: qualquer um (anônimo ou logado) lê itens **ativos** de **qualquer** vitrine ativa; o isolamento por dona vale para **escrita** (insert/update/delete) e para os dados privados (`order_intents`, `subscriptions`, `invoices`, `profiles`).
+- `coupons` e `audit_logs` ficam **sem política** (acesso só via `service_role`, que tem BYPASSRLS); `suggested_brands` tem leitura pública (dado de referência).
+- Verificação: testes em `tests/rls/` (`pnpm test:rls`) e job `rls` no CI.
+
 ## 5. Estratégia de migração
 
 ### 5.1 Versionamento
