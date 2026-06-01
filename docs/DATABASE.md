@@ -1,6 +1,6 @@
 # DATABASE — Schema, RLS e Migrações
 
-Schema desenhado para Postgres 15 (Supabase). Todas as tabelas usam `uuid` como chave primária (gerada com `gen_random_uuid()`) e timestamps `created_at` / `updated_at` com defaults.
+Schema desenhado para Postgres 15+ (Supabase — instâncias atuais provisionam o 17). Todas as tabelas usam `uuid` como chave primária (gerada com `gen_random_uuid()`) e timestamps `created_at` / `updated_at` com defaults.
 
 ## 1. Diagrama lógico
 
@@ -23,6 +23,7 @@ vitrines                      invoices
    └── 1:N ──► brands
 
 audit_logs (cross-cutting, para admin)
+coupons ──< coupon_redemptions (cross-cutting, billing — #0018)
 ```
 
 ## 2. Tabelas
@@ -262,6 +263,54 @@ CREATE TABLE referrals (
 );
 ```
 
+### 2.12 `coupons`
+
+Cupons promocionais (`docs/PRICING.md` §5.2). Limite global via `max_redemptions`/`redemptions_count`; limite por usuária é de uma redenção (garantido pela `UNIQUE` em `coupon_redemptions`). Lógica de aplicação no checkout fica na #0018.
+
+```sql
+CREATE TYPE coupon_discount_type AS ENUM ('percent', 'fixed_cents', 'free_days');
+
+CREATE TABLE coupons (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  code VARCHAR(40) UNIQUE NOT NULL,            -- normalizado em maiúsculas na aplicação
+  description VARCHAR(200),
+  discount_type coupon_discount_type NOT NULL,
+  discount_value INT NOT NULL CHECK (discount_value > 0),  -- % (1-100), centavos ou dias
+  applies_to_plan subscription_plan,           -- NULL = qualquer plano
+  max_redemptions INT CHECK (max_redemptions IS NULL OR max_redemptions > 0),  -- NULL = ilimitado
+  redemptions_count INT NOT NULL DEFAULT 0,
+  valid_from TIMESTAMPTZ,
+  valid_until TIMESTAMPTZ,
+  is_active BOOLEAN NOT NULL DEFAULT TRUE,
+  created_at TIMESTAMPTZ DEFAULT now(),
+  updated_at TIMESTAMPTZ DEFAULT now(),
+  CONSTRAINT coupons_percent_range CHECK (discount_type <> 'percent' OR discount_value BETWEEN 1 AND 100),
+  CONSTRAINT coupons_valid_window CHECK (valid_from IS NULL OR valid_until IS NULL OR valid_until > valid_from)
+);
+
+CREATE INDEX idx_coupons_active ON coupons(is_active) WHERE is_active = TRUE;
+```
+
+### 2.13 `coupon_redemptions`
+
+Registro de uso de cupom por usuária. `UNIQUE (coupon_id, owner_id)` impede dupla redenção.
+
+```sql
+CREATE TABLE coupon_redemptions (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  coupon_id UUID NOT NULL REFERENCES coupons(id) ON DELETE CASCADE,
+  owner_id UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
+  subscription_id UUID REFERENCES subscriptions(id) ON DELETE SET NULL,
+  invoice_id UUID REFERENCES invoices(id) ON DELETE SET NULL,
+  redeemed_at TIMESTAMPTZ DEFAULT now(),
+  created_at TIMESTAMPTZ DEFAULT now(),
+  UNIQUE (coupon_id, owner_id)
+);
+
+CREATE INDEX idx_coupon_redemptions_coupon ON coupon_redemptions(coupon_id);
+CREATE INDEX idx_coupon_redemptions_owner ON coupon_redemptions(owner_id);
+```
+
 ## 3. Triggers e funções
 
 ### 3.1 Auto-criação de profile e vitrine no signup
@@ -431,11 +480,12 @@ Migrações ficam em `supabase/migrations/` com nomenclatura `YYYYMMDDHHMMSS_des
 ### 5.2 Migrations sugeridas para o MVP
 
 ```
-20260301000000_initial_schema.sql      # Tabelas e triggers
-20260301000001_rls_policies.sql        # Todas as políticas RLS
-20260301000002_seed_suggested_brands.sql  # Seed de marcas comuns
-20260305000000_search_indexes.sql      # Índices full-text
+20260601114606_initial_schema.sql         # Tabelas, enums, índices (incl. GIN full-text), triggers e cupons
+20260601114607_seed_suggested_brands.sql  # Seed de marcas comuns (dado de referência)
+# RLS entra em migration separada na #0004 (rls_policies.sql)
 ```
+
+Os índices full-text (`GIN`) e os parciais já entram na própria `initial_schema.sql`, não em migration separada.
 
 ### 5.3 Princípios
 
@@ -448,10 +498,11 @@ Migrações ficam em `supabase/migrations/` com nomenclatura `YYYYMMDDHHMMSS_des
 
 `supabase/seed.sql` cria dados realistas para desenvolvimento:
 
-- 3 usuárias-exemplo (Mariana, Carla, Joana — espelhando as personas)
-- 1 vitrine por usuária com 8-15 produtos cada
-- 30 dias simulados de `order_intents` distribuídos
-- 1 assinatura Pro ativa em uma das contas
+- 3 usuárias-exemplo (Mariana, Carla, Joana — espelhando as personas), com login de dev (senha `vitrinio123`)
+- 1 vitrine ativa por usuária com marcas, categorias, produtos e imagens
+- Produtos: Mariana (Pro) tem 13; Carla e Joana (Free) têm 5 cada — o limite de 5 do plano Free é imposto pelo trigger `check_product_limit`
+- 30 dias simulados de `order_intents` distribuídos (volumes distintos por persona)
+- 1 assinatura Pro ativa (Mariana)
 
 ## 7. Backup e retenção
 
