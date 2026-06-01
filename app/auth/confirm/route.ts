@@ -1,6 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { type EmailOtpType } from "@supabase/supabase-js";
 
+import { sanitizeNext } from "@/lib/auth/redirect";
 import { createClient } from "@/lib/supabase/server";
 
 /**
@@ -23,10 +24,4 @@ export async function GET(request: NextRequest) {
   }
 
   return NextResponse.redirect(new URL("/login?erro=link-invalido", origin));
-}
-
-/** Só aceita caminhos internos (evita open redirect). */
-function sanitizeNext(next: string | null): string {
-  if (next && next.startsWith("/") && !next.startsWith("//")) return next;
-  return "/dashboard";
 }

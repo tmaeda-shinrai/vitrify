@@ -4,7 +4,7 @@ test.describe("Autenticação", () => {
   test("a página de login renderiza e valida campos", async ({ page }) => {
     await page.goto("/login");
 
-    await expect(page.getByRole("heading", { name: "Entrar" })).toBeVisible();
+    await expect(page.getByText("Acesse sua vitrine.")).toBeVisible();
 
     // Submeter vazio dispara a validação client-side (Zod + RHF).
     await page.getByRole("button", { name: "Entrar" }).click();
@@ -18,14 +18,15 @@ test.describe("Autenticação", () => {
     await page.getByLabel("Senha").fill("senhaErrada123");
     await page.getByRole("button", { name: "Entrar" }).click();
 
-    // Toast de erro (sonner) com mensagem amigável.
-    await expect(page.getByText("E-mail ou senha incorretos.")).toBeVisible();
+    // Toast de erro (sonner): credenciais inválidas ou, se o rate-limit por IP já
+    // foi atingido em execuções repetidas, a mensagem de "muitas tentativas".
+    await expect(page.getByText(/incorretos|muitas tentativas/i)).toBeVisible();
   });
 
   test("o cadastro renderiza e valida senha fraca", async ({ page }) => {
     await page.goto("/cadastro");
 
-    await expect(page.getByRole("heading", { name: "Criar conta" })).toBeVisible();
+    await expect(page.getByText("Monte sua vitrine em minutos.")).toBeVisible();
 
     await page.getByLabel("Nome").fill("Maria Teste");
     await page.getByLabel("E-mail").fill("maria@example.com");
@@ -43,5 +44,18 @@ test.describe("Autenticação", () => {
     await page.getByRole("button", { name: "Enviar link de recuperação" }).click();
 
     await expect(page.getByText(/enviamos um link para redefinir a senha/i)).toBeVisible();
+  });
+
+  test("o botão Continuar com Google aparece em login e cadastro", async ({ page }) => {
+    await page.goto("/login");
+    await expect(page.getByRole("button", { name: "Continuar com Google" })).toBeVisible();
+
+    await page.goto("/cadastro");
+    await expect(page.getByRole("button", { name: "Continuar com Google" })).toBeVisible();
+  });
+
+  test("cancelar o login com Google mostra toast amigável", async ({ page }) => {
+    await page.goto("/login?erro=oauth-cancelado");
+    await expect(page.getByText(/login com google cancelado/i)).toBeVisible();
   });
 });

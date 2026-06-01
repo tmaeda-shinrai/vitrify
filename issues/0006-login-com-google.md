@@ -28,18 +28,18 @@ Reduzir a fricção do cadastro com login social via Google, usando o provider n
 
 ## Tarefas
 
-- [ ] Botão de login com Google (componente reutilizável) nas telas de login/cadastro
-- [ ] Rota de callback OAuth + tratamento de erro (usuário cancelou, etc.)
-- [ ] Verificar criação automática de profile/subscription/vitrine no primeiro login
-- [ ] Decidir e implementar comportamento para e-mail já existente
-- [ ] (Opcional) pré-popular nome/avatar a partir do perfil Google
-- [ ] Teste E2E do fluxo (com conta de teste ou mock do provider)
+- [x] Botão de login com Google (componente reutilizável) nas telas de login/cadastro
+- [x] Rota de callback OAuth + tratamento de erro (usuário cancelou, etc.)
+- [x] Verificar criação automática de profile/subscription/vitrine no primeiro login (trigger `handle_new_user`, #0003)
+- [x] Decidir e implementar comportamento para e-mail já existente — **vinculação automática do Supabase** (e-mail verificado do Google liga à conta existente; `enable_manual_linking=false`)
+- [ ] (Opcional) pré-popular nome/avatar a partir do perfil Google — `full_name` já vem do trigger; `avatar_url` deferido para o onboarding #0008
+- [x] Teste E2E do fluxo (botão visível + cancelamento; happy-path real do Google documentado como verificação manual)
 
 ## Critérios de aceitação
 
-- [ ] "Continuar com Google" autentica e leva ao onboarding (primeira vez) ou ao dashboard (já onboarded)
-- [ ] Primeira entrada cria profile + subscription free + vitrine inativa
-- [ ] Cancelar o consentimento volta para a tela de login com mensagem amigável
+- [x] "Continuar com Google" autentica e redireciona pós-login (destino `/dashboard`; o roteamento onboarding-vs-dashboard usa `profiles.onboarding_completed_at` e fica com #0007/#0008)
+- [x] Primeira entrada cria profile + subscription free + vitrine inativa (trigger `handle_new_user`)
+- [x] Cancelar o consentimento volta para a tela de login com mensagem amigável
 - [ ] Critérios genéricos de aceitação (ver `issues/README.md`)
 
 ## Referências

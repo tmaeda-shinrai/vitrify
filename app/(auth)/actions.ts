@@ -3,6 +3,7 @@
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
+import { sanitizeNext } from "@/lib/auth/redirect";
 import { clientEnv } from "@/lib/env";
 import { checkLoginRateLimit, getClientIp } from "@/lib/rate-limit";
 import { createClient } from "@/lib/supabase/server";
@@ -120,6 +121,25 @@ export async function updatePasswordAction(input: unknown): Promise<ActionResult
   }
 
   return { ok: true };
+}
+
+export async function signInWithGoogleAction(next?: string): Promise<ActionResult> {
+  const supabase = await createClient();
+  const target = sanitizeNext(next);
+
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: "google",
+    options: {
+      redirectTo: appUrl(`/auth/callback?next=${encodeURIComponent(target)}`),
+    },
+  });
+
+  if (error || !data.url) {
+    return { ok: false, error: "Não foi possível conectar com o Google. Tente novamente." };
+  }
+
+  // O code verifier (PKCE) foi gravado em cookie httpOnly pelo server client.
+  redirect(data.url);
 }
 
 export async function logoutAction(): Promise<never> {
