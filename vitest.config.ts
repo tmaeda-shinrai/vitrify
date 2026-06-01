@@ -11,7 +11,7 @@ export default defineConfig({
     globals: false,
     setupFiles: ["./tests/unit/setup.ts"],
     include: ["**/*.test.{ts,tsx}"],
-    exclude: ["tests/e2e/**", "node_modules", ".next", "playwright-report"],
+    exclude: ["tests/e2e/**", "tests/rls/**", "node_modules", ".next", "playwright-report"],
     css: false,
   },
   resolve: {

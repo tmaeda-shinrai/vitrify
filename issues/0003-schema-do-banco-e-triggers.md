@@ -58,7 +58,7 @@ Modelar o banco Postgres 15 (Supabase) conforme `docs/DATABASE.md`. Pode ser ent
 
 ## Status
 
-**Concluída (schema).** Schema, triggers, seeds e scripts escritos e **validados** contra Postgres 17 local (Docker + `supabase start`). Falta só o merge.
+**Fechada em 2026-06-01** (PR [#7](https://github.com/tmaeda-shinrai/vitrify/pull/7)). Schema, triggers, seeds e scripts escritos e **validados** contra Postgres 17 local (Docker + `supabase start`).
 
 ### Decisões registradas
 
