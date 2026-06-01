@@ -34,24 +34,24 @@ Fluxo essencial de entrada na plataforma com Supabase Auth (JWT). Cobre cadastro
 
 ## Tarefas
 
-- [ ] `lib/supabase/server.ts`, `lib/supabase/browser.ts`, middleware de sessão
-- [ ] `lib/validators/auth.ts` (Zod): cadastro, login, reset, nova senha
-- [ ] Página/UX de cadastro + envio de e-mail de confirmação + tela "verifique seu e-mail"
-- [ ] Rota de callback de confirmação de e-mail
-- [ ] Página/UX de login
-- [ ] Página/UX de recuperação de senha (solicitar + redefinir), token 1h single-use
-- [ ] Templates de e-mail (confirmação, recuperação) via Resend, em pt-BR
-- [ ] Rate limit de login (5/15min por IP)
-- [ ] Redirecionos: já logado em `/login` → dashboard; não logado em rota protegida → `/login`
-- [ ] Testes: caminho feliz de cadastro→confirmação→login; erro de senha; reset
+- [x] `lib/supabase/server.ts`, `lib/supabase/browser.ts`, middleware de sessão
+- [x] `lib/validators/auth.ts` (Zod): cadastro, login, reset, nova senha
+- [x] Página/UX de cadastro + envio de e-mail de confirmação + tela "verifique seu e-mail"
+- [x] Rota de callback de confirmação de e-mail
+- [x] Página/UX de login
+- [x] Página/UX de recuperação de senha (solicitar + redefinir), token 1h single-use
+- [x] Templates de e-mail (confirmação, recuperação) via Resend, em pt-BR
+- [x] Rate limit de login (5/15min por IP)
+- [x] Redirecionos: já logado em `/login` → dashboard; não logado em rota protegida → `/login`
+- [x] Testes: caminho feliz de cadastro→confirmação→login; erro de senha; reset
 
 ## Critérios de aceitação
 
-- [ ] Cadastro envia e-mail; conta só funciona após confirmar
-- [ ] Login com credenciais corretas leva ao dashboard (ou onboarding, ver #0008); credenciais erradas mostram erro claro
-- [ ] Link de recuperação expira em 1h e não pode ser reusado
-- [ ] 6ª tentativa de login no mesmo IP em 15 min é bloqueada com mensagem amigável
-- [ ] Sessão persiste entre reloads; logout limpa a sessão
+- [x] Cadastro envia e-mail; conta só funciona após confirmar
+- [x] Login com credenciais corretas leva ao dashboard (ou onboarding, ver #0008); credenciais erradas mostram erro claro
+- [x] Link de recuperação expira em 1h e não pode ser reusado
+- [x] 6ª tentativa de login no mesmo IP em 15 min é bloqueada com mensagem amigável
+- [x] Sessão persiste entre reloads; logout limpa a sessão
 - [ ] Critérios genéricos de aceitação (ver `issues/README.md`)
 
 ## Referências
