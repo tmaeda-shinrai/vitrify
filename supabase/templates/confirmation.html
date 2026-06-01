@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="pt-BR">
+  <body
+    style="margin: 0; padding: 24px; background: #f4f4f5; font-family: Arial, Helvetica, sans-serif; color: #18181b"
+  >
+    <table
+      role="presentation"
+      width="100%"
+      cellpadding="0"
+      cellspacing="0"
+      style="max-width: 480px; margin: 0 auto; background: #ffffff; border-radius: 12px; padding: 32px"
+    >
+      <tr>
+        <td>
+          <h1 style="margin: 0 0 8px; font-size: 22px; color: #7c3aed">Vitrinio</h1>
+          <h2 style="margin: 0 0 16px; font-size: 18px">Confirme seu e-mail</h2>
+          <p style="margin: 0 0 24px; font-size: 15px; line-height: 1.5">
+            Boas-vindas! Falta só um passo para ativar sua conta e montar sua vitrine. Clique no
+            botão abaixo para confirmar seu e-mail.
+          </p>
+          <p style="margin: 0 0 24px">
+            <a
+              href="{{ .SiteURL }}/auth/confirm?token_hash={{ .TokenHash }}&type=signup&next=/dashboard"
+              style="display: inline-block; background: #7c3aed; color: #ffffff; text-decoration: none; padding: 12px 24px; border-radius: 8px; font-size: 15px; font-weight: bold"
+              >Confirmar e-mail</a
+            >
+          </p>
+          <p style="margin: 0; font-size: 13px; color: #71717a; line-height: 1.5">
+            Se você não criou uma conta no Vitrinio, ignore este e-mail.
+          </p>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
