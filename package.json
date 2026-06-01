@@ -18,6 +18,11 @@
     "test:watch": "vitest",
     "test:ui": "vitest --ui",
     "test:e2e": "playwright test",
+    "db:start": "supabase start",
+    "db:stop": "supabase stop",
+    "db:reset": "supabase db reset",
+    "db:push": "supabase db push",
+    "db:types": "supabase gen types typescript --local > types/supabase.ts",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "prepare": "husky"
