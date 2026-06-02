@@ -14,6 +14,7 @@ import { OrDivider } from "@/components/auth/or-divider";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { DEFAULT_REDIRECT } from "@/lib/auth/redirect";
 import { loginSchema, type LoginInput } from "@/lib/validators/auth";
 
 export function LoginForm() {
@@ -31,7 +32,7 @@ export function LoginForm() {
       toast.error(result.error);
       return;
     }
-    router.replace("/dashboard");
+    router.replace(DEFAULT_REDIRECT);
     router.refresh();
   }
 

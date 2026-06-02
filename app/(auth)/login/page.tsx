@@ -6,6 +6,7 @@ import { getTranslations } from "next-intl/server";
 import { AuthErrorToast } from "@/components/auth/auth-error-toast";
 import { LoginForm } from "@/components/auth/login-form";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { DEFAULT_REDIRECT } from "@/lib/auth/redirect";
 import { createClient } from "@/lib/supabase/server";
 
 export const metadata: Metadata = { title: "Entrar" };
@@ -15,7 +16,7 @@ export default async function LoginPage() {
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  if (user) redirect("/dashboard");
+  if (user) redirect(DEFAULT_REDIRECT);
 
   const t = await getTranslations("auth");
 
