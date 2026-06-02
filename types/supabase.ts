@@ -662,7 +662,7 @@ export type Database = {
       [_ in never]: never;
     };
     Functions: {
-      [_ in never]: never;
+      is_slug_available: { Args: { p_slug: string }; Returns: boolean };
     };
     Enums: {
       coupon_discount_type: "percent" | "fixed_cents" | "free_days";

@@ -1,17 +1,12 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
-import { getTranslations } from "next-intl/server";
-import { Rocket } from "lucide-react";
 
-import { EmptyState } from "@/components/shared/empty-state";
+import { OnboardingWizard } from "@/components/onboarding/onboarding-wizard";
+import { clientEnv } from "@/lib/env";
 import { createClient } from "@/lib/supabase/server";
 
-export const metadata: Metadata = { title: "Onboarding" };
+export const metadata: Metadata = { title: "Vamos montar sua vitrine" };
 
-/**
- * Stub do onboarding (#0008 substitui o conteúdo). Fica FORA do grupo
- * (dashboard) para não recursar na guarda que redireciona para cá.
- */
 export default async function OnboardingPage() {
   const supabase = await createClient();
   const {
@@ -19,24 +14,47 @@ export default async function OnboardingPage() {
   } = await supabase.auth.getUser();
   if (!user) redirect("/login");
 
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("onboarding_completed_at")
-    .eq("id", user.id)
-    .maybeSingle();
+  const [{ data: profile }, { data: vitrine }] = await Promise.all([
+    supabase
+      .from("profiles")
+      .select("full_name, whatsapp, onboarding_completed_at")
+      .eq("id", user.id)
+      .maybeSingle(),
+    supabase
+      .from("vitrines")
+      .select("slug")
+      .eq("owner_id", user.id)
+      .eq("is_default", true)
+      .maybeSingle(),
+  ]);
 
-  // Já concluiu o onboarding: vai direto para o painel.
+  // Já concluiu: vai direto para o painel.
   if (profile?.onboarding_completed_at) redirect("/produtos");
 
-  const t = await getTranslations("dashboard");
+  const slugChosen = Boolean(vitrine?.slug && !vitrine.slug.startsWith("u-"));
+  const initialStep = slugChosen ? (profile?.whatsapp ? 4 : 3) : 1;
+
+  const meta = user.user_metadata ?? {};
+  const googleAvatarUrl =
+    typeof meta.avatar_url === "string"
+      ? meta.avatar_url
+      : typeof meta.picture === "string"
+        ? meta.picture
+        : null;
 
   return (
-    <main className="flex min-h-dvh items-center justify-center px-4 py-10">
-      <div className="w-full max-w-md">
-        <EmptyState
-          icon={Rocket}
-          title={t("onboardingStubTitle")}
-          description={t("onboardingStubDescription")}
+    <main className="flex min-h-dvh flex-col items-center justify-center bg-muted/30 px-4 py-10">
+      <div className="w-full max-w-sm">
+        <p className="mb-6 text-center font-display text-2xl font-bold text-primary">
+          {clientEnv.NEXT_PUBLIC_APP_NAME}
+        </p>
+        <OnboardingWizard
+          data={{
+            fullName: profile?.full_name ?? "",
+            whatsapp: profile?.whatsapp ?? "",
+            googleAvatarUrl,
+          }}
+          initialStep={initialStep}
         />
       </div>
     </main>
