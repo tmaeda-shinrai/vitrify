@@ -29,16 +29,16 @@ Preparar todo o ferramental e a base do projeto para começar a desenvolver sem 
 ### Entregáveis
 
 - [ ] Repositório GitHub criado, com branch protection no `main`
-- [ ] Projeto Next.js 14 inicial com TypeScript, Tailwind, shadcn/ui configurados
+- [x] Projeto Next.js 14 inicial com TypeScript, Tailwind, shadcn/ui configurados
 - [ ] Projeto Supabase criado na região São Paulo
 - [ ] Conta Vercel conectada ao repo, deploy automático funcionando
 - [ ] Conta Asaas criada (sandbox)
 - [ ] Conta Resend criada (e-mail transacional)
 - [ ] Domínio adquirido e DNS apontando
-- [ ] Variáveis de ambiente documentadas em `.env.example`
-- [ ] CI básico no GitHub Actions (typecheck + lint)
-- [ ] Pasta `docs/` com toda esta documentação versionada
-- [ ] ESLint + Prettier + Husky configurados
+- [x] Variáveis de ambiente documentadas em `.env.example`
+- [x] CI básico no GitHub Actions (typecheck + lint)
+- [x] Pasta `docs/` com toda esta documentação versionada
+- [x] ESLint + Prettier + Husky configurados
 
 ### Definição de pronto
 
@@ -52,20 +52,20 @@ Construir o fluxo essencial: cadastro, login, criação de vitrine inicial, CRUD
 
 ### Semana 1 — Autenticação e estrutura
 
-- [ ] Schema inicial do banco (migration `initial_schema.sql`)
-- [ ] Triggers de `handle_new_user`, `set_updated_at`
-- [ ] RLS para `profiles`, `vitrines`, `subscriptions`
-- [ ] Páginas de login, cadastro, recuperar senha
-- [ ] Login com Google (OAuth)
-- [ ] Layout do dashboard com bottom nav mobile
+- [x] Schema inicial do banco (migration `initial_schema.sql`) — #0003
+- [x] Triggers de `handle_new_user`, `set_updated_at` — #0003
+- [x] RLS para `profiles`, `vitrines`, `subscriptions` — #0004
+- [x] Páginas de login, cadastro, recuperar senha — #0005
+- [x] Login com Google (OAuth) — #0006
+- [x] Layout do dashboard com bottom nav mobile — #0007
 
 ### Semana 2 — Onboarding e perfil
 
-- [ ] Fluxo de onboarding (4 passos)
-- [ ] Validação de slug em tempo real
-- [ ] Validação de WhatsApp (formato + envio de SMS opcional adiado)
-- [ ] Tela de perfil com edição de nome, foto, bio
-- [ ] Upload de avatar com compressão no cliente
+- [x] Fluxo de onboarding (4 passos) — #0008
+- [x] Validação de slug em tempo real — #0008
+- [x] Validação de WhatsApp (formato + envio de SMS opcional adiado) — #0008
+- [ ] Tela de perfil com edição de nome, foto, bio — #0009
+- [ ] Upload de avatar com compressão no cliente — #0009
 
 ### Semana 3 — CRUD de produtos (parte 1)
 

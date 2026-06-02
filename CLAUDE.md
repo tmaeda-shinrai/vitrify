@@ -4,9 +4,20 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository status
 
-**This is a planning-stage repository — there is no application code yet.** The only contents are `docs/` (full product/engineering specs), `issues/` (MVP backlog derived from the docs), and `.env.example`. There is no `package.json`, no `app/`, no build, and no git repo initialized. The commands and structure below describe what _will_ exist once the MVP is scaffolded per the docs; don't assume any of it is present until you see it.
+**The MVP scaffold exists and the first milestones are implemented.** The Next.js 14 App Router app is set up (TypeScript strict, Tailwind, shadcn/ui, next-intl pt-BR, TanStack Query, Vitest + Playwright) with `supabase/` migrations + seed for the local stack. The commands and structure below are real — verify against the tree, but don't assume the repo is empty.
 
-When asked to start building, the canonical scaffold and decisions are in `docs/ARCHITECTURE.md` (§3 stack, §4 folder structure) and `docs/ROADMAP.md` (Fase 0 = setup checklist, Fase 1+ = build order). The work is already broken into ~25 numbered issues under `issues/` (see `issues/README.md` for the index, milestones, and a SPEC→issue traceability map) — start there to pick up a unit of work; respect each issue's **Depende de** field. Treat `docs/` as the source of truth and keep both `docs/` and the relevant `issues/*.md` updated in the same change that alters behavior or schema.
+**Done so far (merged to `main`):**
+
+- **M0 — Fundação:** #0001 bootstrap/tooling, #0002 infra & env (`lib/env.ts` with Zod boot validation), #0003 schema + triggers (`handle_new_user`, `set_updated_at`, `check_product_limit`) + dev seed, #0004 RLS on every user table.
+- **M1 — Conta e autenticação:** #0005 auth e-mail/senha (Server Actions, `@supabase/ssr` clients in `lib/supabase/`, session middleware, Upstash login rate-limit, Resend pt-BR templates), #0006 Google OAuth (`/auth/callback`, automatic e-mail linking), #0007 dashboard shell (`app/(dashboard)/` auth guard + `MobileBottomNav`/`DesktopSidebar` + placeholder routes + `useCurrentUser`), #0008 onboarding wizard (`/onboarding`, slug availability via `is_slug_available` RPC, activates the vitrine).
+
+**Routing reality to know:** the `(dashboard)` group is parenthesized (no URL segment), so the panel home is **`/produtos`** — there is no `/dashboard` route. Post-auth redirects go through `DEFAULT_REDIRECT` in `lib/auth/redirect.ts` (= `/produtos`). The auth guard lives in `app/(dashboard)/layout.tsx` (no session → `/login`; `onboarding_completed_at` null → `/onboarding`).
+
+**Not built yet:** #0009 onward (perfil/conta + ImageUploader, CRUD de produtos, vitrine pública `(public)/[slug]`, intents, stats, PWA, Asaas billing, etc.). `lib/asaas/` and `app/api/` are still stubs.
+
+The canonical decisions are in `docs/ARCHITECTURE.md` (§3 stack, §4 folder structure) and `docs/ROADMAP.md` (build order). Work is broken into ~25 numbered issues under `issues/` (see `issues/README.md` for the index + SPEC→issue map) — pick one up there and respect its **Depende de** field. Treat `docs/` as the source of truth and keep both `docs/` and the relevant `issues/*.md` updated in the same change that alters behavior or schema.
+
+> Note: `.env.local` currently points at the **remote** Supabase project, so end-to-end checks of authenticated flows are usually done manually; automated tests cover validators, components, and unauthenticated redirects, with the local Supabase stack (`supabase start`) used for DB-level checks.
 
 ## What this product is
 
@@ -68,7 +79,7 @@ API surface under `app/api/`: `webhooks/asaas` (HMAC-validated, idempotent by ev
 - **`.env`**: keep `.env.example` in sync; validate env at boot with Zod in `lib/env.ts` (build fails if missing); `NEXT_PUBLIC_` prefix only for values that may reach the browser.
 - **Migrations** in `supabase/migrations/` named `YYYYMMDDHHMMSS_descricao.sql`, append-only (never edit an applied one), idempotent where possible, destructive changes done in two steps across separate PRs.
 
-## Commands (once the project is scaffolded — none of these work yet)
+## Commands
 
 ```bash
 pnpm install
@@ -85,4 +96,4 @@ supabase db push               # apply migrations
 supabase gen types typescript --local > types/supabase.ts   # regenerate DB types after schema changes
 ```
 
-CI (GitHub Actions) is expected to run typecheck + lint + unit tests + E2E-on-preview; production deploy is a manual promotion during the MVP. Confirm the actual script names in `package.json` once it exists — the above are the intended conventions, not verified scripts.
+CI (GitHub Actions, `.github/workflows/ci.yml`) runs typecheck + lint + unit tests + E2E-on-preview; production deploy is a manual promotion during the MVP. These scripts exist in `package.json` today; the Vitest suite enables JSX via `@vitejs/plugin-react` (see `vitest.config.ts`). Note: the Playwright browser may need `pnpm exec playwright install chromium` in a fresh environment.
