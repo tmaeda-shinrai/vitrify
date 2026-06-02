@@ -71,6 +71,21 @@ describe("productSchema", () => {
     expect(productSchema.safeParse({ ...valid, promoPriceCents: 3290 }).success).toBe(false);
     expect(productSchema.safeParse({ ...valid, promoPriceCents: 4000 }).success).toBe(false);
   });
+
+  it("aceita categoria (uuid) e marca", () => {
+    expect(
+      productSchema.safeParse({
+        ...valid,
+        categoryId: "11111111-1111-1111-1111-111111111111",
+        brandName: "Natura",
+      }).success,
+    ).toBe(true);
+  });
+
+  it("barra categoryId que não é uuid e marca acima de 60", () => {
+    expect(productSchema.safeParse({ ...valid, categoryId: "abc" }).success).toBe(false);
+    expect(productSchema.safeParse({ ...valid, brandName: "a".repeat(61) }).success).toBe(false);
+  });
 });
 
 const validForm = {
@@ -94,5 +109,12 @@ describe("productFormSchema (promoção)", () => {
   it("barra promoção maior ou igual ao preço", () => {
     expect(productFormSchema.safeParse({ ...validForm, promoPrice: "32,90" }).success).toBe(false);
     expect(productFormSchema.safeParse({ ...validForm, promoPrice: "40,00" }).success).toBe(false);
+  });
+
+  it("aceita categoria vazia e marca livre", () => {
+    expect(
+      productFormSchema.safeParse({ ...validForm, categoryId: "", brandName: "Marca Nova" })
+        .success,
+    ).toBe(true);
   });
 });

@@ -10,6 +10,8 @@ import { checkProductWriteRateLimit } from "@/lib/rate-limit";
 import { createClient } from "@/lib/supabase/server";
 import { productSchema } from "@/lib/validators/product";
 
+type SupabaseServer = Awaited<ReturnType<typeof createClient>>;
+
 const PRODUCTS_BUCKET = "products";
 
 export type ProductActionCode = "RATE_LIMIT" | "PLAN_LIMIT_REACHED" | "VALIDATION" | "ERROR";
@@ -21,11 +23,87 @@ export interface ProductMutationResult {
   product?: ProductListItem;
 }
 
+interface ResolvedRefs {
+  categoryId: string | null;
+  categoryName: string | null;
+  brandId: string | null;
+  brandName: string | null;
+}
+
 /** Extrai o path do objeto a partir da URL pública (`…/object/public/products/<path>`). */
 function storagePathFromPublicUrl(url: string): string | null {
   const marker = "/object/public/products/";
   const i = url.indexOf(marker);
   return i === -1 ? null : url.slice(i + marker.length);
+}
+
+/**
+ * Resolve categoria (confere posse pela vitrine) e marca (find-or-create por nome,
+ * único por vitrine). Devolve ids + nomes para refletir na listagem.
+ */
+async function resolveCategoryAndBrand(
+  supabase: SupabaseServer,
+  vitrineId: string,
+  categoryId: string | null | undefined,
+  brandNameRaw: string | undefined,
+): Promise<ResolvedRefs> {
+  const refs: ResolvedRefs = {
+    categoryId: null,
+    categoryName: null,
+    brandId: null,
+    brandName: null,
+  };
+
+  if (categoryId) {
+    const { data } = await supabase
+      .from("categories")
+      .select("id, name")
+      .eq("id", categoryId)
+      .eq("vitrine_id", vitrineId)
+      .maybeSingle();
+    if (data) {
+      refs.categoryId = data.id;
+      refs.categoryName = data.name;
+    }
+  }
+
+  const name = brandNameRaw?.trim() ?? "";
+  if (name) {
+    const { data: existing } = await supabase
+      .from("brands")
+      .select("id, name")
+      .eq("vitrine_id", vitrineId)
+      .eq("name", name)
+      .maybeSingle();
+    if (existing) {
+      refs.brandId = existing.id;
+      refs.brandName = existing.name;
+    } else {
+      const { data: created, error } = await supabase
+        .from("brands")
+        .insert({ vitrine_id: vitrineId, name })
+        .select("id, name")
+        .single();
+      if (created) {
+        refs.brandId = created.id;
+        refs.brandName = created.name;
+      } else if (error?.code === "23505") {
+        // Corrida: outra requisição criou a marca — re-seleciona.
+        const { data: again } = await supabase
+          .from("brands")
+          .select("id, name")
+          .eq("vitrine_id", vitrineId)
+          .eq("name", name)
+          .maybeSingle();
+        if (again) {
+          refs.brandId = again.id;
+          refs.brandName = again.name;
+        }
+      }
+    }
+  }
+
+  return refs;
 }
 
 /** Assina o upload da foto do produto (sempre .webp) na pasta da dona. */
@@ -68,7 +146,16 @@ export async function createProductAction(input: unknown): Promise<ProductMutati
       error: parsed.error.issues[0]?.message ?? "Dados inválidos.",
     };
   }
-  const { name, description, priceCents, promoPriceCents, isAvailable, imageUrl } = parsed.data;
+  const {
+    name,
+    description,
+    priceCents,
+    promoPriceCents,
+    isAvailable,
+    categoryId,
+    brandName,
+    imageUrl,
+  } = parsed.data;
 
   const [{ data: vitrine }, { data: subscription }] = await Promise.all([
     supabase
@@ -93,6 +180,8 @@ export async function createProductAction(input: unknown): Promise<ProductMutati
     }
   }
 
+  const refs = await resolveCategoryAndBrand(supabase, vitrine.id, categoryId, brandName);
+
   const { data: product, error: insertError } = await supabase
     .from("products")
     .insert({
@@ -102,6 +191,8 @@ export async function createProductAction(input: unknown): Promise<ProductMutati
       price_cents: priceCents,
       promo_price_cents: promoPriceCents ?? null,
       is_available: isAvailable,
+      category_id: refs.categoryId,
+      brand_id: refs.brandId,
     })
     .select("id, name, description, price_cents, promo_price_cents, is_available")
     .single();
@@ -139,6 +230,10 @@ export async function createProductAction(input: unknown): Promise<ProductMutati
       price_cents: product.price_cents,
       promo_price_cents: product.promo_price_cents,
       is_available: product.is_available ?? true,
+      category_id: refs.categoryId,
+      category_name: refs.categoryName,
+      brand_id: refs.brandId,
+      brand_name: refs.brandName,
       cover_url: imageUrl,
     },
   };
@@ -167,20 +262,31 @@ export async function updateProductAction(
       error: parsed.error.issues[0]?.message ?? "Dados inválidos.",
     };
   }
-  const { name, description, priceCents, promoPriceCents, isAvailable, imageUrl } = parsed.data;
+  const {
+    name,
+    description,
+    priceCents,
+    promoPriceCents,
+    isAvailable,
+    categoryId,
+    brandName,
+    imageUrl,
+  } = parsed.data;
 
-  // RLS garante posse; usamos a vitrine padrão da dona para revalidar.
+  // RLS garante posse; a vitrine padrão dá o id (categoria/marca) e o slug (revalidate).
   const [{ data: existing }, { data: vitrine }, { data: images }] = await Promise.all([
     supabase.from("products").select("id").eq("id", productId).maybeSingle(),
     supabase
       .from("vitrines")
-      .select("slug")
+      .select("id, slug")
       .eq("owner_id", user.id)
       .eq("is_default", true)
       .maybeSingle(),
     supabase.from("product_images").select("id, url, display_order").eq("product_id", productId),
   ]);
-  if (!existing) return { ok: false, code: "ERROR", error: "Produto não encontrado." };
+  if (!existing || !vitrine) return { ok: false, code: "ERROR", error: "Produto não encontrado." };
+
+  const refs = await resolveCategoryAndBrand(supabase, vitrine.id, categoryId, brandName);
 
   const { error: updateError } = await supabase
     .from("products")
@@ -190,6 +296,8 @@ export async function updateProductAction(
       price_cents: priceCents,
       promo_price_cents: promoPriceCents ?? null,
       is_available: isAvailable,
+      category_id: refs.categoryId,
+      brand_id: refs.brandId,
     })
     .eq("id", productId);
   if (updateError) {
@@ -211,7 +319,7 @@ export async function updateProductAction(
     coverUrl = imageUrl;
   }
 
-  if (vitrine?.slug) revalidatePath(`/${vitrine.slug}`);
+  revalidatePath(`/${vitrine.slug}`);
 
   return {
     ok: true,
@@ -222,6 +330,10 @@ export async function updateProductAction(
       price_cents: priceCents,
       promo_price_cents: promoPriceCents ?? null,
       is_available: isAvailable,
+      category_id: refs.categoryId,
+      category_name: refs.categoryName,
+      brand_id: refs.brandId,
+      brand_name: refs.brandName,
       cover_url: coverUrl,
     },
   };

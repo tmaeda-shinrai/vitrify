@@ -15,8 +15,15 @@ export default async function ProdutosPage() {
   } = await supabase.auth.getUser();
   if (!user) redirect("/login");
 
-  // RLS restringe os produtos à dona; a vitrine padrão recebe os novos cadastros.
-  const [{ data: vitrine }, { data: subscription }, { data: rows }] = await Promise.all([
+  // RLS restringe produtos/categorias/marcas à dona; suggested_brands é referência global.
+  const [
+    { data: vitrine },
+    { data: subscription },
+    { data: rows },
+    { data: categoryRows },
+    { data: brandRows },
+    { data: suggestedRows },
+  ] = await Promise.all([
     supabase
       .from("vitrines")
       .select("id")
@@ -29,17 +36,34 @@ export default async function ProdutosPage() {
       .select(PRODUCT_LIST_SELECT)
       .order("created_at", { ascending: false })
       .limit(100),
+    supabase
+      .from("categories")
+      .select("id, name, display_order")
+      .order("display_order", { ascending: true })
+      .order("name", { ascending: true }),
+    supabase.from("brands").select("id, name").order("name", { ascending: true }),
+    supabase.from("suggested_brands").select("name").order("name", { ascending: true }),
   ]);
 
   if (!vitrine) redirect("/onboarding");
 
   const initialProducts = (rows ?? []).map(toProductListItem);
+  const initialCategories = (categoryRows ?? []).map((c) => ({
+    id: c.id,
+    name: c.name,
+    display_order: c.display_order ?? 0,
+  }));
+  const initialBrands = (brandRows ?? []).map((b) => ({ id: b.id, name: b.name }));
+  const suggestedBrands = (suggestedRows ?? []).map((b) => b.name);
   const productLimit = subscription?.plan === "free" ? serverEnv.LIMIT_FREE_PRODUCTS : null;
 
   return (
     <ProductsManager
       vitrineId={vitrine.id}
       initialProducts={initialProducts}
+      initialCategories={initialCategories}
+      initialBrands={initialBrands}
+      suggestedBrands={suggestedBrands}
       productLimit={productLimit}
     />
   );
