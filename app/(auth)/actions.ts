@@ -3,7 +3,7 @@
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
-import { sanitizeNext } from "@/lib/auth/redirect";
+import { DEFAULT_REDIRECT, sanitizeNext } from "@/lib/auth/redirect";
 import { clientEnv } from "@/lib/env";
 import { checkLoginRateLimit, getClientIp } from "@/lib/rate-limit";
 import { createClient } from "@/lib/supabase/server";
@@ -18,8 +18,6 @@ export interface ActionResult {
   ok: boolean;
   error?: string;
 }
-
-const DASHBOARD_PATH = "/dashboard";
 
 function appUrl(path: string): string {
   return new URL(path, clientEnv.NEXT_PUBLIC_APP_URL).toString();
@@ -39,7 +37,7 @@ export async function signUpAction(input: unknown): Promise<ActionResult> {
     password,
     options: {
       data: { full_name: fullName },
-      emailRedirectTo: appUrl(`/auth/confirm?next=${encodeURIComponent(DASHBOARD_PATH)}`),
+      emailRedirectTo: appUrl(`/auth/confirm?next=${encodeURIComponent(DEFAULT_REDIRECT)}`),
     },
   });
 

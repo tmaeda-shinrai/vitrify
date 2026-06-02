@@ -4,6 +4,7 @@ import { getTranslations } from "next-intl/server";
 
 import { SignUpForm } from "@/components/auth/sign-up-form";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { DEFAULT_REDIRECT } from "@/lib/auth/redirect";
 import { createClient } from "@/lib/supabase/server";
 
 export const metadata: Metadata = { title: "Criar conta" };
@@ -13,7 +14,7 @@ export default async function CadastroPage() {
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  if (user) redirect("/dashboard");
+  if (user) redirect(DEFAULT_REDIRECT);
 
   const t = await getTranslations("auth");
 

@@ -31,21 +31,21 @@ Estrutura do painel da vendedora (`app/(dashboard)/`): layout, navegação infer
 
 ## Tarefas
 
-- [ ] `app/(dashboard)/layout.tsx` com guarda de auth + redirecionamento para onboarding incompleto
-- [ ] `MobileBottomNav` (4 itens, ativo destacado, ≥44px)
-- [ ] Layout desktop (sidebar/top nav) reaproveitando o shell
-- [ ] Rotas-placeholder `produtos`, `pedidos`, `estatisticas`, `conta` com `EmptyState`
-- [ ] `useCurrentUser()` (profile + subscription + vitrine)
-- [ ] Componentes base `EmptyState`, `StatCard`
-- [ ] Prefetch das rotas do painel
-- [ ] Testes: redirecionos da guarda; render do shell
+- [x] `app/(dashboard)/layout.tsx` com guarda de auth + redirecionamento para onboarding incompleto
+- [x] `MobileBottomNav` (4 itens, ativo destacado, ≥44px)
+- [x] Layout desktop (sidebar/top nav) reaproveitando o shell
+- [x] Rotas-placeholder `produtos`, `pedidos`, `estatisticas`, `conta` com `EmptyState`
+- [x] `useCurrentUser()` (profile + subscription + vitrine)
+- [x] Componentes base `EmptyState`, `StatCard`
+- [x] Prefetch das rotas do painel (Next `<Link>`, prefetch padrão)
+- [x] Testes: redirecionos da guarda (e2e); render do shell (unit nav/EmptyState)
 
 ## Critérios de aceitação
 
-- [ ] Acessar `/produtos` sem login redireciona para `/login`
-- [ ] Usuária autenticada sem onboarding completo é levada ao onboarding antes do painel
-- [ ] Bottom nav funciona no mobile, troca de aba sem recarregar, item ativo visível
-- [ ] Layout não quebra entre 360px e desktop
+- [x] Acessar `/produtos` sem login redireciona para `/login`
+- [x] Usuária autenticada sem onboarding completo é levada ao onboarding antes do painel (guarda → `/onboarding`; stub até #0008)
+- [x] Bottom nav funciona no mobile, troca de aba sem recarregar, item ativo visível
+- [x] Layout não quebra entre 360px e desktop (bottom nav mobile / sidebar md+)
 - [ ] Critérios genéricos de aceitação (ver `issues/README.md`)
 
 ## Referências

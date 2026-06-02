@@ -52,9 +52,21 @@
     "resetSuccess": "Senha redefinida com sucesso."
   },
   "dashboard": {
+    "nav": "Navegação principal",
+    "vitrine": "Vitrine",
     "products": "Produtos",
     "orders": "Pedidos",
     "stats": "Estatísticas",
-    "account": "Conta"
+    "account": "Conta",
+    "productsEmptyTitle": "Nenhum produto ainda",
+    "productsEmptyDescription": "Em breve você poderá cadastrar seus produtos e montar sua vitrine.",
+    "ordersEmptyTitle": "Nenhum pedido ainda",
+    "ordersEmptyDescription": "Quando alguém clicar em \"Pedir no WhatsApp\", o pedido aparece aqui.",
+    "statsEmptyTitle": "Sem dados por enquanto",
+    "statsEmptyDescription": "As estatísticas da sua vitrine vão aparecer aqui conforme você recebe visitas e pedidos.",
+    "accountEmptyTitle": "Conta",
+    "accountEmptyDescription": "Em breve você poderá gerenciar seu perfil, plano e configurações por aqui.",
+    "onboardingStubTitle": "Vamos montar sua vitrine",
+    "onboardingStubDescription": "O onboarding chega em breve. Em instantes você configura sua loja em poucos passos."
   }
 }

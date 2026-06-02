@@ -11,6 +11,7 @@ import { FieldError } from "@/components/auth/field-error";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { DEFAULT_REDIRECT } from "@/lib/auth/redirect";
 import { newPasswordSchema, type NewPasswordInput } from "@/lib/validators/auth";
 
 export function NewPasswordForm() {
@@ -29,7 +30,7 @@ export function NewPasswordForm() {
       return;
     }
     toast.success(t("resetSuccess"));
-    router.replace("/dashboard");
+    router.replace(DEFAULT_REDIRECT);
     router.refresh();
   }
 
