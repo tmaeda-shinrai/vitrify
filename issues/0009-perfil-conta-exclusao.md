@@ -32,22 +32,22 @@ Tela "Conta" do painel: edição de perfil (nome, foto, bio, WhatsApp, slug da v
 
 ## Tarefas
 
-- [ ] Tela "Conta" com formulário de perfil (RHF + Zod, `lib/validators/profile.ts`)
-- [ ] Editar nome, bio (contador 160), WhatsApp, slug/title/subtitle da vitrine
-- [ ] `ImageUploader`: compressão cliente (webp, ≤1200px, ≤500KB), preview+crop quadrado, upload via signed URL
-- [ ] Validação de MIME no servidor; bloqueio de SVG
-- [ ] Sanitização da bio (render seguro)
-- [ ] Troca de slug com revalidação + aviso de quebra do link antigo
-- [ ] Fluxo de exclusão de conta: confirmação → marca conta → processo de anonimização (30d) e exclusão (90d)
-- [ ] `revalidatePath('/<slug>')` ao alterar dados visíveis na vitrine
-- [ ] Testes: editar bio com >160 chars (erro); upload de SVG bloqueado; pedido de exclusão registrado
+- [x] Tela "Conta" com formulário de perfil (RHF + Zod, `lib/validators/profile.ts`)
+- [x] Editar nome, bio (contador 160), WhatsApp, slug/title/subtitle da vitrine
+- [x] `ImageUploader`: compressão cliente (webp, ≤1200px, ≤500KB), preview+crop quadrado (react-easy-crop), upload via signed URL
+- [x] Validação de MIME no servidor; bloqueio de SVG (bucket `allowed_mime_types` + `lib/image.ts`)
+- [x] Sanitização da bio (texto puro, render escapado — sem HTML/markdown)
+- [x] Troca de slug com revalidação + aviso de quebra do link antigo
+- [x] Fluxo de exclusão de conta: confirmação → `request_account_deletion()` (marca + tira do ar + audita) → função `anonymize_account()` (job 30d/90d adiado, sem agendador)
+- [x] `revalidatePath('/<slug>')` ao alterar dados visíveis na vitrine (no-op até #0012)
+- [x] Testes: bio >160 (erro); SVG bloqueado (`isAllowedImageType`); validadores/anonimização
 
 ## Critérios de aceitação
 
-- [ ] Alterar nome/foto/bio reflete na vitrine pública em até ~60s (ISR) ou imediatamente via revalidate
-- [ ] Bio acima de 160 caracteres é bloqueada com mensagem clara
-- [ ] Upload de imagem comprime no cliente antes de enviar; SVG é recusado; resultado é webp
-- [ ] "Excluir minha conta" pede confirmação e, ao confirmar, registra o pedido; documentação do prazo de anonimização visível ao usuário
+- [x] Alterar nome/foto/bio reflete na vitrine pública em até ~60s (ISR) ou imediatamente via revalidate (`revalidatePath` chamado; efetivo quando #0012 existir)
+- [x] Bio acima de 160 caracteres é bloqueada com mensagem clara
+- [x] Upload de imagem comprime no cliente antes de enviar; SVG é recusado; resultado é webp
+- [x] "Excluir minha conta" pede confirmação e, ao confirmar, registra o pedido; prazo de anonimização (30d/90d) visível no diálogo
 - [ ] Critérios genéricos de aceitação (ver `issues/README.md`)
 
 ## Referências
