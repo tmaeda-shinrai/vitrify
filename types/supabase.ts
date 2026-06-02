@@ -457,6 +457,7 @@ export type Database = {
           avatar_url: string | null;
           bio: string | null;
           created_at: string | null;
+          deletion_requested_at: string | null;
           full_name: string;
           id: string;
           onboarding_completed_at: string | null;
@@ -468,6 +469,7 @@ export type Database = {
           avatar_url?: string | null;
           bio?: string | null;
           created_at?: string | null;
+          deletion_requested_at?: string | null;
           full_name: string;
           id: string;
           onboarding_completed_at?: string | null;
@@ -479,6 +481,7 @@ export type Database = {
           avatar_url?: string | null;
           bio?: string | null;
           created_at?: string | null;
+          deletion_requested_at?: string | null;
           full_name?: string;
           id?: string;
           onboarding_completed_at?: string | null;
@@ -662,7 +665,9 @@ export type Database = {
       [_ in never]: never;
     };
     Functions: {
+      anonymize_account: { Args: { p_user: string }; Returns: undefined };
       is_slug_available: { Args: { p_slug: string }; Returns: boolean };
+      request_account_deletion: { Args: never; Returns: undefined };
     };
     Enums: {
       coupon_discount_type: "percent" | "fixed_cents" | "free_days";

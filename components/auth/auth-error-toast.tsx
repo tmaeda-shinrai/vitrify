@@ -9,6 +9,7 @@ const ERROR_KEYS: Record<string, string> = {
   "oauth-cancelado": "errorOauthCancelled",
   oauth: "errorOauth",
   "link-invalido": "errorLinkInvalid",
+  "conta-excluida": "errorContaExcluida",
 };
 
 /** Mostra um toast amigável a partir de `?erro=` na URL (OAuth / link inválido). */
