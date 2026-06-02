@@ -69,12 +69,12 @@ Construir o fluxo essencial: cadastro, login, criação de vitrine inicial, CRUD
 
 ### Semana 3 — CRUD de produtos (parte 1)
 
-- [ ] Migration de `products`, `product_images`, `categories`, `brands`
-- [ ] RLS de products e relacionados
-- [ ] Tela de listagem de produtos (vazia + com produtos)
-- [ ] Form de criação de produto com validação Zod
-- [ ] Upload de imagem de produto (com compressão e crop)
-- [ ] Trigger de limite por plano
+- [x] Migration de `products`, `product_images`, `categories`, `brands` _(#0003)_
+- [x] RLS de products e relacionados _(#0004)_
+- [x] Tela de listagem de produtos (vazia + com produtos) _(#0010)_
+- [x] Form de criação de produto com validação Zod _(#0010)_
+- [x] Upload de imagem de produto (com compressão e crop) _(#0010)_
+- [x] Trigger de limite por plano _(#0003)_
 
 ### Semana 4 — CRUD de produtos (parte 2)
 

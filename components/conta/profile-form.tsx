@@ -6,7 +6,7 @@ import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
-import { updateProfileAction } from "@/app/(dashboard)/conta/actions";
+import { createAvatarUploadUrl, updateProfileAction } from "@/app/(dashboard)/conta/actions";
 import { FieldError } from "@/components/auth/field-error";
 import { ImageUploader } from "@/components/shared/image-uploader";
 import { Button } from "@/components/ui/button";
@@ -61,7 +61,13 @@ export function ProfileForm({ initial }: Props) {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" noValidate>
-      <ImageUploader value={avatarUrl} onUploaded={(url) => setValue("avatarUrl", url)} />
+      <ImageUploader
+        value={avatarUrl}
+        onUploaded={(url) => setValue("avatarUrl", url)}
+        createUploadUrl={createAvatarUploadUrl}
+        bucket="avatars"
+        shape="round"
+      />
 
       <div>
         <Label htmlFor="fullName">{t("name")}</Label>

@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
+import { type SignedUpload } from "@/lib/image";
 import { isReservedSlug } from "@/lib/slug";
 import { createClient } from "@/lib/supabase/server";
 import { profileSchema, vitrineSchema } from "@/lib/validators/profile";
@@ -13,14 +14,6 @@ export interface ActionResult {
 }
 
 const AVATARS_BUCKET = "avatars";
-
-export interface SignedUpload {
-  ok: boolean;
-  error?: string;
-  path?: string;
-  token?: string;
-  publicUrl?: string;
-}
 
 /** Emite uma signed URL para upload do avatar (sempre .webp) na pasta do dono. */
 export async function createAvatarUploadUrl(): Promise<SignedUpload> {

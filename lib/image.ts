@@ -16,3 +16,15 @@ export const IMAGE_COMPRESSION = {
   maxSizeMB: 0.5,
   maxWidthOrHeight: 1200,
 } as const;
+
+/**
+ * Resposta de uma signed URL de upload, emitida por uma Server Action e consumida
+ * pelo `ImageUploader` no cliente. Compartilhada por avatars (#0009) e produtos.
+ */
+export interface SignedUpload {
+  ok: boolean;
+  error?: string;
+  path?: string;
+  token?: string;
+  publicUrl?: string;
+}
