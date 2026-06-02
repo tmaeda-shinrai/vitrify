@@ -3,12 +3,11 @@
 import { useCallback, useRef, useState } from "react";
 import Image from "next/image";
 import imageCompression from "browser-image-compression";
-import { Loader2, UserRound } from "lucide-react";
+import { ImagePlus, Loader2, UserRound } from "lucide-react";
 import Cropper, { type Area } from "react-easy-crop";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 
-import { createAvatarUploadUrl } from "@/app/(dashboard)/conta/actions";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -23,17 +22,33 @@ import {
   IMAGE_COMPRESSION,
   isAllowedImageType,
   OUTPUT_IMAGE_TYPE,
+  type SignedUpload,
 } from "@/lib/image";
 import { createClient } from "@/lib/supabase/browser";
+import { cn } from "@/lib/utils";
+
+interface ImageUploaderProps {
+  value: string | null;
+  onUploaded: (url: string) => void;
+  /** Server Action que assina o upload (já define bucket + pasta da dona). */
+  createUploadUrl: () => Promise<SignedUpload>;
+  /** Bucket de destino — precisa casar com o usado na signed URL. */
+  bucket: string;
+  /** Forma do recorte e da prévia: redonda (avatar) ou quadrada (produto). */
+  shape?: "round" | "square";
+  /** Sobrescreve o texto do botão (default vem do i18n). */
+  label?: string;
+}
 
 export function ImageUploader({
   value,
   onUploaded,
-}: {
-  value: string | null;
-  onUploaded: (url: string) => void;
-}) {
-  const t = useTranslations("conta");
+  createUploadUrl,
+  bucket,
+  shape = "round",
+  label,
+}: ImageUploaderProps) {
+  const t = useTranslations("imageUploader");
   const inputRef = useRef<HTMLInputElement>(null);
   const [imageSrc, setImageSrc] = useState<string | null>(null);
   const [crop, setCrop] = useState({ x: 0, y: 0 });
@@ -41,6 +56,7 @@ export function ImageUploader({
   const [areaPixels, setAreaPixels] = useState<Area | null>(null);
   const [saving, setSaving] = useState(false);
 
+  const rounded = shape === "round";
   const onCropComplete = useCallback((_: Area, area: Area) => setAreaPixels(area), []);
 
   function onPick(e: React.ChangeEvent<HTMLInputElement>) {
@@ -48,7 +64,7 @@ export function ImageUploader({
     e.target.value = ""; // permite re-selecionar o mesmo arquivo
     if (!file) return;
     if (!isAllowedImageType(file.type)) {
-      toast.error(t("imageTypeError"));
+      toast.error(t("typeError"));
       return;
     }
     setImageSrc(URL.createObjectURL(file));
@@ -60,28 +76,30 @@ export function ImageUploader({
     try {
       const cropped = await getCroppedBlob(imageSrc, areaPixels);
       const compressed = await imageCompression(
-        new File([cropped], "avatar.webp", { type: OUTPUT_IMAGE_TYPE }),
+        new File([cropped], `image.${OUTPUT_IMAGE_TYPE.split("/")[1]}`, {
+          type: OUTPUT_IMAGE_TYPE,
+        }),
         { ...IMAGE_COMPRESSION, fileType: OUTPUT_IMAGE_TYPE },
       );
 
-      const signed = await createAvatarUploadUrl();
+      const signed = await createUploadUrl();
       if (!signed.ok || !signed.path || !signed.token || !signed.publicUrl) {
         throw new Error(signed.error);
       }
 
       const supabase = createClient();
       const { error } = await supabase.storage
-        .from("avatars")
+        .from(bucket)
         .uploadToSignedUrl(signed.path, signed.token, compressed, {
           contentType: OUTPUT_IMAGE_TYPE,
         });
       if (error) throw error;
 
       onUploaded(signed.publicUrl);
-      toast.success(t("imageSaved"));
+      toast.success(t("saved"));
       closeDialog();
     } catch {
-      toast.error(t("imageUploadError"));
+      toast.error(t("uploadError"));
     } finally {
       setSaving(false);
     }
@@ -102,12 +120,17 @@ export function ImageUploader({
           alt=""
           width={72}
           height={72}
-          className="size-[72px] rounded-full object-cover"
+          className={cn("size-[72px] object-cover", rounded ? "rounded-full" : "rounded-md")}
           unoptimized
         />
       ) : (
-        <div className="flex size-[72px] items-center justify-center rounded-full bg-muted text-muted-foreground">
-          <UserRound className="size-8" />
+        <div
+          className={cn(
+            "flex size-[72px] items-center justify-center bg-muted text-muted-foreground",
+            rounded ? "rounded-full" : "rounded-md",
+          )}
+        >
+          {rounded ? <UserRound className="size-8" /> : <ImagePlus className="size-8" />}
         </div>
       )}
 
@@ -119,7 +142,7 @@ export function ImageUploader({
         onChange={onPick}
       />
       <Button type="button" variant="outline" size="sm" onClick={() => inputRef.current?.click()}>
-        {t("changePhoto")}
+        {label ?? (value ? t("change") : t("add"))}
       </Button>
 
       <Dialog open={!!imageSrc} onOpenChange={(open) => !open && closeDialog()}>
@@ -134,7 +157,7 @@ export function ImageUploader({
                 crop={crop}
                 zoom={zoom}
                 aspect={1}
-                cropShape="round"
+                cropShape={rounded ? "round" : "rect"}
                 onCropChange={setCrop}
                 onZoomChange={setZoom}
                 onCropComplete={onCropComplete}

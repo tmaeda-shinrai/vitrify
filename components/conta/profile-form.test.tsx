@@ -8,6 +8,7 @@ vi.mock("next-intl", () => ({ useTranslations: () => (k: string) => k }));
 const updateProfileAction = vi.fn();
 vi.mock("@/app/(dashboard)/conta/actions", () => ({
   updateProfileAction: (...args: unknown[]) => updateProfileAction(...args),
+  createAvatarUploadUrl: vi.fn(),
 }));
 
 vi.mock("@/components/shared/image-uploader", () => ({

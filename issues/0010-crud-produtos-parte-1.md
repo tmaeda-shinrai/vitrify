@@ -32,26 +32,26 @@ O coração do produto: cadastrar um produto com foto, nome, preço, descrição
 
 ## Tarefas
 
-- [ ] Tela de listagem de produtos: vazia (`EmptyState` + CTA) e com produtos
-- [ ] `lib/validators/product.ts` (Zod) — nome, preço, descrição
-- [ ] `ProductForm` (Sheet mobile / inline desktop) com RHF + Zod, botão desabilitado em submit
-- [ ] Upload da foto principal: compressão no cliente + signed URL + Storage (reusa `ImageUploader`)
-- [ ] `POST /api/products` (ou Server Action): valida Zod, checa limite de plano, insere, retorna
-- [ ] Tratamento do erro `PLAN_LIMIT_REACHED` → modal "atingiu o limite do Free" com CTA de upgrade (placeholder até #0019)
-- [ ] Rate limit 30/min por usuária no endpoint de criação
-- [ ] Auto-save de rascunho (~5s)
-- [ ] `ProductCard` na lista; `next/image` com loader do Supabase
-- [ ] Atualização otimista / invalidação do cache TanStack Query; toast de sucesso
-- [ ] Testes: criar produto (caminho feliz); preço negativo (erro); 6º produto no Free (bloqueado com CTA)
+- [x] Tela de listagem de produtos: vazia (`EmptyState` + CTA) e com produtos
+- [x] `lib/validators/product.ts` (Zod) — nome, preço, descrição
+- [x] `ProductForm` (Sheet mobile / inline desktop) com RHF + Zod, botão desabilitado em submit
+- [x] Upload da foto principal: compressão no cliente + signed URL + Storage (reusa `ImageUploader`)
+- [x] Server Action `createProductAction`: valida Zod, checa limite de plano, insere, retorna
+- [x] Tratamento do erro `PLAN_LIMIT_REACHED` → modal "atingiu o limite do Free" com CTA de upgrade (placeholder até #0019)
+- [x] Rate limit 30/min por usuária na criação (`checkProductWriteRateLimit`)
+- [x] Auto-save de rascunho (~5s, localStorage)
+- [x] `ProductCard` na lista; `next/image` (CDN Supabase, sizes explícitos)
+- [x] Atualização otimista / invalidação do cache TanStack Query; toast de sucesso
+- [x] Testes: criar produto (caminho feliz); preço negativo (erro); 6º produto no Free (bloqueado com CTA)
 
 ## Critérios de aceitação
 
-- [ ] Uma usuária cadastra um produto com foto em ~90s no celular
-- [ ] Preço aparece formatado (`R$ 32,90`) na lista e na vitrine; persistido em centavos
-- [ ] No Free, ao tentar o 6º produto, aparece o modal de limite com CTA de upgrade (sem inserir o produto)
-- [ ] Imagem é comprimida no cliente antes do upload; servida via CDN/`next/image`
-- [ ] Recarregar no meio do cadastro recupera o rascunho
-- [ ] Critérios genéricos de aceitação (ver `issues/README.md`)
+- [x] Uma usuária cadastra um produto com foto em ~90s no celular
+- [x] Preço aparece formatado (`R$ 32,90`) na lista; persistido em centavos (exibição na vitrine → #0012)
+- [x] No Free, ao tentar o 6º produto, aparece o modal de limite com CTA de upgrade (sem inserir o produto)
+- [x] Imagem é comprimida no cliente antes do upload; servida via CDN/`next/image`
+- [x] Recarregar no meio do cadastro recupera o rascunho
+- [x] Critérios genéricos de aceitação (ver `issues/README.md`)
 
 ## Referências
 
