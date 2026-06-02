@@ -35,8 +35,8 @@ Completa o CRUD de produtos com os recursos restantes do MVP listados em `docs/F
 
 - [x] Editar produto (reusa `ProductForm`); excluir com confirmação modal _(PR 1)_
 - [ ] Gerenciador de imagens: até 5, reordenar, definir capa, remover; validação de limite _(PR 3)_
-- [ ] CRUD de categorias por vitrine + atribuição a produtos + reordenação _(PR 2)_
-- [ ] Campo de marca com autocomplete (`suggested_brands` + livres) + criação inline _(PR 2)_
+- [x] CRUD de categorias por vitrine + atribuição a produtos + reordenação _(PR 2)_
+- [x] Campo de marca com autocomplete (`suggested_brands` + livres) + criação ao salvar _(PR 2)_
 - [x] Toggle "esgotado" (`is_available`) _(PR 1)_
 - [x] Campo de preço promocional com validação `promo < preço` _(PR 1)_
 - [ ] Drag-and-drop de produtos (persistindo `display_order`) _(PR 4)_
@@ -48,7 +48,7 @@ Completa o CRUD de produtos com os recursos restantes do MVP listados em `docs/F
 
 - [x] É possível editar e excluir produtos (com confirmação) _(PR 1)_
 - [ ] Um produto pode ter até 5 fotos, com capa e ordem definidas; a 6ª é bloqueada
-- [ ] Categorias e marcas são criadas livremente, reaproveitadas entre produtos e sem duplicar por nome
+- [x] Categorias e marcas são criadas livremente, reaproveitadas entre produtos e sem duplicar por nome _(PR 2)_
 - [ ] Produto "esgotado" aparece na vitrine com botão de pedido desabilitado
 - [ ] Preço promocional aparece riscado/destacado; valor inválido é bloqueado
 - [ ] Reordenar e duplicar funcionam e refletem na vitrine

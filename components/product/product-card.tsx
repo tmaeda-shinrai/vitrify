@@ -60,6 +60,12 @@ export function ProductCard({ product, onEdit, onDelete }: Props) {
           <p className="text-sm font-semibold">{formatBRL(product.price_cents)}</p>
         )}
 
+        {product.category_name || product.brand_name ? (
+          <p className="truncate text-xs text-muted-foreground">
+            {[product.category_name, product.brand_name].filter(Boolean).join(" · ")}
+          </p>
+        ) : null}
+
         {onEdit || onDelete ? (
           <div className="flex justify-end gap-1 pt-1">
             {onEdit ? (

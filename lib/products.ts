@@ -11,12 +11,27 @@ export interface ProductListItem {
   price_cents: number;
   promo_price_cents: number | null;
   is_available: boolean;
+  category_id: string | null;
+  category_name: string | null;
+  brand_id: string | null;
+  brand_name: string | null;
   cover_url: string | null;
+}
+
+export interface CategoryItem {
+  id: string;
+  name: string;
+  display_order: number;
+}
+
+export interface BrandItem {
+  id: string;
+  name: string;
 }
 
 /** Colunas explícitas da listagem (CONTRIBUTING: nunca `SELECT *`). */
 export const PRODUCT_LIST_SELECT =
-  "id, name, description, price_cents, promo_price_cents, is_available, created_at, product_images(url, display_order)";
+  "id, name, description, price_cents, promo_price_cents, is_available, category_id, brand_id, created_at, categories(name), brands(name), product_images(url, display_order)";
 
 interface ProductRow {
   id: string;
@@ -25,6 +40,10 @@ interface ProductRow {
   price_cents: number;
   promo_price_cents: number | null;
   is_available: boolean | null;
+  category_id: string | null;
+  brand_id: string | null;
+  categories: { name: string } | null;
+  brands: { name: string } | null;
   product_images: { url: string; display_order: number | null }[];
 }
 
@@ -40,6 +59,10 @@ export function toProductListItem(row: ProductRow): ProductListItem {
     price_cents: row.price_cents,
     promo_price_cents: row.promo_price_cents,
     is_available: row.is_available ?? true,
+    category_id: row.category_id,
+    category_name: row.categories?.name ?? null,
+    brand_id: row.brand_id,
+    brand_name: row.brands?.name ?? null,
     cover_url: cover?.url ?? null,
   };
 }

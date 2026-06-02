@@ -4,8 +4,17 @@ import { parseBRLToCents } from "@/lib/money";
 
 export const PRODUCT_NAME_MAX = 120;
 export const PRODUCT_DESC_MAX = 1000;
+export const BRAND_NAME_MAX = 60;
+export const CATEGORY_NAME_MAX = 60;
 /** Guarda de sanidade: R$ 999.999,99. Preço real é validado em centavos (INT). */
 export const PRICE_MAX_CENTS = 99_999_999;
+
+/** Nome de categoria (sheet de gestão e actions). */
+export const categoryNameSchema = z
+  .string()
+  .trim()
+  .min(1, "Informe o nome.")
+  .max(CATEGORY_NAME_MAX, `O nome pode ter no máximo ${CATEGORY_NAME_MAX} caracteres.`);
 
 const PROMO_MUST_BE_LOWER = "O preço promocional deve ser menor que o preço.";
 
@@ -37,6 +46,14 @@ const priceStringField = z
 
 const imageUrlField = z.string().url("Adicione uma foto do produto.");
 
+// Marca como texto livre (o servidor resolve para brand_id via find-or-create).
+const brandNameField = z
+  .string()
+  .trim()
+  .max(BRAND_NAME_MAX, `O nome da marca pode ter no máximo ${BRAND_NAME_MAX} caracteres.`)
+  .optional()
+  .or(z.literal(""));
+
 /** Schema autoritativo (servidor): preços já em centavos. */
 export const productSchema = z
   .object({
@@ -45,6 +62,8 @@ export const productSchema = z
     priceCents: priceCentsField,
     promoPriceCents: priceCentsField.nullable().optional(),
     isAvailable: z.boolean().default(true),
+    categoryId: z.string().uuid().nullable().optional(),
+    brandName: brandNameField,
     imageUrl: imageUrlField,
   })
   .superRefine((data, ctx) => {
@@ -65,6 +84,8 @@ export const productFormSchema = z
     price: priceStringField,
     promoPrice: z.string().trim().optional().or(z.literal("")),
     isAvailable: z.boolean().default(true),
+    categoryId: z.string().optional().or(z.literal("")),
+    brandName: brandNameField,
     imageUrl: imageUrlField,
   })
   .superRefine((data, ctx) => {

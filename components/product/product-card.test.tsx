@@ -13,6 +13,10 @@ const base: ProductListItem = {
   price_cents: 3290,
   promo_price_cents: null,
   is_available: true,
+  category_id: null,
+  category_name: null,
+  brand_id: null,
+  brand_name: null,
   cover_url: "https://proj.supabase.co/storage/v1/object/public/products/u/a.webp",
 };
 

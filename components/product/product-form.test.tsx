@@ -2,7 +2,7 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
 import { ProductForm } from "@/components/product/product-form";
-import type { ProductListItem } from "@/lib/products";
+import type { CategoryItem, ProductListItem } from "@/lib/products";
 
 vi.mock("next-intl", () => ({ useTranslations: () => (k: string) => k }));
 vi.mock("sonner", () => ({ toast: { info: vi.fn(), error: vi.fn(), success: vi.fn() } }));
@@ -28,6 +28,9 @@ vi.mock("@/hooks/use-product-draft", () => ({
   useProductDraft: () => ({ initialDraft: null, save: vi.fn(), clear: vi.fn() }),
 }));
 
+const categories: CategoryItem[] = [{ id: "c1", name: "Maquiagem", display_order: 0 }];
+const brandSuggestions = ["Avon", "Natura"];
+
 const existing: ProductListItem = {
   id: "p9",
   name: "Antigo",
@@ -35,30 +38,48 @@ const existing: ProductListItem = {
   price_cents: 1000,
   promo_price_cents: null,
   is_available: true,
+  category_id: null,
+  category_name: null,
+  brand_id: null,
+  brand_name: null,
   cover_url: "https://proj.supabase.co/p/u/a.webp",
 };
 
+function renderForm(product?: ProductListItem, onSaved = vi.fn()) {
+  return render(
+    <ProductForm
+      vitrineId="v1"
+      product={product}
+      categories={categories}
+      brandSuggestions={brandSuggestions}
+      onSaved={onSaved}
+      onLimitReached={vi.fn()}
+    />,
+  );
+}
+
 describe("ProductForm (criação)", () => {
   it("bloqueia o envio vazio e não chama a action", async () => {
-    render(<ProductForm vitrineId="v1" onSaved={vi.fn()} onLimitReached={vi.fn()} />);
+    renderForm();
     fireEvent.click(screen.getByRole("button", { name: "save" }));
     expect(await screen.findByText("Informe o nome do produto.")).toBeInTheDocument();
     await waitFor(() => expect(createProductAction).not.toHaveBeenCalled());
   });
 
-  it("envia preço em centavos no caminho feliz", async () => {
+  it("envia preço em centavos e a marca digitada", async () => {
     createProductAction.mockResolvedValue({ ok: true, product: existing });
     const onSaved = vi.fn();
 
-    render(<ProductForm vitrineId="v1" onSaved={onSaved} onLimitReached={vi.fn()} />);
+    renderForm(undefined, onSaved);
     fireEvent.change(screen.getByLabelText("nameLabel"), { target: { value: "Batom" } });
     fireEvent.change(screen.getByLabelText("priceLabel"), { target: { value: "32,90" } });
+    fireEvent.change(screen.getByLabelText("brandLabel"), { target: { value: "Natura" } });
     fireEvent.click(screen.getByText("mock-upload"));
     fireEvent.click(screen.getByRole("button", { name: "save" }));
 
     await waitFor(() =>
       expect(createProductAction).toHaveBeenCalledWith(
-        expect.objectContaining({ name: "Batom", priceCents: 3290 }),
+        expect.objectContaining({ name: "Batom", priceCents: 3290, brandName: "Natura" }),
       ),
     );
     await waitFor(() => expect(onSaved).toHaveBeenCalled());
@@ -70,9 +91,7 @@ describe("ProductForm (edição)", () => {
     updateProductAction.mockResolvedValue({ ok: true, product: existing });
     const onSaved = vi.fn();
 
-    render(
-      <ProductForm vitrineId="v1" product={existing} onSaved={onSaved} onLimitReached={vi.fn()} />,
-    );
+    renderForm(existing, onSaved);
     expect(screen.getByLabelText("nameLabel")).toHaveValue("Antigo");
 
     fireEvent.change(screen.getByLabelText("nameLabel"), { target: { value: "Novo nome" } });
