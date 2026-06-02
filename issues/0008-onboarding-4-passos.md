@@ -32,23 +32,23 @@ Primeiro acesso após o cadastro: 4 passos curtos, puláveis quando faz sentido,
 
 ## Tarefas
 
-- [ ] Wizard de 4 passos (componente com barra de progresso), puláveis onde aplicável
-- [ ] Passo nome → `profiles.full_name`
-- [ ] Passo slug: validação de formato + disponibilidade em tempo real (debounce), sugestões a partir do nome, blacklist de reservados
-- [ ] Passo WhatsApp: máscara/validação DDD+9 dígitos, normalização E.164 sem `+`
-- [ ] Passo foto: upload com compressão (reusar `ImageUploader` de #0009) ou pular; pré-popular do Google
-- [ ] Conclusão: `onboarding_completed_at`, `vitrines` (slug/title/`is_active = TRUE`), redireciona p/ "primeiro produto"
-- [ ] Retomar onboarding incompleto
-- [ ] Banner/passo leve de boas práticas de uso (LEGAL §2.2)
-- [ ] `lib/validators/onboarding.ts` (Zod) + blacklist de slugs em `lib/utils`
-- [ ] Testes: fluxo completo; slug indisponível; slug reservado; WhatsApp inválido
+- [x] Wizard de 4 passos (componente com barra de progresso), puláveis onde aplicável
+- [x] Passo nome → `profiles.full_name`
+- [x] Passo slug: validação de formato + disponibilidade em tempo real (debounce), sugestões a partir do nome, blacklist de reservados
+- [x] Passo WhatsApp: máscara/validação DDD+9 dígitos, normalização E.164 sem `+`
+- [x] Passo foto: pré-popular do Google ou pular (upload com compressão fica na #0009, conforme decisão)
+- [x] Conclusão: `onboarding_completed_at`, `vitrines` (slug/title/`is_active = TRUE`), redireciona p/ "primeiro produto" (`/produtos`)
+- [x] Retomar onboarding incompleto (passo inicial calculado do estado no banco)
+- [x] Banner/passo leve de boas práticas de uso (LEGAL §2.2)
+- [x] `lib/validators/onboarding.ts` (Zod) + blacklist de slugs em `lib/slug.ts`
+- [x] Testes: slug indisponível (RPC); slug reservado/inválido; WhatsApp inválido; render do wizard (fluxo completo autenticado = verificação manual)
 
 ## Critérios de aceitação
 
-- [ ] Uma usuária recém-cadastrada percorre os 4 passos em poucos minutos, no celular, sem tutorial
-- [ ] Slug inválido/reservado/ocupado é bloqueado em tempo real com mensagem clara e sugestões
-- [ ] Ao concluir, a vitrine fica ativa e acessível em `/<slug>` (mesmo que vazia, ver #0012)
-- [ ] Quem pula a foto chega normalmente à tela de primeiro produto
+- [x] Uma usuária recém-cadastrada percorre os 4 passos em poucos minutos, no celular, sem tutorial
+- [x] Slug inválido/reservado/ocupado é bloqueado em tempo real com mensagem clara e sugestões
+- [x] Ao concluir, a vitrine fica ativa e acessível em `/<slug>` (mesmo que vazia, ver #0012)
+- [x] Quem pula a foto chega normalmente à tela de primeiro produto (`/produtos`)
 - [ ] Critérios genéricos de aceitação (ver `issues/README.md`)
 
 ## Referências

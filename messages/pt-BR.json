@@ -65,8 +65,35 @@
     "statsEmptyTitle": "Sem dados por enquanto",
     "statsEmptyDescription": "As estatísticas da sua vitrine vão aparecer aqui conforme você recebe visitas e pedidos.",
     "accountEmptyTitle": "Conta",
-    "accountEmptyDescription": "Em breve você poderá gerenciar seu perfil, plano e configurações por aqui.",
-    "onboardingStubTitle": "Vamos montar sua vitrine",
-    "onboardingStubDescription": "O onboarding chega em breve. Em instantes você configura sua loja em poucos passos."
+    "accountEmptyDescription": "Em breve você poderá gerenciar seu perfil, plano e configurações por aqui."
+  },
+  "onboarding": {
+    "progress": "Passo {step} de {total}",
+    "continue": "Continuar",
+    "finish": "Concluir",
+    "nameTitle": "Como você se chama?",
+    "nameDescription": "Usamos seu nome na sua vitrine (ex.: \"Vitrine de Maria\").",
+    "nameLabel": "Seu nome",
+    "slugTitle": "Escolha seu @",
+    "slugDescription": "É o endereço da sua vitrine. Você pode compartilhar esse link.",
+    "slugLabel": "Seu @",
+    "slugSuggestions": "Sugestões:",
+    "slugInvalid": "Use apenas letras minúsculas, números e hífen (3 a 40 caracteres).",
+    "slugReserved": "Esse @ é reservado. Escolha outro.",
+    "slugChecking": "Verificando disponibilidade…",
+    "slugAvailable": "Disponível!",
+    "slugTaken": "Esse @ já está em uso.",
+    "slugError": "Não foi possível verificar agora. Tente novamente.",
+    "whatsappTitle": "Seu WhatsApp",
+    "whatsappDescription": "É por onde suas clientes vão finalizar os pedidos.",
+    "whatsappLabel": "Número com DDD",
+    "whatsappHint": "Use o número com WhatsApp ativo, com DDD.",
+    "whatsappInvalid": "Informe um WhatsApp válido com DDD.",
+    "photoTitle": "Foto de perfil",
+    "photoDescription": "Opcional. Deixa sua vitrine com a sua cara.",
+    "photoUseGoogle": "Usar a foto da minha conta Google",
+    "photoRemove": "Não usar esta foto",
+    "photoNone": "Você pode adicionar uma foto depois, em Conta.",
+    "usagePolicy": "Lembre-se: apresente-se como revendedora independente. Não se identifique como funcionária das marcas que revende."
   }
 }
