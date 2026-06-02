@@ -33,20 +33,20 @@ Completa o CRUD de produtos com os recursos restantes do MVP listados em `docs/F
 
 ## Tarefas
 
-- [ ] Editar produto (reusa `ProductForm`); excluir com confirmação modal
-- [ ] Gerenciador de imagens: até 5, reordenar, definir capa, remover; validação de limite
-- [ ] CRUD de categorias por vitrine + atribuição a produtos + reordenação
-- [ ] Campo de marca com autocomplete (`suggested_brands` + livres) + criação inline
-- [ ] Toggle "esgotado" (`is_available`)
-- [ ] Campo de preço promocional com validação `promo < preço`
-- [ ] Drag-and-drop de produtos (persistindo `display_order`)
-- [ ] Ação "duplicar produto"
-- [ ] `revalidatePath` em todas as mutações que afetam a vitrine
-- [ ] Testes: editar/excluir; 6ª imagem bloqueada; promo ≥ preço (erro); reordenar persiste; duplicar copia campos
+- [x] Editar produto (reusa `ProductForm`); excluir com confirmação modal _(PR 1)_
+- [ ] Gerenciador de imagens: até 5, reordenar, definir capa, remover; validação de limite _(PR 3)_
+- [ ] CRUD de categorias por vitrine + atribuição a produtos + reordenação _(PR 2)_
+- [ ] Campo de marca com autocomplete (`suggested_brands` + livres) + criação inline _(PR 2)_
+- [x] Toggle "esgotado" (`is_available`) _(PR 1)_
+- [x] Campo de preço promocional com validação `promo < preço` _(PR 1)_
+- [ ] Drag-and-drop de produtos (persistindo `display_order`) _(PR 4)_
+- [ ] Ação "duplicar produto" _(PR 4)_
+- [x] `revalidatePath` em todas as mutações que afetam a vitrine _(criar/editar/excluir; mantido nos próximos PRs)_
+- [ ] Testes: editar/excluir; 6ª imagem bloqueada; promo ≥ preço (erro); reordenar persiste; duplicar copia campos _(editar/excluir + promo ≥ preço feitos no PR 1)_
 
 ## Critérios de aceitação
 
-- [ ] É possível editar e excluir produtos (com confirmação)
+- [x] É possível editar e excluir produtos (com confirmação) _(PR 1)_
 - [ ] Um produto pode ter até 5 fotos, com capa e ordem definidas; a 6ª é bloqueada
 - [ ] Categorias e marcas são criadas livremente, reaproveitadas entre produtos e sem duplicar por nome
 - [ ] Produto "esgotado" aparece na vitrine com botão de pedido desabilitado

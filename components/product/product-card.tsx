@@ -1,14 +1,22 @@
 "use client";
 
 import Image from "next/image";
-import { ImageOff } from "lucide-react";
+import { ImageOff, Pencil, Trash2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { formatBRL } from "@/lib/money";
 import type { ProductListItem } from "@/lib/products";
 
-export function ProductCard({ product }: { product: ProductListItem }) {
+interface Props {
+  product: ProductListItem;
+  /** Ações de gestão (ausentes na vitrine pública). */
+  onEdit?: () => void;
+  onDelete?: () => void;
+}
+
+export function ProductCard({ product, onEdit, onDelete }: Props) {
   const t = useTranslations("produtos");
   const hasPromo =
     product.promo_price_cents !== null && product.promo_price_cents < product.price_cents;
@@ -51,6 +59,35 @@ export function ProductCard({ product }: { product: ProductListItem }) {
         ) : (
           <p className="text-sm font-semibold">{formatBRL(product.price_cents)}</p>
         )}
+
+        {onEdit || onDelete ? (
+          <div className="flex justify-end gap-1 pt-1">
+            {onEdit ? (
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon"
+                className="size-8"
+                aria-label={t("edit")}
+                onClick={onEdit}
+              >
+                <Pencil className="size-4" />
+              </Button>
+            ) : null}
+            {onDelete ? (
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon"
+                className="size-8 text-destructive hover:text-destructive"
+                aria-label={t("delete")}
+                onClick={onDelete}
+              >
+                <Trash2 className="size-4" />
+              </Button>
+            ) : null}
+          </div>
+        ) : null}
       </div>
     </div>
   );

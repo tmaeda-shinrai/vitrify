@@ -7,6 +7,7 @@
 export interface ProductListItem {
   id: string;
   name: string;
+  description: string | null;
   price_cents: number;
   promo_price_cents: number | null;
   is_available: boolean;
@@ -15,11 +16,12 @@ export interface ProductListItem {
 
 /** Colunas explícitas da listagem (CONTRIBUTING: nunca `SELECT *`). */
 export const PRODUCT_LIST_SELECT =
-  "id, name, price_cents, promo_price_cents, is_available, created_at, product_images(url, display_order)";
+  "id, name, description, price_cents, promo_price_cents, is_available, created_at, product_images(url, display_order)";
 
 interface ProductRow {
   id: string;
   name: string;
+  description: string | null;
   price_cents: number;
   promo_price_cents: number | null;
   is_available: boolean | null;
@@ -34,6 +36,7 @@ export function toProductListItem(row: ProductRow): ProductListItem {
   return {
     id: row.id,
     name: row.name,
+    description: row.description,
     price_cents: row.price_cents,
     promo_price_cents: row.promo_price_cents,
     is_available: row.is_available ?? true,

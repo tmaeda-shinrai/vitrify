@@ -9,12 +9,14 @@ import { toast } from "sonner";
 import {
   createProductAction,
   createProductImageUploadUrl,
+  updateProductAction,
 } from "@/app/(dashboard)/produtos/actions";
 import { FieldError } from "@/components/auth/field-error";
 import { ImageUploader } from "@/components/shared/image-uploader";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { useProductDraft } from "@/hooks/use-product-draft";
 import { formatBRL, parseBRLToCents } from "@/lib/money";
@@ -27,12 +29,20 @@ import {
 
 interface Props {
   vitrineId: string;
-  onCreated: (product: ProductListItem) => void;
+  /** Quando presente, o formulário edita o produto; senão, cria um novo. */
+  product?: ProductListItem | null;
+  onSaved: (product: ProductListItem) => void;
   onLimitReached: () => void;
 }
 
-export function ProductForm({ vitrineId, onCreated, onLimitReached }: Props) {
+/** Centavos → texto da máscara (`32,90`), sem o símbolo de moeda. */
+function centsToInput(cents: number): string {
+  return formatBRL(cents).replace("R$", "").trim();
+}
+
+export function ProductForm({ vitrineId, product, onSaved, onLimitReached }: Props) {
   const t = useTranslations("produtos");
+  const isEdit = !!product;
   const { initialDraft, save, clear } = useProductDraft(vitrineId);
 
   const {
@@ -43,45 +53,73 @@ export function ProductForm({ vitrineId, onCreated, onLimitReached }: Props) {
     formState: { errors, isSubmitting },
   } = useForm<ProductFormValues>({
     resolver: zodResolver(productFormSchema),
-    defaultValues: {
-      name: initialDraft?.name ?? "",
-      price: initialDraft?.price ?? "",
-      description: initialDraft?.description ?? "",
-      imageUrl: initialDraft?.imageUrl ?? "",
-    },
+    defaultValues: product
+      ? {
+          name: product.name,
+          price: centsToInput(product.price_cents),
+          promoPrice:
+            product.promo_price_cents != null ? centsToInput(product.promo_price_cents) : "",
+          description: product.description ?? "",
+          isAvailable: product.is_available,
+          imageUrl: product.cover_url ?? "",
+        }
+      : {
+          name: initialDraft?.name ?? "",
+          price: initialDraft?.price ?? "",
+          promoPrice: "",
+          description: initialDraft?.description ?? "",
+          isAvailable: true,
+          imageUrl: initialDraft?.imageUrl ?? "",
+        },
   });
 
   const name = watch("name");
   const price = watch("price");
   const description = watch("description") ?? "";
   const imageUrl = watch("imageUrl") ?? "";
+  const isAvailable = watch("isAvailable");
 
-  // Avisa uma vez se havia rascunho recuperado.
+  // Avisa uma vez se havia rascunho recuperado (só na criação).
   const announced = useRef(false);
   useEffect(() => {
-    if (!announced.current && initialDraft) {
+    if (!isEdit && !announced.current && initialDraft) {
       announced.current = true;
       toast.info(t("draftRecovered"));
     }
-  }, [initialDraft, t]);
+  }, [isEdit, initialDraft, t]);
 
-  // Auto-save (~5s após a última mudança).
+  // Auto-save (~5s) — apenas na criação; a edição parte do produto real.
   useEffect(() => {
+    if (isEdit) return;
     save({ name, price, description, imageUrl });
-  }, [name, price, description, imageUrl, save]);
+  }, [isEdit, name, price, description, imageUrl, save]);
 
   const priceReg = register("price");
+  const promoReg = register("promoPrice");
+
+  function formatPriceField(field: "price" | "promoPrice", value: string) {
+    const cents = parseBRLToCents(value);
+    if (cents !== null) setValue(field, centsToInput(cents), { shouldValidate: true });
+  }
 
   async function onSubmit(values: ProductFormValues) {
     const priceCents = parseBRLToCents(values.price);
     if (priceCents === null) return; // o schema já garante; satisfaz o TS
+    const promoRaw = values.promoPrice?.trim() ?? "";
+    const promoPriceCents = promoRaw === "" ? null : parseBRLToCents(promoRaw);
 
-    const result = await createProductAction({
+    const payload = {
       name: values.name,
       description: values.description ?? "",
       priceCents,
+      promoPriceCents,
+      isAvailable: values.isAvailable,
       imageUrl: values.imageUrl,
-    });
+    };
+
+    const result = isEdit
+      ? await updateProductAction(product.id, payload)
+      : await createProductAction(payload);
 
     if (!result.ok) {
       if (result.code === "PLAN_LIMIT_REACHED") {
@@ -92,9 +130,9 @@ export function ProductForm({ vitrineId, onCreated, onLimitReached }: Props) {
       return;
     }
 
-    clear();
-    toast.success(t("created"));
-    onCreated(result.product!);
+    if (!isEdit) clear();
+    toast.success(isEdit ? t("updated") : t("created"));
+    onSaved(result.product!);
   }
 
   return (
@@ -119,24 +157,47 @@ export function ProductForm({ vitrineId, onCreated, onLimitReached }: Props) {
         <FieldError message={errors.name?.message} />
       </div>
 
-      <div>
-        <Label htmlFor="price">{t("priceLabel")}</Label>
-        <Input
-          id="price"
-          inputMode="decimal"
-          placeholder={t("pricePlaceholder")}
-          {...priceReg}
-          onBlur={(e) => {
-            priceReg.onBlur(e);
-            const cents = parseBRLToCents(e.target.value);
-            if (cents !== null) {
-              setValue("price", formatBRL(cents).replace("R$", "").trim(), {
-                shouldValidate: true,
-              });
-            }
-          }}
+      <div className="grid grid-cols-2 gap-3">
+        <div>
+          <Label htmlFor="price">{t("priceLabel")}</Label>
+          <Input
+            id="price"
+            inputMode="decimal"
+            placeholder={t("pricePlaceholder")}
+            {...priceReg}
+            onBlur={(e) => {
+              priceReg.onBlur(e);
+              formatPriceField("price", e.target.value);
+            }}
+          />
+          <FieldError message={errors.price?.message} />
+        </div>
+
+        <div>
+          <Label htmlFor="promoPrice">{t("promoLabel")}</Label>
+          <Input
+            id="promoPrice"
+            inputMode="decimal"
+            placeholder={t("promoPlaceholder")}
+            {...promoReg}
+            onBlur={(e) => {
+              promoReg.onBlur(e);
+              formatPriceField("promoPrice", e.target.value);
+            }}
+          />
+          <FieldError message={errors.promoPrice?.message} />
+        </div>
+      </div>
+
+      <div className="flex items-center justify-between rounded-md border px-3 py-2">
+        <Label htmlFor="isAvailable" className="cursor-pointer">
+          {t("availableLabel")}
+        </Label>
+        <Switch
+          id="isAvailable"
+          checked={isAvailable}
+          onCheckedChange={(checked) => setValue("isAvailable", checked, { shouldDirty: true })}
         />
-        <FieldError message={errors.price?.message} />
       </div>
 
       <div>
@@ -157,7 +218,7 @@ export function ProductForm({ vitrineId, onCreated, onLimitReached }: Props) {
       </div>
 
       <Button type="submit" className="w-full" disabled={isSubmitting}>
-        {isSubmitting ? t("saving") : t("save")}
+        {isSubmitting ? t("saving") : isEdit ? t("saveEdit") : t("save")}
       </Button>
     </form>
   );

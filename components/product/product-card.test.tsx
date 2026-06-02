@@ -9,6 +9,7 @@ vi.mock("next-intl", () => ({ useTranslations: () => (k: string) => k }));
 const base: ProductListItem = {
   id: "p1",
   name: "Batom Matte Vermelho",
+  description: "Longa duração",
   price_cents: 3290,
   promo_price_cents: null,
   is_available: true,
