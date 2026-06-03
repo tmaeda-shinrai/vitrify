@@ -4,6 +4,8 @@
  * (espelha o padrão de `lib/products.ts`). A leitura no banco vive em
  * `lib/vitrine-data.ts`.
  */
+import type { Metadata } from "next";
+
 import { hexToHsl } from "@/lib/color";
 import type { ProductListItem } from "@/lib/products";
 
@@ -75,4 +77,69 @@ export function themePrimaryVars(hex: string | null | undefined): Record<string,
   if (!hex || hex.toLowerCase() === DEFAULT_THEME_PRIMARY.toLowerCase()) return {};
   const hsl = hexToHsl(hex);
   return hsl ? { "--primary": hsl, "--ring": hsl } : {};
+}
+
+function vitrineUrl(appUrl: string, slug: string): string {
+  return `${appUrl.replace(/\/$/, "")}/${slug}`;
+}
+
+/** Metadata (title/description/OG/Twitter) da vitrine pública (SEO, GTM §3.2). */
+export function buildVitrineMetadata(vitrine: PublicVitrine, appUrl: string): Metadata {
+  const name = vitrineTitle({ title: vitrine.title, ownerName: vitrine.owner.fullName });
+  const brands = distinctBrands(vitrine.products);
+  const brandsText = brands.join(", ");
+  const title = brandsText ? `Vitrine de ${name} — ${brandsText}` : `Vitrine de ${name}`;
+  const bio = vitrine.owner.bio?.trim();
+  const description =
+    [bio, brandsText && `Produtos: ${brandsText}.`].filter(Boolean).join(" ") ||
+    `Confira a vitrine de ${name}.`;
+  const url = vitrineUrl(appUrl, vitrine.slug);
+  const image = vitrine.heroImageUrl ?? vitrine.owner.avatarUrl ?? undefined;
+  const images = image ? [image] : undefined;
+
+  return {
+    metadataBase: new URL(appUrl),
+    title,
+    description,
+    alternates: { canonical: url },
+    openGraph: { type: "website", url, title, description, images },
+    twitter: { card: "summary_large_image", title, description, images },
+  };
+}
+
+/** JSON-LD Schema.org da vitrine: ProfilePage (Person) + ItemList de Product. */
+export function buildVitrineJsonLd(
+  vitrine: PublicVitrine,
+  appUrl: string,
+): Record<string, unknown> {
+  const name = vitrineTitle({ title: vitrine.title, ownerName: vitrine.owner.fullName });
+
+  const itemListElement = vitrine.products.map((product, index) => ({
+    "@type": "Product",
+    position: index + 1,
+    name: product.name,
+    ...(product.cover_url ? { image: product.cover_url } : {}),
+    ...(product.description ? { description: product.description } : {}),
+    offers: {
+      "@type": "Offer",
+      price: ((product.promo_price_cents ?? product.price_cents) / 100).toFixed(2),
+      priceCurrency: "BRL",
+      availability: product.is_available
+        ? "https://schema.org/InStock"
+        : "https://schema.org/OutOfStock",
+    },
+  }));
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "ProfilePage",
+    url: vitrineUrl(appUrl, vitrine.slug),
+    mainEntity: {
+      "@type": "Person",
+      name,
+      ...(vitrine.owner.avatarUrl ? { image: vitrine.owner.avatarUrl } : {}),
+      ...(vitrine.owner.bio ? { description: vitrine.owner.bio } : {}),
+    },
+    hasPart: { "@type": "ItemList", itemListElement },
+  };
 }

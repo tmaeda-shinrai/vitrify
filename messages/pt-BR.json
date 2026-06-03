@@ -206,6 +206,9 @@
     "empty": "Esta vitrine ainda não tem produtos.",
     "madeWith": "Feito com {name}",
     "report": "Denunciar",
-    "reportAria": "Denunciar esta vitrine"
+    "reportAria": "Denunciar esta vitrine",
+    "order": "Pedir no WhatsApp",
+    "prev": "Foto anterior",
+    "next": "Próxima foto"
   }
 }

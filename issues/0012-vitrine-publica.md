@@ -47,13 +47,13 @@ A página que o cliente final abre quando recebe o link: `app/(public)/[slug]/pa
 - [x] Query enxuta (campos necessários) respeitando RLS pública (`lib/vitrine-data.ts`)
 - [x] `VitrineHeader` (hero `priority`, nome, bio, contato)
 - [x] Grid responsivo (2/3–4 colunas) com `ProductCard` (foto 1:1, preço, promo, "esgotado")
-- [ ] Modal de detalhe (`Dialog`) com carrossel de fotos + descrição + preço + slot do botão WhatsApp — **PR2**
+- [x] Modal de detalhe (`Dialog`) com carrossel de fotos (scroll-snap) + descrição + preço + CTA WhatsApp (link `wa.me` básico; lógica completa em #0013)
 - [x] Tema claro/escuro automático + `theme_primary`/`theme_mode`; `prefers-reduced-motion` (global)
-- [ ] `<title>` dinâmico, meta description, Open Graph, Schema.org `Person`/`Product` — **PR2**
-- [ ] `sitemap.xml` (vitrines ativas) e `robots.txt` — **PR2** (reusa `getActiveVitrineSlugs`)
+- [x] `<title>` dinâmico, meta description, Open Graph, Schema.org `Person`/`Product` (`generateMetadata` + `VitrineJsonLd`)
+- [x] `sitemap.xml` (vitrines ativas) e `robots.txt`
 - [x] Preview da vitrine na aba "Vitrine" do painel (link em nova aba já existente)
 - [x] Link "Denunciar" no rodapé (entrada para #0023)
-- [x] Testes (PR1): `hexToHsl`, helpers de vitrine, render do header e do grid (promo/esgotado). OG/modal → **PR2**
+- [x] Testes: helpers (`hexToHsl`, vitrine, `buildVitrineMetadata`/`buildVitrineJsonLd`) + componentes (header, grid, carrossel, modal)
 
 ## Critérios de aceitação
 
