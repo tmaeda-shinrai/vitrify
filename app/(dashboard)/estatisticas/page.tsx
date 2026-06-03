@@ -4,12 +4,19 @@ import { BarChart3, CalendarDays, CalendarRange, Eye, MousePointerClick } from "
 import { getTranslations } from "next-intl/server";
 
 import { SectionTabs } from "@/components/dashboard/section-tabs";
+import { StatsChartSection } from "@/components/estatisticas/stats-chart-section";
 import { TopProducts } from "@/components/estatisticas/top-products";
+import { TrafficSource } from "@/components/estatisticas/traffic-source";
+import { TrafficSourceLocked } from "@/components/estatisticas/traffic-source-locked";
+import { ViewsUpgradeBanner } from "@/components/estatisticas/views-upgrade-banner";
 import { EmptyState } from "@/components/shared/empty-state";
 import { ShareButton } from "@/components/shared/share-button";
 import { StatCard } from "@/components/shared/stat-card";
 import { clientEnv } from "@/lib/env";
+import { isPaidPlan } from "@/lib/plan";
 import {
+  aggregateSources,
+  buildDailySeries,
   dateKeyDaysBefore,
   dateKeyInSaoPaulo,
   summarizeStats,
@@ -22,6 +29,7 @@ export const metadata: Metadata = { title: "Estatísticas" };
 
 const TOP_PRODUCTS_LIMIT = 5;
 const WINDOW_DAYS = 30;
+const VIEWS_MILESTONE = 100;
 
 const ptBR = (value: number) => value.toLocaleString("pt-BR");
 
@@ -44,8 +52,8 @@ export default async function EstatisticasPage() {
   const todayKey = dateKeyInSaoPaulo();
   const windowStart = dateKeyDaysBefore(todayKey, WINDOW_DAYS - 1);
 
-  // RLS (daily_stats_owner_read / products) já restringe às vitrines da dona.
-  const [{ data: dailyRows }, { data: productRows }] = await Promise.all([
+  // RLS (daily_stats_owner_read / products / subscriptions) restringe à dona.
+  const [{ data: dailyRows }, { data: productRows }, { data: subscription }] = await Promise.all([
     supabase
       .from("vitrine_daily_stats")
       .select("stat_date, views_count, intents_count")
@@ -59,6 +67,7 @@ export default async function EstatisticasPage() {
       .gt("intents_count", 0)
       .order("intents_count", { ascending: false })
       .limit(TOP_PRODUCTS_LIMIT),
+    supabase.from("subscriptions").select("plan").eq("owner_id", user.id).maybeSingle(),
   ]);
 
   const daily: DailyStatRow[] = (dailyRows ?? []).map((row) => ({
@@ -77,8 +86,26 @@ export default async function EstatisticasPage() {
     TOP_PRODUCTS_LIMIT,
   );
 
-  const hasData = viewsTotal > 0 || summary.intents30d > 0 || topProducts.length > 0;
+  const paid = isPaidPlan(subscription?.plan);
+  const series = buildDailySeries(daily, WINDOW_DAYS, todayKey);
+  const hasSeriesData = series.some((day) => day.views > 0 || day.intents > 0);
+  const hasClicks = summary.intents30d > 0;
+
+  // Origem do tráfego só é consultada no Pro+ (no Free mostramos o teaser bloqueado).
+  let sourceBreakdown: ReturnType<typeof aggregateSources> = [];
+  if (paid && hasClicks) {
+    const { data: sourceRows } = await supabase
+      .from("order_intents")
+      .select("source")
+      .eq("vitrine_id", vitrine.id)
+      .gte("created_at", `${windowStart}T00:00:00.000Z`)
+      .limit(2000);
+    sourceBreakdown = aggregateSources(sourceRows ?? []);
+  }
+
+  const hasData = viewsTotal > 0 || hasClicks || topProducts.length > 0;
   const shareUrl = `${clientEnv.NEXT_PUBLIC_APP_URL.replace(/\/$/, "")}/${vitrine.slug}`;
+  const showMilestone = !paid && viewsTotal >= VIEWS_MILESTONE;
 
   return (
     <div className="space-y-6">
@@ -97,6 +124,8 @@ export default async function EstatisticasPage() {
         />
       ) : (
         <div className="space-y-6">
+          {showMilestone ? <ViewsUpgradeBanner /> : null}
+
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             <StatCard
               label={t("viewsTotalLabel")}
@@ -122,7 +151,20 @@ export default async function EstatisticasPage() {
             />
           </div>
 
-          {topProducts.length > 0 ? <TopProducts products={topProducts} /> : null}
+          {hasSeriesData ? <StatsChartSection series={series} /> : null}
+
+          <div className="grid gap-6 lg:grid-cols-2">
+            {topProducts.length > 0 ? <TopProducts products={topProducts} /> : null}
+            {hasClicks ? (
+              paid ? (
+                sourceBreakdown.length > 0 ? (
+                  <TrafficSource data={sourceBreakdown} />
+                ) : null
+              ) : (
+                <TrafficSourceLocked />
+              )
+            ) : null}
+          </div>
         </div>
       )}
     </div>

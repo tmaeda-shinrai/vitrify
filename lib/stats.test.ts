@@ -1,6 +1,8 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  aggregateSources,
+  buildDailySeries,
   dateKeyInSaoPaulo,
   summarizeStats,
   topProductsByIntents,
@@ -70,6 +72,49 @@ describe("topProductsByIntents", () => {
   it("respeita o limite", () => {
     expect(topProductsByIntents(rows, 1).map((r) => r.id)).toEqual(["b"]);
     expect(topProductsByIntents(rows, 0)).toEqual([]);
+  });
+});
+
+describe("buildDailySeries", () => {
+  it("gera N dias contínuos (mais antigo → hoje) preenchendo lacunas com zero", () => {
+    const daily: DailyStatRow[] = [day("2026-06-30", 5, 2), day("2026-06-28", 3, 1)];
+    const series = buildDailySeries(daily, 7, "2026-06-30");
+    expect(series).toHaveLength(7);
+    expect(series[0]!.date).toBe("2026-06-24");
+    expect(series.at(-1)!.date).toBe("2026-06-30");
+    expect(series.at(-1)).toEqual({ date: "2026-06-30", views: 5, intents: 2 });
+    expect(series.find((d) => d.date === "2026-06-28")).toEqual({
+      date: "2026-06-28",
+      views: 3,
+      intents: 1,
+    });
+    expect(series.find((d) => d.date === "2026-06-29")).toEqual({
+      date: "2026-06-29",
+      views: 0,
+      intents: 0,
+    });
+  });
+});
+
+describe("aggregateSources", () => {
+  it("conta por origem, joga nulo/vazio em direct e ordena por contagem", () => {
+    const result = aggregateSources([
+      { source: "instagram" },
+      { source: "instagram" },
+      { source: "whatsapp" },
+      { source: null },
+      { source: "  " },
+    ]);
+    // empate em 2 → desempate por nome (direct < instagram).
+    expect(result).toEqual([
+      { source: "direct", count: 2 },
+      { source: "instagram", count: 2 },
+      { source: "whatsapp", count: 1 },
+    ]);
+  });
+
+  it("retorna vazio sem linhas", () => {
+    expect(aggregateSources([])).toEqual([]);
   });
 });
 
