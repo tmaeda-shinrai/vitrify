@@ -604,6 +604,35 @@ export type Database = {
         };
         Relationships: [];
       };
+      vitrine_daily_stats: {
+        Row: {
+          intents_count: number;
+          stat_date: string;
+          views_count: number;
+          vitrine_id: string;
+        };
+        Insert: {
+          intents_count?: number;
+          stat_date: string;
+          views_count?: number;
+          vitrine_id: string;
+        };
+        Update: {
+          intents_count?: number;
+          stat_date?: string;
+          views_count?: number;
+          vitrine_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "vitrine_daily_stats_vitrine_id_fkey";
+            columns: ["vitrine_id"];
+            isOneToOne: false;
+            referencedRelation: "vitrines";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       vitrines: {
         Row: {
           created_at: string | null;

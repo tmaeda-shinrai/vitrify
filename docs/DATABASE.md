@@ -311,6 +311,24 @@ CREATE INDEX idx_coupon_redemptions_coupon ON coupon_redemptions(coupon_id);
 CREATE INDEX idx_coupon_redemptions_owner ON coupon_redemptions(owner_id);
 ```
 
+### 2.14 `vitrine_daily_stats`
+
+Rollup diário de visualizações e cliques por vitrine (#0016): alimenta as janelas de 7/30 dias e o gráfico temporal do painel de Estatísticas sem guardar PII por evento — é o "vitrine_stats agregado por dia" antes listado como otimização futura (§8). O total all-time de views continua em `vitrines.views_count`; o detalhe por evento dos cliques continua em `order_intents`.
+
+```sql
+CREATE TABLE vitrine_daily_stats (
+  vitrine_id    UUID NOT NULL REFERENCES vitrines(id) ON DELETE CASCADE,
+  stat_date     DATE NOT NULL,             -- bucket no fuso America/Sao_Paulo
+  views_count   INTEGER NOT NULL DEFAULT 0,
+  intents_count INTEGER NOT NULL DEFAULT 0,
+  PRIMARY KEY (vitrine_id, stat_date)
+);
+
+CREATE INDEX idx_daily_stats_vitrine_date ON vitrine_daily_stats(vitrine_id, stat_date DESC);
+```
+
+Escrita só por funções `SECURITY DEFINER` (o cliente anônimo não pode dar UPDATE): a RPC `increment_vitrine_views(slug)` faz upsert das views do dia (além do contador total) e o trigger `bump_vitrine_daily_intents` (ver §3.4) faz upsert dos cliques do dia. RLS: `daily_stats_owner_read` (a dona lê os agregados das próprias vitrines; sem policy de escrita).
+
 ## 3. Triggers e funções
 
 ### 3.1 Auto-criação de profile e vitrine no signup
@@ -392,6 +410,14 @@ CREATE TRIGGER trg_check_product_limit
   BEFORE INSERT ON products
   FOR EACH ROW EXECUTE FUNCTION check_product_limit();
 ```
+
+### 3.4 Contadores de engajamento (#0015–#0016)
+
+Mantidos por `SECURITY DEFINER` para rodar acima da RLS (o registro vem de cliente anônimo):
+
+- `bump_product_intents` — trigger AFTER INSERT em `order_intents`; soma +1 em `products.intents_count` quando há `product_id` (#0015).
+- `increment_vitrine_views(slug)` — RPC chamada por `/api/view`; soma +1 em `vitrines.views_count` (total) e faz upsert da contagem de views do dia em `vitrine_daily_stats` (#0015/#0016).
+- `bump_vitrine_daily_intents` — trigger AFTER INSERT em `order_intents`; faz upsert da contagem de cliques do dia em `vitrine_daily_stats`, contando **todos** os intents (inclusive `product_id` nulo do FAB geral) (#0016).
 
 ## 4. Row Level Security (RLS)
 
@@ -524,7 +550,7 @@ Os índices full-text (`GIN`) e os parciais já entram na própria `initial_sche
 
 À medida que escala, considerar:
 
-- Materialized view para `vitrine_stats` (views, intents agregados por dia)
+- ~~Materialized view para `vitrine_stats` (views, intents agregados por dia)~~ — implementado em #0016 como a tabela rollup `vitrine_daily_stats` (§2.14), mantida incrementalmente por RPC/trigger
 - Particionamento de `order_intents` por mês quando passar de 10M registros
 - Read replica para queries de analytics
 - Cache de vitrine renderizada em Redis para slugs muito acessados

@@ -3,9 +3,11 @@ import { redirect } from "next/navigation";
 import { Receipt } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 
+import { SectionTabs } from "@/components/dashboard/section-tabs";
 import { IntentsFeed } from "@/components/pedidos/intents-feed";
 import { EmptyState } from "@/components/shared/empty-state";
 import { groupIntentsByDay, type OrderIntentItem } from "@/lib/intents";
+import { isPaidPlan } from "@/lib/plan";
 import { createClient } from "@/lib/supabase/server";
 
 export const metadata: Metadata = { title: "Pedidos" };
@@ -36,10 +38,11 @@ export default async function PedidosPage() {
     createdAt: row.created_at ?? new Date().toISOString(),
   }));
 
-  const showSource = subscription?.plan === "pro" || subscription?.plan === "plus";
+  const showSource = isPaidPlan(subscription?.plan);
 
   return (
     <div className="space-y-6">
+      <SectionTabs />
       <header className="space-y-1">
         <h1 className="font-display text-2xl font-bold">{t("title")}</h1>
         <p className="text-sm text-muted-foreground">{t("intro")}</p>
