@@ -37,17 +37,23 @@ A página que o cliente final abre quando recebe o link: `app/(public)/[slug]/pa
 
 ## Tarefas
 
-- [ ] `app/(public)/[slug]/page.tsx` Server Component, `revalidate = 60`, 404 para slug inválido/inativo
-- [ ] Query enxuta (campos necessários) respeitando RLS pública
-- [ ] `VitrineHeader` (hero `priority`, nome, bio sanitizada, contato)
-- [ ] Grid responsivo (2/3–4 colunas) com `ProductCard` (foto 1:1, preço, promo, "esgotado")
-- [ ] Modal de detalhe (`Dialog`) com carrossel de fotos + descrição + preço + slot do botão WhatsApp
-- [ ] Tema claro/escuro automático + `theme_primary`/`theme_mode`; `prefers-reduced-motion`
-- [ ] `<title>` dinâmico, meta description, Open Graph, Schema.org `Person`/`Product`
-- [ ] `sitemap.xml` (vitrines ativas) e `robots.txt`
-- [ ] Preview da vitrine na aba "Vitrine" do painel
-- [ ] Link "Denunciar" no rodapé (entrada para #0023)
-- [ ] Testes: render de vitrine com N produtos; slug inválido → 404; promo/esgotado renderizam; OG tags presentes
+> Entregue em 2 PRs. **PR1 — núcleo** (esta entrega): rota/ISR, header, grid, 404,
+> tema, rodapé. **PR2 — modal + SEO**: modal/carrossel, OG/Schema.org, sitemap/robots.
+> Decisões: perfil da dona lido via **service role** (`profiles` sem RLS pública);
+> clients **sem cookies** (`lib/supabase/public` e `admin`) para preservar o ISR; a
+> aba "Vitrine" do painel mantém o link que abre `/<slug>` em nova aba.
+
+- [x] `app/(public)/[slug]/page.tsx` Server Component, `revalidate = 60`, 404 para slug inválido/inativo (com `generateStaticParams` → rota `●` SSG/ISR)
+- [x] Query enxuta (campos necessários) respeitando RLS pública (`lib/vitrine-data.ts`)
+- [x] `VitrineHeader` (hero `priority`, nome, bio, contato)
+- [x] Grid responsivo (2/3–4 colunas) com `ProductCard` (foto 1:1, preço, promo, "esgotado")
+- [ ] Modal de detalhe (`Dialog`) com carrossel de fotos + descrição + preço + slot do botão WhatsApp — **PR2**
+- [x] Tema claro/escuro automático + `theme_primary`/`theme_mode`; `prefers-reduced-motion` (global)
+- [ ] `<title>` dinâmico, meta description, Open Graph, Schema.org `Person`/`Product` — **PR2**
+- [ ] `sitemap.xml` (vitrines ativas) e `robots.txt` — **PR2** (reusa `getActiveVitrineSlugs`)
+- [x] Preview da vitrine na aba "Vitrine" do painel (link em nova aba já existente)
+- [x] Link "Denunciar" no rodapé (entrada para #0023)
+- [x] Testes (PR1): `hexToHsl`, helpers de vitrine, render do header e do grid (promo/esgotado). OG/modal → **PR2**
 
 ## Critérios de aceitação
 
