@@ -67,6 +67,9 @@ jobs:
         uses: supabase/setup-cli@v1
         with:
           version: latest
+          # Autentica a resolução da release "latest" para não bater no rate limit
+          # da API do GitHub nos runners (causava "rate limit exceeded" no job rls).
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Start Supabase (aplica migrations + seed)
         run: supabase start -x studio,imgproxy,edge-runtime,logflare,vector
