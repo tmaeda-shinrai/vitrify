@@ -78,12 +78,12 @@ Construir o fluxo essencial: cadastro, login, criação de vitrine inicial, CRUD
 
 ### Semana 4 — CRUD de produtos (parte 2)
 
-- [ ] Edição e exclusão de produto
-- [ ] Múltiplas imagens (até 5)
-- [ ] Categorias customizáveis
-- [ ] Marcas com autocomplete e sugestões
-- [ ] Marcação de "esgotado" e preço promocional
-- [ ] Reordenação manual (drag-and-drop)
+- [x] Edição e exclusão de produto _(#0011)_
+- [x] Múltiplas imagens (até 5) _(#0011)_
+- [x] Categorias customizáveis _(#0011)_
+- [x] Marcas com autocomplete e sugestões _(#0011)_
+- [x] Marcação de "esgotado" e preço promocional _(#0011)_
+- [x] Reordenação manual (drag-and-drop) + duplicar _(#0011)_
 
 ### Marco fim da Fase 1
 

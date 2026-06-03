@@ -34,6 +34,7 @@ export default async function ProdutosPage() {
     supabase
       .from("products")
       .select(PRODUCT_LIST_SELECT)
+      .order("display_order", { ascending: true })
       .order("created_at", { ascending: false })
       .limit(100),
     supabase
