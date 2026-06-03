@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 
 import { ProductsManager } from "@/components/product/products-manager";
-import { serverEnv } from "@/lib/env";
+import { clientEnv, serverEnv } from "@/lib/env";
 import { PRODUCT_LIST_SELECT, toProductListItem } from "@/lib/products";
 import { createClient } from "@/lib/supabase/server";
 
@@ -26,7 +26,7 @@ export default async function ProdutosPage() {
   ] = await Promise.all([
     supabase
       .from("vitrines")
-      .select("id")
+      .select("id, slug")
       .eq("owner_id", user.id)
       .eq("is_default", true)
       .maybeSingle(),
@@ -57,10 +57,12 @@ export default async function ProdutosPage() {
   const initialBrands = (brandRows ?? []).map((b) => ({ id: b.id, name: b.name }));
   const suggestedBrands = (suggestedRows ?? []).map((b) => b.name);
   const productLimit = subscription?.plan === "free" ? serverEnv.LIMIT_FREE_PRODUCTS : null;
+  const shareUrl = `${clientEnv.NEXT_PUBLIC_APP_URL.replace(/\/$/, "")}/${vitrine.slug}`;
 
   return (
     <ProductsManager
       vitrineId={vitrine.id}
+      shareUrl={shareUrl}
       initialProducts={initialProducts}
       initialCategories={initialCategories}
       initialBrands={initialBrands}

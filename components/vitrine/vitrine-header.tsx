@@ -1,7 +1,9 @@
 import Image from "next/image";
 import { MessageCircle } from "lucide-react";
 
+import { ShareButton } from "@/components/shared/share-button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { clientEnv } from "@/lib/env";
 import { formatWhatsappDisplay, vitrineTitle, type PublicVitrine } from "@/lib/vitrine";
 
 /**
@@ -14,6 +16,7 @@ export function VitrineHeader({ vitrine }: { vitrine: PublicVitrine }) {
   const heading = vitrineTitle({ title: vitrine.title, ownerName: owner.fullName });
   const initial = (owner.fullName || heading).charAt(0).toUpperCase();
   const whatsapp = formatWhatsappDisplay(owner.whatsapp);
+  const vitrineUrl = `${clientEnv.NEXT_PUBLIC_APP_URL.replace(/\/$/, "")}/${vitrine.slug}`;
 
   return (
     <header>
@@ -29,6 +32,13 @@ export function VitrineHeader({ vitrine }: { vitrine: PublicVitrine }) {
             unoptimized
           />
         ) : null}
+        <ShareButton
+          url={vitrineUrl}
+          title={heading}
+          size="icon"
+          variant="secondary"
+          className="absolute right-3 top-3 shadow-sm"
+        />
       </div>
 
       <div className="mx-auto -mt-12 max-w-3xl px-4">

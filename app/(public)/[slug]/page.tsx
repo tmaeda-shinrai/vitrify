@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
+import { VitrineExplorer } from "@/components/vitrine/vitrine-explorer";
 import { VitrineFooter } from "@/components/vitrine/vitrine-footer";
-import { VitrineGrid } from "@/components/vitrine/vitrine-grid";
 import { VitrineHeader } from "@/components/vitrine/vitrine-header";
 import { VitrineJsonLd } from "@/components/vitrine/vitrine-jsonld";
 import { VitrineWhatsappFab } from "@/components/vitrine/vitrine-whatsapp-fab";
@@ -54,7 +54,7 @@ export default async function VitrinePage({ params }: { params: { slug: string }
       <VitrineJsonLd vitrine={vitrine} appUrl={clientEnv.NEXT_PUBLIC_APP_URL} />
       <VitrineHeader vitrine={vitrine} />
       <main className="mx-auto max-w-3xl px-4 py-8">
-        <VitrineGrid
+        <VitrineExplorer
           products={vitrine.products}
           whatsapp={vitrine.owner.whatsapp}
           ownerName={vitrine.owner.fullName}

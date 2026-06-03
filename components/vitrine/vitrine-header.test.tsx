@@ -1,8 +1,10 @@
 import { render, screen } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 import { VitrineHeader } from "@/components/vitrine/vitrine-header";
 import type { PublicVitrine } from "@/lib/vitrine";
+
+vi.mock("next-intl", () => ({ useTranslations: () => (k: string) => k }));
 
 const base: PublicVitrine = {
   id: "v1",

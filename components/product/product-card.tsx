@@ -50,8 +50,9 @@ export function ProductCard({
             unoptimized
           />
         ) : (
-          <div className="flex h-full items-center justify-center text-muted-foreground">
+          <div className="flex h-full flex-col items-center justify-center gap-1 text-muted-foreground">
             <ImageOff className="size-8" />
+            <span className="text-xs">{t("noPhoto")}</span>
           </div>
         )}
         {!product.is_available ? (

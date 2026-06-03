@@ -62,4 +62,9 @@ describe("ProductCard", () => {
     render(<ProductCard product={base} action={<span>ação no card</span>} />);
     expect(screen.getByText("ação no card")).toBeInTheDocument();
   });
+
+  it("mostra o placeholder de foto quando o produto não tem imagem", () => {
+    render(<ProductCard product={{ ...base, cover_url: null }} />);
+    expect(screen.getByText("noPhoto")).toBeInTheDocument();
+  });
 });
