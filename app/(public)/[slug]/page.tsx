@@ -6,6 +6,7 @@ import { VitrineExplorer } from "@/components/vitrine/vitrine-explorer";
 import { VitrineFooter } from "@/components/vitrine/vitrine-footer";
 import { VitrineHeader } from "@/components/vitrine/vitrine-header";
 import { VitrineJsonLd } from "@/components/vitrine/vitrine-jsonld";
+import { VitrineViewTracker } from "@/components/vitrine/vitrine-view-tracker";
 import { VitrineWhatsappFab } from "@/components/vitrine/vitrine-whatsapp-fab";
 import { defaultLocale } from "@/i18n";
 import { clientEnv } from "@/lib/env";
@@ -52,6 +53,7 @@ export default async function VitrinePage({ params }: { params: { slug: string }
       style={themePrimaryVars(vitrine.themePrimary) as React.CSSProperties}
     >
       <VitrineJsonLd vitrine={vitrine} appUrl={clientEnv.NEXT_PUBLIC_APP_URL} />
+      <VitrineViewTracker slug={vitrine.slug} />
       <VitrineHeader vitrine={vitrine} />
       <main className="mx-auto max-w-3xl px-4 py-8">
         <VitrineExplorer

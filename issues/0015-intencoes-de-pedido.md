@@ -40,7 +40,7 @@ A "moeda" do produto: cada clique no botão "Pedir no WhatsApp" vira um registro
 - [x] Hash SHA-256 do IP (`hashIp`); user-agent resumido a 3 categorias; `source` a partir do referrer (`lib/intent-source.ts`)
 - [x] Rate limit 10/min por IP; deduplicação curta por `ip_hash`+`product_id`
 - [x] Incremento de `intents_count` via trigger (`supabase/migrations/...intents_count_trigger.sql`)
-- [ ] Registro de visualização da vitrine pública (`views_count`) — **PR2**
+- [x] Registro de visualização da vitrine pública (`views_count`) — ping no client (`VitrineViewTracker`, dedup por sessão) → `POST /api/view` → RPC `increment_vitrine_views` (PR2)
 - [x] Tela "Pedidos": feed agrupado por dia (`lib/intents.ts`/`IntentsFeed`), produto + horário + dispositivo + origem (Pro+), `EmptyState`
 - [x] Integração com o `WhatsAppButton` (#0013): `recordOrderIntent` dispara no mesmo clique (agora envia `referrer`)
 - [x] Testes: `ip_hash` (nunca IP cru), source/UA, validador, agrupamento por dia, feed

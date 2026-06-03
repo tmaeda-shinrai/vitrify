@@ -51,6 +51,16 @@ const intentRatelimit = redis
     })
   : null;
 
+/** View pública: 60 req/min por IP (guarda de abuso; dedup real é por sessão+IP). */
+const viewRatelimit = redis
+  ? new Ratelimit({
+      redis,
+      limiter: Ratelimit.slidingWindow(60, "1 m"),
+      prefix: "ratelimit:view",
+      analytics: false,
+    })
+  : null;
+
 export async function checkLoginRateLimit(ip: string): Promise<RateLimitResult> {
   if (!loginRatelimit) return { success: true, remaining: 5 };
   const { success, remaining } = await loginRatelimit.limit(ip);
@@ -76,6 +86,19 @@ export async function checkIntentRateLimit(ip: string): Promise<RateLimitResult>
 export async function markIntentOnce(key: string, windowSeconds = 60): Promise<boolean> {
   if (!redis) return true;
   const result = await redis.set(`intent:dedup:${key}`, 1, { nx: true, ex: windowSeconds });
+  return result === "OK";
+}
+
+export async function checkViewRateLimit(ip: string): Promise<RateLimitResult> {
+  if (!viewRatelimit) return { success: true, remaining: 60 };
+  const { success, remaining } = await viewRatelimit.limit(ip);
+  return { success, remaining };
+}
+
+/** Dedup de view por IP+vitrine (janela longa); sem Redis sempre permite. */
+export async function markViewOnce(key: string, windowSeconds = 1800): Promise<boolean> {
+  if (!redis) return true;
+  const result = await redis.set(`view:dedup:${key}`, 1, { nx: true, ex: windowSeconds });
   return result === "OK";
 }
 

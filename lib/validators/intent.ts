@@ -8,3 +8,10 @@ export const intentSchema = z.object({
 });
 
 export type IntentInput = z.infer<typeof intentSchema>;
+
+/** Payload do `POST /api/view` (#0015 PR2) — contagem de visualização da vitrine. */
+export const viewSchema = z.object({
+  slug: z.string().trim().min(3).max(40),
+});
+
+export type ViewInput = z.infer<typeof viewSchema>;
