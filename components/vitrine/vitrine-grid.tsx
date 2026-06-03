@@ -47,7 +47,7 @@ export function VitrineGrid({ products, whatsapp, ownerName, vitrineUrl, slug }:
                 label={t("order")}
                 disabled={!product.is_available}
                 disabledLabel={t("unavailable")}
-                intent={{ slug, productId: product.id, source: "card" }}
+                intent={{ slug, productId: product.id }}
               />
             }
           />

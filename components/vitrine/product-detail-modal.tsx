@@ -75,7 +75,7 @@ export function ProductDetailModal({
                 label={t("order")}
                 disabled={!product.is_available}
                 disabledLabel={t("unavailable")}
-                intent={{ slug, productId: product.id, source: "modal" }}
+                intent={{ slug, productId: product.id }}
               />
             </div>
           </div>

@@ -41,6 +41,16 @@ const productWriteRatelimit = redis
     })
   : null;
 
+/** Intent público: 10 req/min por IP (ARCHITECTURE §6.4). */
+const intentRatelimit = redis
+  ? new Ratelimit({
+      redis,
+      limiter: Ratelimit.slidingWindow(10, "1 m"),
+      prefix: "ratelimit:intent",
+      analytics: false,
+    })
+  : null;
+
 export async function checkLoginRateLimit(ip: string): Promise<RateLimitResult> {
   if (!loginRatelimit) return { success: true, remaining: 5 };
   const { success, remaining } = await loginRatelimit.limit(ip);
@@ -51,6 +61,22 @@ export async function checkProductWriteRateLimit(userId: string): Promise<RateLi
   if (!productWriteRatelimit) return { success: true, remaining: 30 };
   const { success, remaining } = await productWriteRatelimit.limit(userId);
   return { success, remaining };
+}
+
+export async function checkIntentRateLimit(ip: string): Promise<RateLimitResult> {
+  if (!intentRatelimit) return { success: true, remaining: 10 };
+  const { success, remaining } = await intentRatelimit.limit(ip);
+  return { success, remaining };
+}
+
+/**
+ * Dedup curto da intenção: `true` na 1ª vez na janela, `false` se repetida. Sem
+ * Redis (dev/CI) sempre permite. Evita inflar o contador em recliques rápidos.
+ */
+export async function markIntentOnce(key: string, windowSeconds = 60): Promise<boolean> {
+  if (!redis) return true;
+  const result = await redis.set(`intent:dedup:${key}`, 1, { nx: true, ex: windowSeconds });
+  return result === "OK";
 }
 
 /** Extrai o IP do cliente a partir dos headers de proxy (Vercel). */

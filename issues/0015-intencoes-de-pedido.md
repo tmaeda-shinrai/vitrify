@@ -31,14 +31,19 @@ A "moeda" do produto: cada clique no botão "Pedir no WhatsApp" vira um registro
 
 ## Tarefas
 
-- [ ] `POST /api/intent`: valida payload (Zod), resolve `vitrine_id` por slug, insere `order_intent` (não-bloqueante para o cliente)
-- [ ] Hash SHA-256 do IP; user-agent resumido a 3 categorias; `source` a partir do referrer
-- [ ] Rate limit 10/min por IP; deduplicação curta por `ip_hash`+`product_id`
-- [ ] Incremento de `intents_count`/`views_count` (estratégia escolhida e documentada)
-- [ ] Registro de visualização da vitrine pública (estratégia escolhida)
-- [ ] Tela "Pedidos": feed agrupado por dia, produto + horário + origem + dispositivo, `EmptyState`
-- [ ] Integração com o `WhatsAppButton` (#0013): dispara o intent no mesmo clique
-- [ ] Testes: intent persiste com `ip_hash` (nunca IP cru); rate limit barra excesso; feed agrupa por dia; clique no botão gera 1 intent
+> Entregue em 2 PRs. **PR1 — core** (esta entrega): endpoint, persistência, rate-limit,
+> hash de IP, `intents_count` (trigger) e tela Pedidos. **PR2:** contagem de views da vitrine.
+> Estratégia: `intents_count` via **trigger** `bump_product_intents` no INSERT; dedup curto
+> por `ip_hash+product_id` via **Upstash** (`set nx ex 60`); filtro/painel via RLS owner-read.
+
+- [x] `POST /api/intent`: valida payload (Zod), resolve `vitrine_id` por slug, insere `order_intent` (não-bloqueante)
+- [x] Hash SHA-256 do IP (`hashIp`); user-agent resumido a 3 categorias; `source` a partir do referrer (`lib/intent-source.ts`)
+- [x] Rate limit 10/min por IP; deduplicação curta por `ip_hash`+`product_id`
+- [x] Incremento de `intents_count` via trigger (`supabase/migrations/...intents_count_trigger.sql`)
+- [ ] Registro de visualização da vitrine pública (`views_count`) — **PR2**
+- [x] Tela "Pedidos": feed agrupado por dia (`lib/intents.ts`/`IntentsFeed`), produto + horário + dispositivo + origem (Pro+), `EmptyState`
+- [x] Integração com o `WhatsAppButton` (#0013): `recordOrderIntent` dispara no mesmo clique (agora envia `referrer`)
+- [x] Testes: `ip_hash` (nunca IP cru), source/UA, validador, agrupamento por dia, feed
 
 ## Critérios de aceitação
 

@@ -25,7 +25,7 @@ export function VitrineWhatsappFab({ whatsapp, ownerName, slug, label }: Props) 
       target="_blank"
       rel="noopener noreferrer"
       aria-label={label}
-      onClick={() => recordOrderIntent({ slug, source: "floating" })}
+      onClick={() => recordOrderIntent({ slug })}
       className="fixed bottom-4 right-4 z-40 grid size-14 place-items-center rounded-full bg-whatsapp text-white shadow-lg transition-transform hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 [&_svg]:size-7"
     >
       <WhatsappIcon />
