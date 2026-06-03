@@ -47,20 +47,20 @@ A tela "Estatísticas" do painel — o "painel da vendedora com estatísticas b�
 
 - [x] Tela "Estatísticas" com `StatCard`s: views totais / 7d / 30d (+ cliques 7/30d) — PR1
 - [x] Ranking de cliques por produto (top N) — PR1
-- [ ] Gráfico temporal de 7 e 30 dias (componente lazy-loaded) — PR2
-- [ ] Origem do tráfego (Pro+) com bloqueio + CTA de upgrade no Free — PR2
+- [x] Gráfico temporal de 7 e 30 dias (componente lazy-loaded, SVG próprio) — PR2
+- [x] Origem do tráfego (Pro+) com bloqueio + CTA de upgrade no Free — PR2
 - [x] Queries agregadas eficientes; `EmptyState` sem dados — PR1
-- [ ] Evento "atingiu 100 views" disponível para acionar upgrade (consumido em #0019/marketing) — PR2
-- [x] Testes: agregações de 7/30 dias corretas; top produtos ordenado (`lib/stats`); `isPaidPlan` (`lib/plan`) — PR1; "Free não vê origem do tráfego" no PR2
+- [x] Evento "atingiu 100 views" disponível para acionar upgrade (`ViewsUpgradeBanner`; consumido em #0019/marketing) — PR2
+- [x] Testes: agregações de 7/30 dias corretas; top produtos ordenado; `aggregateSources`/`buildDailySeries` (`lib/stats`); `isPaidPlan` (`lib/plan`); estado bloqueado da origem (Free vê CTA)
 
 ## Critérios de aceitação
 
-- [ ] A vendedora vê total de visualizações e os números de 7 e 30 dias
-- [ ] Vê quais produtos receberam mais cliques de pedido
-- [ ] No plano Pro+, vê a origem do tráfego; no Free, vê o recurso bloqueado com CTA
-- [ ] Sem dados ainda, vê um `EmptyState` orientando a compartilhar a vitrine
-- [ ] Gráficos não pesam o bundle inicial do painel (lazy load)
-- [ ] Critérios genéricos de aceitação (ver `issues/README.md`)
+- [x] A vendedora vê total de visualizações e os números de 7 e 30 dias
+- [x] Vê quais produtos receberam mais cliques de pedido
+- [x] No plano Pro+, vê a origem do tráfego; no Free, vê o recurso bloqueado com CTA
+- [x] Sem dados ainda, vê um `EmptyState` orientando a compartilhar a vitrine
+- [x] Gráficos não pesam o bundle inicial do painel (lazy load via `next/dynamic`)
+- [ ] Critérios genéricos de aceitação (ver `issues/README.md`) — verificação manual cross-device pendente
 
 ## Referências
 

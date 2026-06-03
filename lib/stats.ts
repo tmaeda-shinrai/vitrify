@@ -27,6 +27,11 @@ export interface TopProductRow {
   intents: number;
 }
 
+export interface SourceCount {
+  source: string;
+  count: number;
+}
+
 /** Soma `delta` dias a uma chave `YYYY-MM-DD` (math em UTC para não derrapar no fuso). */
 function addDaysKey(key: string, delta: number): string {
   const [y, m, d] = key.split("-").map(Number);
@@ -82,4 +87,38 @@ export function topProductsByIntents(rows: TopProductRow[], limit: number): TopP
     .filter((row) => row.intents > 0)
     .sort((a, b) => b.intents - a.intents || a.name.localeCompare(b.name, "pt-BR"))
     .slice(0, Math.max(0, limit));
+}
+
+/**
+ * Série diária contínua dos últimos `days` dias (mais antigo → hoje), preenchendo
+ * com zero os dias sem registro. Alimenta o gráfico temporal (#0016 PR2).
+ */
+export function buildDailySeries(
+  daily: DailyStatRow[],
+  days: number,
+  todayKey: string,
+): DailyStatRow[] {
+  const byDate = new Map(daily.map((row) => [row.date, row]));
+  const series: DailyStatRow[] = [];
+  for (let i = days - 1; i >= 0; i--) {
+    const date = addDaysKey(todayKey, -i);
+    const row = byDate.get(date);
+    series.push({ date, views: row?.views ?? 0, intents: row?.intents ?? 0 });
+  }
+  return series;
+}
+
+/**
+ * Conta os cliques por origem (referrer normalizado). `source` nulo/vazio cai em
+ * "direct". Ordena por contagem (desc), desempatando por nome da origem.
+ */
+export function aggregateSources(rows: { source: string | null }[]): SourceCount[] {
+  const counts = new Map<string, number>();
+  for (const row of rows) {
+    const key = row.source && row.source.trim() ? row.source : "direct";
+    counts.set(key, (counts.get(key) ?? 0) + 1);
+  }
+  return [...counts.entries()]
+    .map(([source, count]) => ({ source, count }))
+    .sort((a, b) => b.count - a.count || a.source.localeCompare(b.source));
 }

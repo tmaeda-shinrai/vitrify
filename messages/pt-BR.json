@@ -261,6 +261,19 @@
     "clicks": "{count, plural, =1 {1 clique} other {# cliques}}",
     "emptyTitle": "Sem dados por enquanto",
     "emptyDescription": "Compartilhe sua vitrine para começar a ver visitas e cliques de pedido por aqui.",
-    "emptyShare": "Compartilhar minha vitrine"
+    "emptyShare": "Compartilhar minha vitrine",
+    "chartTitle": "Tendência",
+    "chartRange7": "7 dias",
+    "chartRange30": "30 dias",
+    "chartViewsLabel": "Visitas",
+    "chartIntentsLabel": "Cliques",
+    "sourceTitle": "Origem do tráfego",
+    "sourceHint": "De onde vêm seus cliques de pedido.",
+    "sourceLockedTitle": "Recurso do plano Pro",
+    "sourceLockedDescription": "Veja de onde vêm seus cliques — Instagram, WhatsApp, link direto e mais — com o plano Pro.",
+    "sourceUpgradeCta": "Conhecer o Pro",
+    "viewsMilestoneTitle": "Sua vitrine passou de 100 visitas! 🎉",
+    "viewsMilestoneDescription": "Descubra de onde vêm suas visitas e cliques com o plano Pro.",
+    "viewsMilestoneCta": "Conhecer o Pro"
   }
 }
