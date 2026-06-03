@@ -13,7 +13,7 @@ describe("WhatsAppButton", () => {
         whatsapp="5511999998888"
         message="Olá"
         label="Pedir no WhatsApp"
-        intent={{ slug: "maria", productId: "p1", source: "card" }}
+        intent={{ slug: "maria", productId: "p1" }}
       />,
     );
     const link = screen.getByRole("link", { name: "Pedir no WhatsApp" });
@@ -22,7 +22,6 @@ describe("WhatsAppButton", () => {
     expect(recordOrderIntent).toHaveBeenCalledWith({
       slug: "maria",
       productId: "p1",
-      source: "card",
     });
   });
 

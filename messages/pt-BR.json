@@ -223,5 +223,27 @@
     "askQuestion": "Tirar uma dúvida no WhatsApp",
     "prev": "Foto anterior",
     "next": "Próxima foto"
+  },
+  "pedidos": {
+    "title": "Pedidos",
+    "intro": "Cada \"Pedir no WhatsApp\" aparece aqui — é a intenção de compra; a venda fecha no WhatsApp.",
+    "emptyTitle": "Nenhum pedido ainda",
+    "emptyDescription": "Quando alguém tocar em \"Pedir no WhatsApp\" na sua vitrine, o pedido aparece aqui.",
+    "generalInquiry": "Dúvida geral",
+    "today": "Hoje",
+    "yesterday": "Ontem",
+    "device": {
+      "mobile-ios": "iPhone",
+      "mobile-android": "Android",
+      "desktop": "Computador"
+    },
+    "source": {
+      "instagram": "Instagram",
+      "facebook": "Facebook",
+      "whatsapp": "WhatsApp",
+      "tiktok": "TikTok",
+      "google": "Google",
+      "direct": "Direto"
+    }
   }
 }
