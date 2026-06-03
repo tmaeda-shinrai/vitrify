@@ -29,14 +29,21 @@ Tornar a vitrine navegável quando a vendedora tem muitos produtos de várias ma
 
 ## Tarefas
 
-- [ ] Filtro por categoria na vitrine (UI + query)
-- [ ] Filtro por marca (UI + query)
-- [ ] Busca full-text por nome/descrição (GIN, `portuguese`), tolerante a acento
-- [ ] Combinação filtros+busca refletida na querystring
-- [ ] "Compartilhar minha vitrine" com Web Share API + fallback copiar link + toast "copiado"
-- [ ] `EmptyState` para: vitrine vazia, categoria vazia, busca sem resultado
-- [ ] Placeholder "Foto em breve" para produto sem imagem
-- [ ] Testes: filtrar por categoria/marca; buscar com acento; estado sem resultado; share/fallback
+> **Trade-off (ISR):** filtro/busca são **client-side** sobre os produtos já
+> renderizados (a rota `/[slug]` é `●` SSG/ISR; o `VitrineExplorer` lê os filtros
+> da URL após hidratar via `window.location` e sincroniza com `history.replaceState`,
+> mantendo a grid completa no HTML estático). O full-text do Postgres
+> (`products.search_text` GIN) fica como otimização futura para catálogos grandes
+> (DATABASE §8). Compartilhar fica no painel (`/produtos`) **e** na vitrine.
+
+- [x] Filtro por categoria na vitrine (chips + filtro client-side — `lib/search.ts`)
+- [x] Filtro por marca (chips + filtro client-side)
+- [x] Busca por nome/descrição **tolerante a acento** (client-side `normalize`; full-text GIN = futuro)
+- [x] Combinação filtros+busca refletida na querystring (`q`/`categoria`/`marca`)
+- [x] "Compartilhar minha vitrine" com Web Share API + fallback copiar link + toast (`ShareButton`)
+- [x] `EmptyState` para: vitrine vazia e busca/filtro sem resultado (com "Limpar filtros")
+- [x] Placeholder "Foto em breve" para produto sem imagem (`ProductCard`)
+- [x] Testes: filtrar por categoria, buscar com acento, estado sem resultado, share/fallback
 
 ## Critérios de aceitação
 

@@ -27,6 +27,7 @@ import { ProductForm } from "@/components/product/product-form";
 import { SortableProductCard } from "@/components/product/sortable-product-card";
 import { UpgradeModal } from "@/components/product/upgrade-modal";
 import { EmptyState } from "@/components/shared/empty-state";
+import { ShareButton } from "@/components/shared/share-button";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -42,6 +43,7 @@ import { moveById, type BrandItem, type CategoryItem, type ProductListItem } fro
 
 interface Props {
   vitrineId: string;
+  shareUrl: string;
   initialProducts: ProductListItem[];
   initialCategories: CategoryItem[];
   initialBrands: BrandItem[];
@@ -52,6 +54,7 @@ interface Props {
 
 export function ProductsManager({
   vitrineId,
+  shareUrl,
   initialProducts,
   initialCategories,
   initialBrands,
@@ -159,6 +162,7 @@ export function ProductsManager({
           <p className="text-sm text-muted-foreground">{t("count", { count: products.length })}</p>
         </div>
         <div className="flex shrink-0 gap-2">
+          <ShareButton url={shareUrl} label={t("shareVitrine")} size="icon" />
           <Button variant="outline" onClick={() => setCategoriesOpen(true)}>
             <FolderTree className="size-4" />
             <span className="hidden sm:inline">{t("manageCategories")}</span>

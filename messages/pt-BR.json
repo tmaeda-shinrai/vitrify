@@ -7,7 +7,9 @@
     "edit": "Editar",
     "back": "Voltar",
     "next": "Próximo",
-    "confirm": "Confirmar"
+    "confirm": "Confirmar",
+    "share": "Compartilhar",
+    "linkCopied": "Link copiado!"
   },
   "landing": {
     "title": "Sua vitrine digital em um link",
@@ -137,6 +139,8 @@
     "title": "Produtos",
     "count": "{count, plural, =0 {Nenhum produto} =1 {1 produto} other {# produtos}}",
     "addProduct": "Adicionar produto",
+    "shareVitrine": "Compartilhar minha vitrine",
+    "noPhoto": "Foto em breve",
     "emptyTitle": "Nenhum produto ainda",
     "emptyDescription": "Cadastre seu primeiro produto para começar a vender pela sua vitrine.",
     "formTitle": "Novo produto",
@@ -203,7 +207,14 @@
     "limitDismiss": "Agora não"
   },
   "vitrine": {
-    "empty": "Esta vitrine ainda não tem produtos.",
+    "emptyTitle": "Vitrine em montagem",
+    "emptyDescription": "Esta vitrine ainda não tem produtos. Volte em breve!",
+    "searchPlaceholder": "Buscar produtos…",
+    "allCategories": "Todas",
+    "allBrands": "Todas as marcas",
+    "noResultsTitle": "Nada encontrado",
+    "noResultsDescription": "Tente outra busca ou ajuste os filtros.",
+    "clearFilters": "Limpar filtros",
     "madeWith": "Feito com {name}",
     "report": "Denunciar",
     "reportAria": "Denunciar esta vitrine",

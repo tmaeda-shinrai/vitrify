@@ -26,10 +26,6 @@ export function VitrineGrid({ products, whatsapp, ownerName, vitrineUrl, slug }:
   const t = useTranslations("vitrine");
   const [selected, setSelected] = useState<ProductListItem | null>(null);
 
-  if (products.length === 0) {
-    return <p className="py-16 text-center text-sm text-muted-foreground">{t("empty")}</p>;
-  }
-
   return (
     <>
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">

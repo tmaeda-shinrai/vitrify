@@ -32,11 +32,6 @@ const baseProps = {
 };
 
 describe("VitrineGrid", () => {
-  it("mostra o estado vazio quando não há produtos", () => {
-    render(<VitrineGrid products={[]} {...baseProps} />);
-    expect(screen.getByText("empty")).toBeInTheDocument();
-  });
-
   it("renderiza produtos com promoção, CTA por card e esgotado desabilitado", () => {
     render(
       <VitrineGrid
