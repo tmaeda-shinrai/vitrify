@@ -1,10 +1,11 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Plus_Jakarta_Sans } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
-import { getLocale, getMessages } from "next-intl/server";
+import { getLocale, getMessages, setRequestLocale } from "next-intl/server";
 
 import { QueryProvider } from "@/components/shared/query-provider";
 import { Toaster } from "@/components/ui/sonner";
+import { defaultLocale } from "@/i18n";
 import { clientEnv } from "@/lib/env";
 import "@/styles/globals.css";
 
@@ -35,6 +36,10 @@ export const viewport: Viewport = {
 };
 
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+  // Fixa o locale (pt-BR) para o next-intl sem ler `headers()`, mantendo as rotas
+  // que não usam cookies elegíveis a render estático/ISR — ex.: a vitrine #0012.
+  setRequestLocale(defaultLocale);
+
   const locale = await getLocale();
   const messages = await getMessages();
 

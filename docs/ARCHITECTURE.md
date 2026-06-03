@@ -145,7 +145,7 @@ vitrine/
 │   ├── vitrine/                  # VitrineHeader, etc.
 │   └── shared/
 ├── lib/
-│   ├── supabase/                 # Clientes server e browser
+│   ├── supabase/                 # Clients: server, browser, public (anon) e admin (service role)
 │   ├── asaas/                    # SDK do gateway
 │   ├── validators/               # Schemas Zod
 │   ├── utils/

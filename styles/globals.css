@@ -56,6 +56,31 @@
     --input: 222 18% 22%;
     --ring: 262 83% 65%;
   }
+
+  /* Tema "auto" da vitrine pública (#0012): segue prefers-color-scheme sem JS. */
+  @media (prefers-color-scheme: dark) {
+    .theme-auto {
+      --background: 222 47% 11%;
+      --foreground: 0 0% 100%;
+      --card: 222 47% 11%;
+      --card-foreground: 0 0% 100%;
+      --popover: 222 47% 11%;
+      --popover-foreground: 0 0% 100%;
+      --primary: 262 83% 65%;
+      --primary-foreground: 0 0% 100%;
+      --secondary: 222 18% 18%;
+      --secondary-foreground: 0 0% 100%;
+      --muted: 222 18% 18%;
+      --muted-foreground: 220 9% 60%;
+      --accent: 222 18% 18%;
+      --accent-foreground: 0 0% 100%;
+      --destructive: 0 75% 55%;
+      --destructive-foreground: 0 0% 100%;
+      --border: 222 18% 22%;
+      --input: 222 18% 22%;
+      --ring: 262 83% 65%;
+    }
+  }
 }
 
 @layer base {
@@ -72,5 +97,17 @@
   h2,
   h3 {
     @apply font-display;
+  }
+}
+
+/* Acessibilidade (DESIGN §6): respeita prefers-reduced-motion em todo o app. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
