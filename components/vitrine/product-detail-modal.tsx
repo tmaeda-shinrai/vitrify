@@ -3,20 +3,30 @@
 import { useTranslations } from "next-intl";
 
 import { ProductCarousel } from "@/components/vitrine/product-carousel";
-import { Button } from "@/components/ui/button";
+import { WhatsAppButton } from "@/components/vitrine/whatsapp-button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { formatBRL } from "@/lib/money";
 import type { ProductListItem } from "@/lib/products";
+import { buildProductMessage } from "@/lib/whatsapp";
 
 interface Props {
   /** Produto aberto; `null` mantém o modal fechado. */
   product: ProductListItem | null;
   onOpenChange: (open: boolean) => void;
-  /** WhatsApp da dona em E.164 sem `+` (ex.: 5511999998888); `null` esconde o CTA. */
-  whatsappNumber: string | null;
+  whatsapp: string | null;
+  ownerName: string | null;
+  vitrineUrl: string;
+  slug: string;
 }
 
-export function ProductDetailModal({ product, onOpenChange, whatsappNumber }: Props) {
+export function ProductDetailModal({
+  product,
+  onOpenChange,
+  whatsapp,
+  ownerName,
+  vitrineUrl,
+  slug,
+}: Props) {
   const t = useTranslations("vitrine");
   const hasPromo =
     product?.promo_price_cents != null && product.promo_price_cents < product.price_cents;
@@ -53,18 +63,20 @@ export function ProductDetailModal({ product, onOpenChange, whatsappNumber }: Pr
                 </p>
               ) : null}
 
-              {/* CTA: link wa.me básico. #0013 troca por mensagem pré-preenchida + intent. */}
-              {whatsappNumber ? (
-                <Button asChild className="w-full bg-whatsapp text-white hover:bg-whatsapp/90">
-                  <a
-                    href={`https://wa.me/${whatsappNumber}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {t("order")}
-                  </a>
-                </Button>
-              ) : null}
+              <WhatsAppButton
+                whatsapp={whatsapp}
+                message={buildProductMessage({
+                  ownerName,
+                  productName: product.name,
+                  priceCents: product.price_cents,
+                  promoPriceCents: product.promo_price_cents,
+                  vitrineUrl,
+                })}
+                label={t("order")}
+                disabled={!product.is_available}
+                disabledLabel={t("unavailable")}
+                intent={{ slug, productId: product.id, source: "modal" }}
+              />
             </div>
           </div>
         ) : null}

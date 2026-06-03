@@ -6,6 +6,7 @@ import { VitrineFooter } from "@/components/vitrine/vitrine-footer";
 import { VitrineGrid } from "@/components/vitrine/vitrine-grid";
 import { VitrineHeader } from "@/components/vitrine/vitrine-header";
 import { VitrineJsonLd } from "@/components/vitrine/vitrine-jsonld";
+import { VitrineWhatsappFab } from "@/components/vitrine/vitrine-whatsapp-fab";
 import { defaultLocale } from "@/i18n";
 import { clientEnv } from "@/lib/env";
 import { cn } from "@/lib/utils";
@@ -43,6 +44,7 @@ export default async function VitrinePage({ params }: { params: { slug: string }
   const reportHref = `mailto:${REPORT_EMAIL}?subject=${encodeURIComponent(
     `Denúncia de vitrine: ${vitrine.slug}`,
   )}`;
+  const vitrineUrl = `${clientEnv.NEXT_PUBLIC_APP_URL.replace(/\/$/, "")}/${vitrine.slug}`;
 
   return (
     <div
@@ -52,13 +54,25 @@ export default async function VitrinePage({ params }: { params: { slug: string }
       <VitrineJsonLd vitrine={vitrine} appUrl={clientEnv.NEXT_PUBLIC_APP_URL} />
       <VitrineHeader vitrine={vitrine} />
       <main className="mx-auto max-w-3xl px-4 py-8">
-        <VitrineGrid products={vitrine.products} whatsappNumber={vitrine.owner.whatsapp} />
+        <VitrineGrid
+          products={vitrine.products}
+          whatsapp={vitrine.owner.whatsapp}
+          ownerName={vitrine.owner.fullName}
+          vitrineUrl={vitrineUrl}
+          slug={vitrine.slug}
+        />
       </main>
       <VitrineFooter
         madeWithLabel={t("madeWith", { name: clientEnv.NEXT_PUBLIC_APP_NAME })}
         reportLabel={t("report")}
         reportAria={t("reportAria")}
         reportHref={reportHref}
+      />
+      <VitrineWhatsappFab
+        whatsapp={vitrine.owner.whatsapp}
+        ownerName={vitrine.owner.fullName}
+        slug={vitrine.slug}
+        label={t("askQuestion")}
       />
     </div>
   );

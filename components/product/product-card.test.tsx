@@ -50,4 +50,16 @@ describe("ProductCard", () => {
     render(<ProductCard product={base} dragHandle={<span>handle</span>} />);
     expect(screen.getByText("handle")).toBeInTheDocument();
   });
+
+  it("abre o detalhe ao clicar quando onOpen é fornecido", () => {
+    const onOpen = vi.fn();
+    render(<ProductCard product={base} onOpen={onOpen} />);
+    fireEvent.click(screen.getByText("Batom Matte Vermelho"));
+    expect(onOpen).toHaveBeenCalled();
+  });
+
+  it("renderiza a ação no rodapé", () => {
+    render(<ProductCard product={base} action={<span>ação no card</span>} />);
+    expect(screen.getByText("ação no card")).toBeInTheDocument();
+  });
 });

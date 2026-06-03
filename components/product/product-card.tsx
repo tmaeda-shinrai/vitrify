@@ -12,6 +12,10 @@ import type { ProductListItem } from "@/lib/products";
 
 interface Props {
   product: ProductListItem;
+  /** Abre o detalhe (vitrine pública). Quando definido, a mídia+info vira um botão. */
+  onOpen?: () => void;
+  /** Ação no rodapé do card (ex.: `WhatsAppButton` na vitrine pública). */
+  action?: ReactNode;
   /** Ações de gestão (ausentes na vitrine pública). */
   onEdit?: () => void;
   onDuplicate?: () => void;
@@ -20,13 +24,21 @@ interface Props {
   dragHandle?: ReactNode;
 }
 
-export function ProductCard({ product, onEdit, onDuplicate, onDelete, dragHandle }: Props) {
+export function ProductCard({
+  product,
+  onOpen,
+  action,
+  onEdit,
+  onDuplicate,
+  onDelete,
+  dragHandle,
+}: Props) {
   const t = useTranslations("produtos");
   const hasPromo =
     product.promo_price_cents !== null && product.promo_price_cents < product.price_cents;
 
-  return (
-    <div className="overflow-hidden rounded-lg border bg-card">
+  const media = (
+    <>
       <div className="relative aspect-square w-full bg-muted">
         {product.cover_url ? (
           <Image
@@ -69,51 +81,69 @@ export function ProductCard({ product, onEdit, onDuplicate, onDelete, dragHandle
             {[product.category_name, product.brand_name].filter(Boolean).join(" · ")}
           </p>
         ) : null}
-
-        {onEdit || onDuplicate || onDelete || dragHandle ? (
-          <div className="flex items-center justify-between pt-1">
-            <div className="flex items-center">{dragHandle}</div>
-            <div className="flex gap-1">
-              {onEdit ? (
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="icon"
-                  className="size-8"
-                  aria-label={t("edit")}
-                  onClick={onEdit}
-                >
-                  <Pencil className="size-4" />
-                </Button>
-              ) : null}
-              {onDuplicate ? (
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="icon"
-                  className="size-8"
-                  aria-label={t("duplicate")}
-                  onClick={onDuplicate}
-                >
-                  <Copy className="size-4" />
-                </Button>
-              ) : null}
-              {onDelete ? (
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="icon"
-                  className="size-8 text-destructive hover:text-destructive"
-                  aria-label={t("delete")}
-                  onClick={onDelete}
-                >
-                  <Trash2 className="size-4" />
-                </Button>
-              ) : null}
-            </div>
-          </div>
-        ) : null}
       </div>
+    </>
+  );
+
+  return (
+    <div className="flex flex-col overflow-hidden rounded-lg border bg-card">
+      {onOpen ? (
+        <button
+          type="button"
+          onClick={onOpen}
+          className="block w-full text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring"
+        >
+          {media}
+        </button>
+      ) : (
+        media
+      )}
+
+      {action ? <div className="px-3 pb-3">{action}</div> : null}
+
+      {onEdit || onDuplicate || onDelete || dragHandle ? (
+        <div className="flex items-center justify-between px-3 pb-3">
+          <div className="flex items-center">{dragHandle}</div>
+          <div className="flex gap-1">
+            {onEdit ? (
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon"
+                className="size-8"
+                aria-label={t("edit")}
+                onClick={onEdit}
+              >
+                <Pencil className="size-4" />
+              </Button>
+            ) : null}
+            {onDuplicate ? (
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon"
+                className="size-8"
+                aria-label={t("duplicate")}
+                onClick={onDuplicate}
+              >
+                <Copy className="size-4" />
+              </Button>
+            ) : null}
+            {onDelete ? (
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon"
+                className="size-8 text-destructive hover:text-destructive"
+                aria-label={t("delete")}
+                onClick={onDelete}
+              >
+                <Trash2 className="size-4" />
+              </Button>
+            ) : null}
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }

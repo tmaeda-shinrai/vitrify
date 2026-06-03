@@ -30,14 +30,14 @@ A ação central da vitrine: levar o cliente até o WhatsApp da vendedora com um
 
 ## Tarefas
 
-- [ ] `WhatsAppButton` (variante `whatsapp` do Button) reutilizável
-- [ ] Geração da mensagem pré-formatada por produto (nome + preço/promo + link da vitrine), URL-encoded
-- [ ] Botão no `ProductCard` e no modal de detalhe; desabilitado quando "esgotado"
-- [ ] Botão WhatsApp flutuante geral com mensagem genérica
-- [ ] Redireciono `wa.me/{whatsapp}?text=...`
-- [ ] Chamada não-bloqueante a `POST /api/intent` no mesmo clique (integra com #0015)
-- [ ] `aria-label`/foco; teste em iOS Safari e Android Chrome
-- [ ] Testes: mensagem gerada corretamente (com e sem promo); botão desabilitado em produto esgotado; abre `wa.me` correto
+- [x] `WhatsAppButton` reutilizável (`components/vitrine/whatsapp-button.tsx`, verde `bg-whatsapp` + `WhatsappIcon` SVG inline)
+- [x] Geração da mensagem pré-formatada por produto (nome + preço/promo + link), URL-encoded (`lib/whatsapp.ts`)
+- [x] Botão no `ProductCard` (slot `action`) e no modal; desabilitado quando "esgotado"
+- [x] Botão WhatsApp flutuante geral com mensagem genérica (`VitrineWhatsappFab`)
+- [x] Redireciono `wa.me/{whatsapp}?text=...` (`buildWhatsappUrl`)
+- [x] Chamada não-bloqueante a `POST /api/intent` no mesmo clique (`recordOrderIntent`, sendBeacon fire-and-forget; o endpoint é #0015 — 404 silencioso até lá)
+- [x] `aria-label`/foco visível nos botões — [ ] teste manual em iOS Safari e Android Chrome (deep link `wa.me`) pendente
+- [x] Testes: mensagem com/sem promo, `buildWhatsappUrl`, botão desabilitado em esgotado, link `wa.me` correto
 
 ## Critérios de aceitação
 
