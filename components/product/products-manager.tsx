@@ -2,13 +2,29 @@
 
 import { useMemo, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
+import {
+  closestCenter,
+  DndContext,
+  type DragEndEvent,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
+import {
+  rectSortingStrategy,
+  SortableContext,
+  sortableKeyboardCoordinates,
+} from "@dnd-kit/sortable";
 import { FolderTree, Package, Plus } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { toast } from "sonner";
 
+import { duplicateProductAction, reorderProductsAction } from "@/app/(dashboard)/produtos/actions";
 import { CategoriesSheet } from "@/components/product/categories-sheet";
 import { DeleteProductDialog } from "@/components/product/delete-product-dialog";
-import { ProductCard } from "@/components/product/product-card";
 import { ProductForm } from "@/components/product/product-form";
+import { SortableProductCard } from "@/components/product/sortable-product-card";
 import { UpgradeModal } from "@/components/product/upgrade-modal";
 import { EmptyState } from "@/components/shared/empty-state";
 import { Button } from "@/components/ui/button";
@@ -22,7 +38,7 @@ import {
 import { BRANDS_QUERY_KEY, useBrands } from "@/hooks/use-brands";
 import { useCategories } from "@/hooks/use-categories";
 import { PRODUCTS_QUERY_KEY, useProducts } from "@/hooks/use-products";
-import type { BrandItem, CategoryItem, ProductListItem } from "@/lib/products";
+import { moveById, type BrandItem, type CategoryItem, type ProductListItem } from "@/lib/products";
 
 interface Props {
   vitrineId: string;
@@ -53,6 +69,11 @@ export function ProductsManager({
   const [limitOpen, setLimitOpen] = useState(false);
   const [categoriesOpen, setCategoriesOpen] = useState(false);
 
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
+    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
+  );
+
   const atLimit = productLimit !== null && products.length >= productLimit;
 
   const brandSuggestions = useMemo(() => {
@@ -80,7 +101,6 @@ export function ProductsManager({
       return exists ? old.map((p) => (p.id === product.id ? product : p)) : [product, ...old];
     });
     void queryClient.invalidateQueries({ queryKey: PRODUCTS_QUERY_KEY });
-    // Uma marca nova pode ter sido criada ao salvar.
     void queryClient.invalidateQueries({ queryKey: BRANDS_QUERY_KEY });
     setFormOpen(false);
     setEditing(null);
@@ -92,6 +112,38 @@ export function ProductsManager({
     );
     void queryClient.invalidateQueries({ queryKey: PRODUCTS_QUERY_KEY });
     setDeleting(null);
+  }
+
+  async function handleDuplicate(product: ProductListItem) {
+    const result = await duplicateProductAction(product.id);
+    if (!result.ok) {
+      if (result.code === "PLAN_LIMIT_REACHED") {
+        setLimitOpen(true);
+        return;
+      }
+      toast.error(result.error ?? t("genericError"));
+      return;
+    }
+    queryClient.setQueryData<ProductListItem[]>(PRODUCTS_QUERY_KEY, (old = []) => [
+      result.product!,
+      ...old,
+    ]);
+    void queryClient.invalidateQueries({ queryKey: PRODUCTS_QUERY_KEY });
+    toast.success(t("duplicated"));
+  }
+
+  async function handleDragEnd(event: DragEndEvent) {
+    const { active, over } = event;
+    if (!over || active.id === over.id) return;
+
+    const next = moveById(products, String(active.id), String(over.id));
+    queryClient.setQueryData<ProductListItem[]>(PRODUCTS_QUERY_KEY, next);
+
+    const result = await reorderProductsAction(next.map((p) => p.id));
+    if (!result.ok) {
+      void queryClient.invalidateQueries({ queryKey: PRODUCTS_QUERY_KEY });
+      toast.error(t("reorderError"));
+    }
   }
 
   function handleLimitReached() {
@@ -126,16 +178,21 @@ export function ProductsManager({
           action={<Button onClick={handleAdd}>{t("addProduct")}</Button>}
         />
       ) : (
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
-          {products.map((product) => (
-            <ProductCard
-              key={product.id}
-              product={product}
-              onEdit={() => handleEdit(product)}
-              onDelete={() => setDeleting(product)}
-            />
-          ))}
-        </div>
+        <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+          <SortableContext items={products.map((p) => p.id)} strategy={rectSortingStrategy}>
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+              {products.map((product) => (
+                <SortableProductCard
+                  key={product.id}
+                  product={product}
+                  onEdit={() => handleEdit(product)}
+                  onDuplicate={() => handleDuplicate(product)}
+                  onDelete={() => setDeleting(product)}
+                />
+              ))}
+            </div>
+          </SortableContext>
+        </DndContext>
       )}
 
       <Sheet open={formOpen} onOpenChange={setFormOpen}>

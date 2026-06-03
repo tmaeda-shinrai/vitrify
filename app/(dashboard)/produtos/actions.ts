@@ -406,3 +406,148 @@ export async function deleteProductAction(productId: string): Promise<ProductMut
 
   return { ok: true };
 }
+
+export async function reorderProductsAction(orderedIds: string[]): Promise<ProductMutationResult> {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return { ok: false, code: "ERROR", error: "Sessão expirada. Entre novamente." };
+
+  const { data: vitrine } = await supabase
+    .from("vitrines")
+    .select("slug")
+    .eq("owner_id", user.id)
+    .eq("is_default", true)
+    .maybeSingle();
+
+  // display_order = índice na lista. RLS restringe aos produtos da dona.
+  await Promise.all(
+    orderedIds.map((id, index) =>
+      supabase.from("products").update({ display_order: index }).eq("id", id),
+    ),
+  );
+
+  if (vitrine?.slug) revalidatePath(`/${vitrine.slug}`);
+  return { ok: true };
+}
+
+export async function duplicateProductAction(productId: string): Promise<ProductMutationResult> {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return { ok: false, code: "ERROR", error: "Sessão expirada. Entre novamente." };
+
+  const rate = await checkProductWriteRateLimit(user.id);
+  if (!rate.success) {
+    return { ok: false, code: "RATE_LIMIT", error: "Muitas requisições. Aguarde um instante." };
+  }
+
+  // Original (RLS restringe à dona) com nomes de categoria/marca.
+  const { data: original } = await supabase
+    .from("products")
+    .select(
+      "name, description, price_cents, promo_price_cents, is_available, category_id, brand_id, categories(name), brands(name)",
+    )
+    .eq("id", productId)
+    .maybeSingle();
+  if (!original) return { ok: false, code: "ERROR", error: "Produto não encontrado." };
+
+  const [{ data: vitrine }, { data: subscription }, { data: originalImages }] = await Promise.all([
+    supabase
+      .from("vitrines")
+      .select("id, slug")
+      .eq("owner_id", user.id)
+      .eq("is_default", true)
+      .maybeSingle(),
+    supabase.from("subscriptions").select("plan").eq("owner_id", user.id).maybeSingle(),
+    supabase
+      .from("product_images")
+      .select("url, display_order")
+      .eq("product_id", productId)
+      .order("display_order", { ascending: true }),
+  ]);
+  if (!vitrine) return { ok: false, code: "ERROR", error: "Vitrine não encontrada." };
+
+  if (subscription?.plan === "free") {
+    const { count } = await supabase
+      .from("products")
+      .select("id", { count: "exact", head: true })
+      .eq("vitrine_id", vitrine.id)
+      .eq("is_active", true);
+    if ((count ?? 0) >= serverEnv.LIMIT_FREE_PRODUCTS) {
+      return { ok: false, code: "PLAN_LIMIT_REACHED" };
+    }
+  }
+
+  const copyName = `${original.name} (cópia)`.slice(0, 120);
+
+  const { data: product, error: insertError } = await supabase
+    .from("products")
+    .insert({
+      vitrine_id: vitrine.id,
+      name: copyName,
+      description: original.description,
+      price_cents: original.price_cents,
+      promo_price_cents: original.promo_price_cents,
+      is_available: original.is_available,
+      category_id: original.category_id,
+      brand_id: original.brand_id,
+      display_order: 0,
+    })
+    .select("id, name, description, price_cents, promo_price_cents, is_available")
+    .single();
+  if (insertError || !product) {
+    if (insertError?.message?.includes("PLAN_LIMIT_REACHED")) {
+      return { ok: false, code: "PLAN_LIMIT_REACHED" };
+    }
+    return {
+      ok: false,
+      code: "ERROR",
+      error: "Não foi possível duplicar o produto. Tente novamente.",
+    };
+  }
+
+  // Copia cada imagem no Storage (objetos próprios); fallback p/ a URL original.
+  const newUrls: string[] = [];
+  for (const img of originalImages ?? []) {
+    let url = img.url;
+    const fromPath = storagePathFromPublicUrl(img.url);
+    if (fromPath) {
+      const toPath = `${user.id}/${randomUUID()}.${OUTPUT_IMAGE_EXTENSION}`;
+      const { error: copyError } = await supabase.storage
+        .from(PRODUCTS_BUCKET)
+        .copy(fromPath, toPath);
+      if (!copyError) {
+        url = supabase.storage.from(PRODUCTS_BUCKET).getPublicUrl(toPath).data.publicUrl;
+      }
+    }
+    newUrls.push(url);
+  }
+  if (newUrls.length) {
+    await supabase
+      .from("product_images")
+      .insert(newUrls.map((url, index) => ({ product_id: product.id, url, display_order: index })));
+  }
+
+  revalidatePath(`/${vitrine.slug}`);
+
+  return {
+    ok: true,
+    product: {
+      id: product.id,
+      name: product.name,
+      description: product.description,
+      price_cents: product.price_cents,
+      promo_price_cents: product.promo_price_cents,
+      is_available: product.is_available ?? true,
+      category_id: original.category_id,
+      category_name: original.categories?.name ?? null,
+      brand_id: original.brand_id,
+      brand_name: original.brands?.name ?? null,
+      images: newUrls,
+      cover_url: newUrls[0] ?? null,
+    },
+  };
+}

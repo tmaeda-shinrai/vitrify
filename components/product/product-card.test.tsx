@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
 import { ProductCard } from "@/components/product/product-card";
@@ -37,5 +37,17 @@ describe("ProductCard", () => {
   it("marca o produto esgotado", () => {
     render(<ProductCard product={{ ...base, is_available: false }} />);
     expect(screen.getByText("unavailable")).toBeInTheDocument();
+  });
+
+  it("chama onDuplicate ao clicar em duplicar", () => {
+    const onDuplicate = vi.fn();
+    render(<ProductCard product={base} onDuplicate={onDuplicate} />);
+    fireEvent.click(screen.getByRole("button", { name: "duplicate" }));
+    expect(onDuplicate).toHaveBeenCalled();
+  });
+
+  it("renderiza a alça de arrastar quando fornecida", () => {
+    render(<ProductCard product={base} dragHandle={<span>handle</span>} />);
+    expect(screen.getByText("handle")).toBeInTheDocument();
   });
 });

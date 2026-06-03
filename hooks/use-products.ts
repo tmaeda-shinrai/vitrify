@@ -26,6 +26,7 @@ export function useProducts(initialData: ProductListItem[]) {
       const { data, error } = await supabase
         .from("products")
         .select(PRODUCT_LIST_SELECT)
+        .order("display_order", { ascending: true })
         .order("created_at", { ascending: false })
         .limit(100);
       if (error || !data) return [];

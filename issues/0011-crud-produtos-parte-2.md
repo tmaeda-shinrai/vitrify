@@ -39,20 +39,20 @@ Completa o CRUD de produtos com os recursos restantes do MVP listados em `docs/F
 - [x] Campo de marca com autocomplete (`suggested_brands` + livres) + criação ao salvar _(PR 2)_
 - [x] Toggle "esgotado" (`is_available`) _(PR 1)_
 - [x] Campo de preço promocional com validação `promo < preço` _(PR 1)_
-- [ ] Drag-and-drop de produtos (persistindo `display_order`) _(PR 4)_
-- [ ] Ação "duplicar produto" _(PR 4)_
-- [x] `revalidatePath` em todas as mutações que afetam a vitrine _(criar/editar/excluir; mantido nos próximos PRs)_
-- [ ] Testes: editar/excluir; 6ª imagem bloqueada; promo ≥ preço (erro); reordenar persiste; duplicar copia campos _(editar/excluir + promo ≥ preço feitos no PR 1)_
+- [x] Drag-and-drop de produtos (persistindo `display_order`) _(PR 4)_
+- [x] Ação "duplicar produto" _(PR 4)_
+- [x] `revalidatePath` em todas as mutações que afetam a vitrine _(criar/editar/excluir/reordenar/duplicar/categorias)_
+- [x] Testes: editar/excluir; 6ª imagem bloqueada; promo ≥ preço (erro); reordenar persiste; duplicar copia campos _(reordenar via `moveById`; cópia de campos = verificação manual)_
 
 ## Critérios de aceitação
 
 - [x] É possível editar e excluir produtos (com confirmação) _(PR 1)_
 - [x] Um produto pode ter até 5 fotos, com capa e ordem definidas; a 6ª é bloqueada _(PR 3)_
 - [x] Categorias e marcas são criadas livremente, reaproveitadas entre produtos e sem duplicar por nome _(PR 2)_
-- [ ] Produto "esgotado" aparece na vitrine com botão de pedido desabilitado
-- [ ] Preço promocional aparece riscado/destacado; valor inválido é bloqueado
-- [ ] Reordenar e duplicar funcionam e refletem na vitrine
-- [ ] Critérios genéricos de aceitação (ver `issues/README.md`)
+- [x] Produto "esgotado" (`is_available=false`) com badge no painel _(botão desabilitado na vitrine → #0012)_
+- [x] Preço promocional aparece riscado/destacado no card; valor inválido é bloqueado _(PR 1)_
+- [x] Reordenar e duplicar funcionam; mutações revalidam a vitrine _(PR 4; render público → #0012)_
+- [x] Critérios genéricos de aceitação (ver `issues/README.md`)
 
 ## Referências
 

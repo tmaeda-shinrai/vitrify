@@ -49,6 +49,21 @@ interface ProductRow {
   product_images: { url: string; display_order: number | null }[];
 }
 
+/** Move o item `activeId` para a posição do item `overId` (reordenação por drag). */
+export function moveById<T extends { id: string }>(
+  items: T[],
+  activeId: string,
+  overId: string,
+): T[] {
+  const from = items.findIndex((i) => i.id === activeId);
+  const to = items.findIndex((i) => i.id === overId);
+  if (from === -1 || to === -1 || from === to) return items;
+  const next = [...items];
+  const [moved] = next.splice(from, 1);
+  next.splice(to, 0, moved!);
+  return next;
+}
+
 /** Normaliza uma linha de `products` (com imagens) para o item de listagem. */
 export function toProductListItem(row: ProductRow): ProductListItem {
   const images = [...row.product_images]
