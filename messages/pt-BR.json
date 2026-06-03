@@ -245,5 +245,22 @@
       "google": "Google",
       "direct": "Direto"
     }
+  },
+  "estatisticas": {
+    "title": "Estatísticas",
+    "intro": "Acompanhe as visitas à sua vitrine e os cliques de pedido.",
+    "viewsTotalLabel": "Visualizações da vitrine",
+    "viewsTotalHint": "Total desde o início",
+    "views7dLabel": "Visitas (7 dias)",
+    "views30dLabel": "Visitas (30 dias)",
+    "intents7dLabel": "Cliques (7 dias)",
+    "intents30dLabel": "Cliques (30 dias)",
+    "intentsHint": "Cliques em \"Pedir no WhatsApp\"",
+    "topProductsTitle": "Produtos mais procurados",
+    "topProductsHint": "Ranking por cliques de pedido.",
+    "clicks": "{count, plural, =1 {1 clique} other {# cliques}}",
+    "emptyTitle": "Sem dados por enquanto",
+    "emptyDescription": "Compartilhe sua vitrine para começar a ver visitas e cliques de pedido por aqui.",
+    "emptyShare": "Compartilhar minha vitrine"
   }
 }

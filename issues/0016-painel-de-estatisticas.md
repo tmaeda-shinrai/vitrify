@@ -33,13 +33,25 @@ A tela "Estatísticas" do painel — o "painel da vendedora com estatísticas b�
 
 ## Tarefas
 
-- [ ] Tela "Estatísticas" com `StatCard`s: views totais / 7d / 30d
-- [ ] Ranking de cliques por produto (top N)
-- [ ] Gráfico temporal de 7 e 30 dias (componente lazy-loaded)
-- [ ] Origem do tráfego (Pro+) com bloqueio + CTA de upgrade no Free
-- [ ] Queries agregadas eficientes; `EmptyState` sem dados
-- [ ] Evento "atingiu 100 views" disponível para acionar upgrade (consumido em #0019/marketing)
-- [ ] Testes: agregações de 7/30 dias corretas; top produtos ordenado; Free não vê origem do tráfego
+> Entregue em 2 PRs. **PR1 — núcleo Must** (esta entrega): StatCards (views total/7d/30d
+> e cliques 7/30d), ranking de cliques por produto, `EmptyState`, abas Pedidos↔Estatísticas
+> e helpers/testes. **PR2 — Should:** gráfico temporal lazy (SVG), origem do tráfego (Pro+)
+> e gancho de 100 views.
+>
+> **Decisões (planejamento):** a #0015 só gravava o contador `vitrines.views_count`, sem
+> data por evento; por isso as janelas de views vêm de uma nova tabela rollup diária
+> **`vitrine_daily_stats`** (views+cliques/dia, fuso America/Sao_Paulo), mantida por RPC
+> (views) e trigger (cliques) — DATABASE §2.14/§3.4. Gráfico em **SVG próprio** (sem dep,
+> lazy via `next/dynamic`). Como o bottom nav mobile é fixo em 4 ícones (DESIGN §4.2),
+> o acesso mobile à tela é via **abas cruzadas** com Pedidos (`SectionTabs`).
+
+- [x] Tela "Estatísticas" com `StatCard`s: views totais / 7d / 30d (+ cliques 7/30d) — PR1
+- [x] Ranking de cliques por produto (top N) — PR1
+- [ ] Gráfico temporal de 7 e 30 dias (componente lazy-loaded) — PR2
+- [ ] Origem do tráfego (Pro+) com bloqueio + CTA de upgrade no Free — PR2
+- [x] Queries agregadas eficientes; `EmptyState` sem dados — PR1
+- [ ] Evento "atingiu 100 views" disponível para acionar upgrade (consumido em #0019/marketing) — PR2
+- [x] Testes: agregações de 7/30 dias corretas; top produtos ordenado (`lib/stats`); `isPaidPlan` (`lib/plan`) — PR1; "Free não vê origem do tráfego" no PR2
 
 ## Critérios de aceitação
 
