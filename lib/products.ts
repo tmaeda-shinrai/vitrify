@@ -15,6 +15,8 @@ export interface ProductListItem {
   category_name: string | null;
   brand_id: string | null;
   brand_name: string | null;
+  /** URLs das fotos, ordenadas (índice 0 = capa). */
+  images: string[];
   cover_url: string | null;
 }
 
@@ -47,11 +49,11 @@ interface ProductRow {
   product_images: { url: string; display_order: number | null }[];
 }
 
-/** Normaliza uma linha de `products` (com imagens) para o item de listagem + capa. */
+/** Normaliza uma linha de `products` (com imagens) para o item de listagem. */
 export function toProductListItem(row: ProductRow): ProductListItem {
-  const cover = [...row.product_images].sort(
-    (a, b) => (a.display_order ?? 0) - (b.display_order ?? 0),
-  )[0];
+  const images = [...row.product_images]
+    .sort((a, b) => (a.display_order ?? 0) - (b.display_order ?? 0))
+    .map((img) => img.url);
   return {
     id: row.id,
     name: row.name,
@@ -63,6 +65,7 @@ export function toProductListItem(row: ProductRow): ProductListItem {
     category_name: row.categories?.name ?? null,
     brand_id: row.brand_id,
     brand_name: row.brands?.name ?? null,
-    cover_url: cover?.url ?? null,
+    images,
+    cover_url: images[0] ?? null,
   };
 }

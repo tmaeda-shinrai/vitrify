@@ -42,6 +42,7 @@ const existing: ProductListItem = {
   category_name: null,
   brand_id: null,
   brand_name: null,
+  images: ["https://proj.supabase.co/p/u/a.webp"],
   cover_url: "https://proj.supabase.co/p/u/a.webp",
 };
 

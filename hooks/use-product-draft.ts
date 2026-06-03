@@ -6,10 +6,10 @@ export interface ProductDraft {
   name: string;
   price: string;
   description: string;
-  imageUrl: string;
+  images: string[];
 }
 
-const EMPTY: ProductDraft = { name: "", price: "", description: "", imageUrl: "" };
+const EMPTY: ProductDraft = { name: "", price: "", description: "", images: [] };
 const AUTOSAVE_MS = 5000;
 
 function keyFor(vitrineId: string) {
@@ -17,7 +17,7 @@ function keyFor(vitrineId: string) {
 }
 
 function isEmpty(draft: ProductDraft) {
-  return !draft.name && !draft.price && !draft.description && !draft.imageUrl;
+  return !draft.name && !draft.price && !draft.description && draft.images.length === 0;
 }
 
 function readDraft(vitrineId: string): ProductDraft | null {
@@ -26,6 +26,8 @@ function readDraft(vitrineId: string): ProductDraft | null {
     const raw = window.localStorage.getItem(keyFor(vitrineId));
     if (!raw) return null;
     const parsed = { ...EMPTY, ...(JSON.parse(raw) as Partial<ProductDraft>) };
+    // Garante que images é sempre um array (rascunhos antigos podem não ter).
+    if (!Array.isArray(parsed.images)) parsed.images = [];
     return isEmpty(parsed) ? null : parsed;
   } catch {
     return null; // rascunho corrompido/indisponível
