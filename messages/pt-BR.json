@@ -208,6 +208,8 @@
     "report": "Denunciar",
     "reportAria": "Denunciar esta vitrine",
     "order": "Pedir no WhatsApp",
+    "unavailable": "Esgotado",
+    "askQuestion": "Tirar uma dúvida no WhatsApp",
     "prev": "Foto anterior",
     "next": "Próxima foto"
   }

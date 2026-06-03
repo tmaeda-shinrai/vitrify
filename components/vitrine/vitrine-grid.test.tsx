@@ -24,16 +24,23 @@ function make(over: Partial<ProductListItem> = {}): ProductListItem {
   };
 }
 
+const baseProps = {
+  whatsapp: "5511999998888",
+  ownerName: "Maria",
+  vitrineUrl: "https://vitrinio.com.br/maria",
+  slug: "maria",
+};
+
 describe("VitrineGrid", () => {
   it("mostra o estado vazio quando não há produtos", () => {
-    render(<VitrineGrid products={[]} whatsappNumber={null} />);
+    render(<VitrineGrid products={[]} {...baseProps} />);
     expect(screen.getByText("empty")).toBeInTheDocument();
   });
 
-  it("renderiza os produtos com promoção riscada e badge de esgotado", () => {
+  it("renderiza produtos com promoção, CTA por card e esgotado desabilitado", () => {
     render(
       <VitrineGrid
-        whatsappNumber={null}
+        {...baseProps}
         products={[
           make({ id: "a", name: "Perfume", promo_price_cents: 1990 }),
           make({ id: "b", name: "Sombra", price_cents: 4500, is_available: false }),
@@ -44,22 +51,15 @@ describe("VitrineGrid", () => {
     expect(screen.getByText("Sombra")).toBeInTheDocument();
     expect(screen.getByText("R$ 19,90")).toBeInTheDocument();
     expect(screen.getByText("R$ 45,00")).toBeInTheDocument();
-    expect(screen.getByText("unavailable")).toBeInTheDocument();
+    // só o disponível tem link de pedido; o esgotado vira botão desabilitado
+    expect(screen.getAllByRole("link", { name: "order" })).toHaveLength(1);
+    expect(screen.getByRole("button", { name: "unavailable" })).toBeDisabled();
   });
 
   it("abre o modal de detalhe ao clicar num produto", () => {
-    render(
-      <VitrineGrid
-        whatsappNumber="5511999998888"
-        products={[make({ id: "a", name: "Perfume Floral" })]}
-      />,
-    );
+    render(<VitrineGrid {...baseProps} products={[make({ id: "a", name: "Perfume Floral" })]} />);
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
     fireEvent.click(screen.getByText("Perfume Floral"));
     expect(screen.getByRole("dialog")).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "order" })).toHaveAttribute(
-      "href",
-      "https://wa.me/5511999998888",
-    );
   });
 });

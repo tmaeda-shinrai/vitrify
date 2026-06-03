@@ -21,33 +21,33 @@ const product: ProductListItem = {
   cover_url: "https://x/a.webp",
 };
 
+const baseProps = {
+  onOpenChange: () => {},
+  whatsapp: "5511999998888",
+  ownerName: "Maria Silva",
+  vitrineUrl: "https://vitrinio.com.br/maria",
+  slug: "maria",
+};
+
 describe("ProductDetailModal", () => {
   it("fica fechado quando product é null", () => {
-    render(
-      <ProductDetailModal product={null} onOpenChange={() => {}} whatsappNumber="5511999998888" />,
-    );
+    render(<ProductDetailModal product={null} {...baseProps} />);
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
   });
 
   it("mostra nome, preço, descrição e CTA do WhatsApp", () => {
-    render(
-      <ProductDetailModal
-        product={product}
-        onOpenChange={() => {}}
-        whatsappNumber="5511999998888"
-      />,
-    );
+    render(<ProductDetailModal product={product} {...baseProps} />);
     expect(screen.getByText("Perfume Floral")).toBeInTheDocument();
     expect(screen.getByText("R$ 89,00")).toBeInTheDocument();
     expect(screen.getByText("Notas de jasmim")).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "order" })).toHaveAttribute(
-      "href",
-      "https://wa.me/5511999998888",
+    expect(screen.getByRole("link", { name: "order" }).getAttribute("href")).toContain(
+      "https://wa.me/5511999998888?text=",
     );
   });
 
-  it("esconde o CTA quando não há WhatsApp", () => {
-    render(<ProductDetailModal product={product} onOpenChange={() => {}} whatsappNumber={null} />);
+  it("desabilita o CTA quando o produto está esgotado", () => {
+    render(<ProductDetailModal product={{ ...product, is_available: false }} {...baseProps} />);
     expect(screen.queryByRole("link", { name: "order" })).not.toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "unavailable" })).toBeDisabled();
   });
 });
