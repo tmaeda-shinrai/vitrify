@@ -6,13 +6,9 @@ import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
-import {
-  createProductAction,
-  createProductImageUploadUrl,
-  updateProductAction,
-} from "@/app/(dashboard)/produtos/actions";
+import { createProductAction, updateProductAction } from "@/app/(dashboard)/produtos/actions";
 import { FieldError } from "@/components/auth/field-error";
-import { ImageUploader } from "@/components/shared/image-uploader";
+import { ProductImagesManager } from "@/components/product/product-images-manager";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -81,7 +77,7 @@ export function ProductForm({
           isAvailable: product.is_available,
           categoryId: product.category_id ?? "",
           brandName: product.brand_name ?? "",
-          imageUrl: product.cover_url ?? "",
+          images: product.images,
         }
       : {
           name: initialDraft?.name ?? "",
@@ -91,14 +87,14 @@ export function ProductForm({
           isAvailable: true,
           categoryId: "",
           brandName: "",
-          imageUrl: initialDraft?.imageUrl ?? "",
+          images: initialDraft?.images ?? [],
         },
   });
 
   const name = watch("name");
   const price = watch("price");
   const description = watch("description") ?? "";
-  const imageUrl = watch("imageUrl") ?? "";
+  const images = watch("images");
   const isAvailable = watch("isAvailable");
   const categoryId = watch("categoryId") ?? "";
 
@@ -114,8 +110,8 @@ export function ProductForm({
   // Auto-save (~5s) — apenas na criação; a edição parte do produto real.
   useEffect(() => {
     if (isEdit) return;
-    save({ name, price, description, imageUrl });
-  }, [isEdit, name, price, description, imageUrl, save]);
+    save({ name, price, description, images });
+  }, [isEdit, name, price, description, images, save]);
 
   const priceReg = register("price");
   const promoReg = register("promoPrice");
@@ -139,7 +135,7 @@ export function ProductForm({
       isAvailable: values.isAvailable,
       categoryId: values.categoryId ? values.categoryId : null,
       brandName: values.brandName ?? "",
-      imageUrl: values.imageUrl,
+      images: values.images,
     };
 
     const result = isEdit
@@ -163,17 +159,12 @@ export function ProductForm({
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" noValidate>
       <div className="space-y-1">
-        <Label>{t("photoLabel")}</Label>
-        <ImageUploader
-          value={imageUrl || null}
-          onUploaded={(url) =>
-            setValue("imageUrl", url, { shouldValidate: true, shouldDirty: true })
-          }
-          createUploadUrl={createProductImageUploadUrl}
-          bucket="products"
-          shape="square"
+        <Label>{t("photosLabel")}</Label>
+        <ProductImagesManager
+          value={images}
+          onChange={(urls) => setValue("images", urls, { shouldValidate: true, shouldDirty: true })}
         />
-        <FieldError message={errors.imageUrl?.message} />
+        <FieldError message={errors.images?.message} />
       </div>
 
       <div>

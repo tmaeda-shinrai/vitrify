@@ -2,16 +2,19 @@ import { describe, expect, it } from "vitest";
 
 import {
   PRODUCT_DESC_MAX,
+  PRODUCT_IMAGES_MAX,
   PRODUCT_NAME_MAX,
   productFormSchema,
   productSchema,
 } from "@/lib/validators/product";
 
+const IMG = "https://proj.supabase.co/storage/v1/object/public/products/u/x.webp";
+
 const valid = {
   name: "Batom Matte Vermelho",
   description: "Longa duração, cor intensa.",
   priceCents: 3290,
-  imageUrl: "https://proj.supabase.co/storage/v1/object/public/products/u/x.webp",
+  images: [IMG],
 };
 
 describe("productSchema", () => {
@@ -25,7 +28,7 @@ describe("productSchema", () => {
       productSchema.safeParse({
         name: valid.name,
         priceCents: valid.priceCents,
-        imageUrl: valid.imageUrl,
+        images: valid.images,
       }).success,
     ).toBe(true);
   });
@@ -47,13 +50,18 @@ describe("productSchema", () => {
     ).toBe(false);
   });
 
-  it("exige uma foto (imageUrl válida)", () => {
-    expect(productSchema.safeParse({ ...valid, imageUrl: "" }).success).toBe(false);
+  it("exige ao menos uma foto", () => {
+    expect(productSchema.safeParse({ ...valid, images: [] }).success).toBe(false);
     expect(
-      productSchema.safeParse({
-        name: valid.name,
-        priceCents: valid.priceCents,
-      }).success,
+      productSchema.safeParse({ name: valid.name, priceCents: valid.priceCents }).success,
+    ).toBe(false);
+  });
+
+  it("aceita de 1 a 5 fotos e barra a 6ª", () => {
+    const five = Array.from({ length: PRODUCT_IMAGES_MAX }, (_, i) => `https://x.test/${i}.webp`);
+    expect(productSchema.safeParse({ ...valid, images: five }).success).toBe(true);
+    expect(
+      productSchema.safeParse({ ...valid, images: [...five, "https://x.test/5.webp"] }).success,
     ).toBe(false);
   });
 
@@ -94,10 +102,10 @@ const validForm = {
   price: "32,90",
   promoPrice: "",
   isAvailable: true,
-  imageUrl: valid.imageUrl,
+  images: [IMG],
 };
 
-describe("productFormSchema (promoção)", () => {
+describe("productFormSchema", () => {
   it("aceita sem promoção", () => {
     expect(productFormSchema.safeParse(validForm).success).toBe(true);
   });
@@ -109,6 +117,10 @@ describe("productFormSchema (promoção)", () => {
   it("barra promoção maior ou igual ao preço", () => {
     expect(productFormSchema.safeParse({ ...validForm, promoPrice: "32,90" }).success).toBe(false);
     expect(productFormSchema.safeParse({ ...validForm, promoPrice: "40,00" }).success).toBe(false);
+  });
+
+  it("exige ao menos uma foto", () => {
+    expect(productFormSchema.safeParse({ ...validForm, images: [] }).success).toBe(false);
   });
 
   it("aceita categoria vazia e marca livre", () => {

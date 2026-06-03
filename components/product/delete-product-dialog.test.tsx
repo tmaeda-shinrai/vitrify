@@ -23,6 +23,7 @@ const product: ProductListItem = {
   category_name: null,
   brand_id: null,
   brand_name: null,
+  images: [],
   cover_url: null,
 };
 

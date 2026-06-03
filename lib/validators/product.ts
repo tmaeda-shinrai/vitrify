@@ -44,7 +44,11 @@ const priceStringField = z
   .min(1, "Informe o preço.")
   .refine((v) => parseBRLToCents(v) !== null, "Informe um preço válido.");
 
-const imageUrlField = z.string().url("Adicione uma foto do produto.");
+export const PRODUCT_IMAGES_MAX = 5;
+const imagesField = z
+  .array(z.string().url())
+  .min(1, "Adicione ao menos uma foto.")
+  .max(PRODUCT_IMAGES_MAX, `No máximo ${PRODUCT_IMAGES_MAX} fotos.`);
 
 // Marca como texto livre (o servidor resolve para brand_id via find-or-create).
 const brandNameField = z
@@ -64,7 +68,7 @@ export const productSchema = z
     isAvailable: z.boolean().default(true),
     categoryId: z.string().uuid().nullable().optional(),
     brandName: brandNameField,
-    imageUrl: imageUrlField,
+    images: imagesField,
   })
   .superRefine((data, ctx) => {
     if (data.promoPriceCents != null && data.promoPriceCents >= data.priceCents) {
@@ -86,7 +90,7 @@ export const productFormSchema = z
     isAvailable: z.boolean().default(true),
     categoryId: z.string().optional().or(z.literal("")),
     brandName: brandNameField,
-    imageUrl: imageUrlField,
+    images: imagesField,
   })
   .superRefine((data, ctx) => {
     const promoRaw = data.promoPrice?.trim() ?? "";

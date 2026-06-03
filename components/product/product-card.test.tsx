@@ -17,6 +17,7 @@ const base: ProductListItem = {
   category_name: null,
   brand_id: null,
   brand_name: null,
+  images: ["https://proj.supabase.co/storage/v1/object/public/products/u/a.webp"],
   cover_url: "https://proj.supabase.co/storage/v1/object/public/products/u/a.webp",
 };
 

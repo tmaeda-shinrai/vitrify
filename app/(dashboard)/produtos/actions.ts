@@ -106,6 +106,44 @@ async function resolveCategoryAndBrand(
   return refs;
 }
 
+/**
+ * Reconcilia `product_images` para a lista ordenada de URLs (índice 0 = capa):
+ * mantém/insere/reordena as desejadas e remove (com limpeza no Storage) as que saíram.
+ */
+async function reconcileProductImages(
+  supabase: SupabaseServer,
+  productId: string,
+  existing: { id: string; url: string }[],
+  urls: string[],
+): Promise<void> {
+  for (let index = 0; index < urls.length; index++) {
+    const url = urls[index]!;
+    const row = existing.find((e) => e.url === url);
+    if (row) {
+      await supabase.from("product_images").update({ display_order: index }).eq("id", row.id);
+    } else {
+      await supabase
+        .from("product_images")
+        .insert({ product_id: productId, url, display_order: index });
+    }
+  }
+
+  const removed = existing.filter((e) => !urls.includes(e.url));
+  if (removed.length) {
+    await supabase
+      .from("product_images")
+      .delete()
+      .in(
+        "id",
+        removed.map((r) => r.id),
+      );
+    const paths = removed
+      .map((r) => storagePathFromPublicUrl(r.url))
+      .filter((p): p is string => p !== null);
+    if (paths.length) await supabase.storage.from(PRODUCTS_BUCKET).remove(paths);
+  }
+}
+
 /** Assina o upload da foto do produto (sempre .webp) na pasta da dona. */
 export async function createProductImageUploadUrl(): Promise<SignedUpload> {
   const supabase = await createClient();
@@ -154,7 +192,7 @@ export async function createProductAction(input: unknown): Promise<ProductMutati
     isAvailable,
     categoryId,
     brandName,
-    imageUrl,
+    images,
   } = parsed.data;
 
   const [{ data: vitrine }, { data: subscription }] = await Promise.all([
@@ -211,12 +249,20 @@ export async function createProductAction(input: unknown): Promise<ProductMutati
 
   const { error: imageError } = await supabase
     .from("product_images")
-    .insert({ product_id: product.id, url: imageUrl, display_order: 0 });
+    .insert(images.map((url, index) => ({ product_id: product.id, url, display_order: index })));
 
   if (imageError) {
     // Rollback best-effort: produto sem foto não deve existir nesta etapa.
     await supabase.from("products").delete().eq("id", product.id);
-    return { ok: false, code: "ERROR", error: "Não foi possível salvar a foto. Tente novamente." };
+    const paths = images
+      .map((url) => storagePathFromPublicUrl(url))
+      .filter((p): p is string => p !== null);
+    if (paths.length) await supabase.storage.from(PRODUCTS_BUCKET).remove(paths);
+    return {
+      ok: false,
+      code: "ERROR",
+      error: "Não foi possível salvar as fotos. Tente novamente.",
+    };
   }
 
   revalidatePath(`/${vitrine.slug}`);
@@ -234,7 +280,8 @@ export async function createProductAction(input: unknown): Promise<ProductMutati
       category_name: refs.categoryName,
       brand_id: refs.brandId,
       brand_name: refs.brandName,
-      cover_url: imageUrl,
+      images,
+      cover_url: images[0] ?? null,
     },
   };
 }
@@ -270,11 +317,11 @@ export async function updateProductAction(
     isAvailable,
     categoryId,
     brandName,
-    imageUrl,
+    images,
   } = parsed.data;
 
   // RLS garante posse; a vitrine padrão dá o id (categoria/marca) e o slug (revalidate).
-  const [{ data: existing }, { data: vitrine }, { data: images }] = await Promise.all([
+  const [{ data: existing }, { data: vitrine }, { data: existingImages }] = await Promise.all([
     supabase.from("products").select("id").eq("id", productId).maybeSingle(),
     supabase
       .from("vitrines")
@@ -282,7 +329,7 @@ export async function updateProductAction(
       .eq("owner_id", user.id)
       .eq("is_default", true)
       .maybeSingle(),
-    supabase.from("product_images").select("id, url, display_order").eq("product_id", productId),
+    supabase.from("product_images").select("id, url").eq("product_id", productId),
   ]);
   if (!existing || !vitrine) return { ok: false, code: "ERROR", error: "Produto não encontrado." };
 
@@ -304,20 +351,7 @@ export async function updateProductAction(
     return { ok: false, code: "ERROR", error: "Não foi possível salvar. Tente novamente." };
   }
 
-  // Troca a capa se a foto mudou; preserva as demais imagens (o gerenciador vem no PR 3).
-  const cover = [...(images ?? [])].sort(
-    (a, b) => (a.display_order ?? 0) - (b.display_order ?? 0),
-  )[0];
-  let coverUrl = cover?.url ?? imageUrl;
-  if (imageUrl && cover && imageUrl !== cover.url) {
-    await supabase.from("product_images").update({ url: imageUrl }).eq("id", cover.id);
-    coverUrl = imageUrl;
-  } else if (imageUrl && !cover) {
-    await supabase
-      .from("product_images")
-      .insert({ product_id: productId, url: imageUrl, display_order: 0 });
-    coverUrl = imageUrl;
-  }
+  await reconcileProductImages(supabase, productId, existingImages ?? [], images);
 
   revalidatePath(`/${vitrine.slug}`);
 
@@ -334,7 +368,8 @@ export async function updateProductAction(
       category_name: refs.categoryName,
       brand_id: refs.brandId,
       brand_name: refs.brandName,
-      cover_url: coverUrl,
+      images,
+      cover_url: images[0] ?? null,
     },
   };
 }
