@@ -37,9 +37,9 @@ Permitir cobrança recorrente real via **PIX, cartão e boleto** usando o **Asaa
 - [x] Criação de cliente Asaas no 1º upgrade (CPF/CNPJ) → grava `asaas_customer_id`
 - [x] Criação de assinatura Pro/Plus (mensal e anual -20%) → grava `asaas_subscription_id`, períodos
 - [x] `/api/checkout` + tela de checkout: PIX (QR Code), cartão, boleto; tratamento de falha sem loop
-- [ ] `POST /api/webhooks/asaas`: validação HMAC + idempotência por `event_id`
-- [ ] Webhook atualiza `subscriptions.status` e insere/atualiza `invoices`
-- [ ] Service role isolado neste handler; logs sem PII
+- [x] `POST /api/webhooks/asaas`: validação do token (`asaas-access-token`, em tempo constante) + idempotência por `event_id`
+- [x] Webhook atualiza `subscriptions.status`/`plan`/período e faz upsert em `invoices`
+- [x] Service role isolado neste handler; logs sem PII
 - [ ] Criar planos no painel Asaas; preencher IDs no `.env`/Vercel
 - [ ] Testes (sandbox): assinatura criada; webhook de pagamento confirmado atualiza status; webhook duplicado é idempotente; HMAC inválido é rejeitado
 

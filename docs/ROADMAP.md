@@ -142,12 +142,12 @@ Permitir cobrança real, lidar com upgrades, refinar tudo o que já está pronto
 
 ### Semana 9 — Integração Asaas
 
-- [ ] SDK Asaas (cliente HTTP simples)
-- [ ] Criação de cliente Asaas no primeiro upgrade
-- [ ] Criação de assinatura Pro (R$ 39/mês) e Plus (R$ 69/mês)
-- [ ] Página de checkout (PIX QR Code, cartão, boleto)
-- [ ] Webhook em `/api/webhooks/asaas` com validação HMAC
-- [ ] Tabela `invoices` populada via webhook
+- [x] SDK Asaas (cliente HTTP simples) — `lib/payments/` com abstração de gateway
+- [x] Criação de cliente Asaas no primeiro upgrade
+- [x] Criação de assinatura Pro (R$ 39/mês) e Plus (R$ 69/mês)
+- [x] Página de checkout (`/assinar`) com redirect à página hospedada do Asaas (PIX/cartão/boleto)
+- [x] Webhook em `/api/webhooks/asaas` com validação de token + idempotência
+- [x] Tabela `invoices` populada via webhook
 
 ### Semana 10 — Gestão de plano
 
