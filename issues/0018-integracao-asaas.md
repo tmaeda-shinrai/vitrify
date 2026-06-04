@@ -33,7 +33,7 @@ Permitir cobrança recorrente real via **PIX, cartão e boleto** usando o **Asaa
 
 ## Tarefas
 
-- [ ] `lib/payments/` com interface neutra + implementação Asaas (cliente HTTP)
+- [x] `lib/payments/` com interface neutra + implementação Asaas (cliente HTTP)
 - [ ] Criação de cliente Asaas no 1º upgrade (CPF/CNPJ) → grava `asaas_customer_id`
 - [ ] Criação de assinatura Pro/Plus (mensal e anual -20%) → grava `asaas_subscription_id`, períodos
 - [ ] `/api/checkout` + tela de checkout: PIX (QR Code), cartão, boleto; tratamento de falha sem loop
