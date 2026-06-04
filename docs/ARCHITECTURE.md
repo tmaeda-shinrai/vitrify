@@ -87,7 +87,7 @@ Discutido em detalhe em [PRICING.md](./PRICING.md). Em resumo: Stripe não aceit
 | Forms                | React Hook Form + Zod       | latest            |
 | Estado servidor      | TanStack Query              | 5.x               |
 | Animações            | Framer Motion (uso pontual) | latest            |
-| PWA                  | next-pwa ou Serwist         | latest            |
+| PWA                  | Serwist (`@serwist/next`)   | 9.x               |
 | Compressão de imagem | browser-image-compression   | latest            |
 
 ### 3.2 Backend
