@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 
 import { DesktopSidebar } from "@/components/dashboard/desktop-sidebar";
 import { MobileBottomNav } from "@/components/dashboard/mobile-bottom-nav";
+import { PlanWelcome } from "@/components/plan/plan-welcome";
 import { InstallPrompt } from "@/components/shared/install-prompt";
 import { createClient } from "@/lib/supabase/server";
 
@@ -31,6 +32,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
       </div>
       <MobileBottomNav />
       <InstallPrompt />
+      <PlanWelcome />
     </div>
   );
 }

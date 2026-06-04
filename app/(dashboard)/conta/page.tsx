@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 
+import { ContaTabs } from "@/components/conta/conta-tabs";
 import { DeleteAccount } from "@/components/conta/delete-account";
 import { ProfileForm } from "@/components/conta/profile-form";
 import { VitrineForm } from "@/components/conta/vitrine-form";
@@ -36,6 +37,7 @@ export default async function ContaPage() {
   return (
     <div className="mx-auto max-w-xl space-y-6">
       <h1 className="font-display text-2xl font-bold">{t("title")}</h1>
+      <ContaTabs />
 
       <Card>
         <CardHeader>
