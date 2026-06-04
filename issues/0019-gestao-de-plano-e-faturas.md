@@ -36,11 +36,11 @@ A camada de produto sobre a integração Asaas: como a usuária vê e gerencia o
 - [x] `PlanComparisonTable` (Free/Pro/Plus, Pro destacado) com diferenças
 - [x] Fluxo de upgrade a partir do limite/feature paga → comparação → checkout → confirmação → toast + tour das novidades _(comparação + checkout + anual no PR1; toast + tour `PlanWelcome` no PR2)_
 - [x] Avisos de limite no Free ("5 de 5", etc.)
-- [ ] Tela "Meu plano": status/período, upgrade, downgrade, cancelamento self-service + pesquisa de saída opcional _(status/período/upgrade no PR2; cancelamento + pesquisa de saída no PR3)_
+- [x] Tela "Meu plano": status/período, upgrade, downgrade, cancelamento self-service + pesquisa de saída opcional _(status/período/upgrade no PR2; cancelamento + pesquisa de saída no PR3)_
 - [x] Histórico de faturas com download de PDF
 - [x] Opção de plano anual com -20% na UI
 - [ ] Cupons: tabelas + aplicação no checkout + limites (global/por usuária) + `PRIMEIRA50`/`ANUAL30`/`INDICACAO`
-- [ ] Garantia de 7 dias (reembolso integral) na 1ª assinatura
+- [x] Garantia de 7 dias (reembolso integral) na 1ª assinatura
 - [ ] Lógica de inadimplência/expiração: `past_due` (graça) → 14d (volta ao limite Free na vitrine) → 30d (downgrade Free, dados preservados) → reativação restaura tudo
 - [ ] E-mails: confirmação de assinatura, fatura, sequência de inadimplência (D1/D3/D7) via Resend
 - [ ] Testes: upgrade Free→Pro libera produto extra; cancelar mantém acesso até fim do período; cupom aplica desconto e respeita limite; inadimplência esconde (não apaga) excedente; reembolso 7 dias

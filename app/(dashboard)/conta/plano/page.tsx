@@ -5,12 +5,14 @@ import { Download } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 
 import { ContaTabs } from "@/components/conta/conta-tabs";
+import { PlanActions } from "@/components/plan/plan-actions";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { invoiceMethodToken, invoiceStatusVariant } from "@/lib/invoices";
 import { formatBRL } from "@/lib/money";
 import { isPaidPlan } from "@/lib/plan";
+import { isWithinRefundWindow } from "@/lib/refund";
 import { createClient } from "@/lib/supabase/server";
 import { inferBillingPeriod, SUBSCRIPTION_STATUS_VARIANT } from "@/lib/subscription";
 
@@ -63,6 +65,14 @@ export default async function MeuPlanoPage() {
     subscription?.current_period_end ?? null,
   );
 
+  // Janela de reembolso: a 1ª fatura paga (menor paid_at) tem ≤ 7 dias?
+  const firstPaidAt =
+    invoices
+      .filter((i) => i.status === "paid" && i.paid_at)
+      .map((i) => i.paid_at as string)
+      .sort()[0] ?? null;
+  const canRefund = paid && !subscription?.canceled_at && isWithinRefundWindow(firstPaidAt);
+
   return (
     <div className="mx-auto max-w-2xl space-y-6">
       <h1 className="font-display text-2xl font-bold">{t("title")}</h1>
@@ -89,6 +99,7 @@ export default async function MeuPlanoPage() {
               <Button asChild variant="outline">
                 <Link href="/assinar">{t("changePlan")}</Link>
               </Button>
+              <PlanActions canceled={!!subscription?.canceled_at} canRefund={canRefund} />
             </>
           ) : (
             <>

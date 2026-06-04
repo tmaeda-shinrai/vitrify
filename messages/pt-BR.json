@@ -385,6 +385,35 @@
     "welcomeUnlimited": "Produtos ilimitados na sua vitrine",
     "welcomeTraffic": "Origem do tráfego nas estatísticas",
     "welcomeColors": "Personalização das cores da vitrine",
-    "welcomeCta": "Explorar"
+    "welcomeCta": "Explorar",
+    "cancel": {
+      "cta": "Cancelar assinatura",
+      "title": "Cancelar assinatura",
+      "description": "Você continua com acesso até o fim do período já pago. Seus produtos não são apagados.",
+      "surveyLegend": "Conta pra gente: por que está cancelando? (opcional)",
+      "reasons": {
+        "price": "Ficou caro",
+        "usage": "Não estou usando",
+        "changed_mind": "Mudei de ideia",
+        "other": "Outro motivo"
+      },
+      "commentLabel": "Comentário",
+      "commentPlaceholder": "Quer detalhar? (opcional)",
+      "back": "Voltar",
+      "confirm": "Confirmar cancelamento",
+      "submitting": "Cancelando…",
+      "done": "Assinatura cancelada. Acesso garantido até o fim do período.",
+      "error": "Não foi possível cancelar. Tente novamente."
+    },
+    "refund": {
+      "cta": "Pedir reembolso (garantia 7 dias)",
+      "title": "Solicitar reembolso",
+      "description": "Dentro de 7 dias da primeira assinatura, você recebe o valor integral de volta. O acesso ao plano encerra agora e seus produtos são preservados.",
+      "back": "Voltar",
+      "confirm": "Confirmar reembolso",
+      "submitting": "Processando…",
+      "done": "Reembolso solicitado. O valor será estornado pelo provedor de pagamento.",
+      "error": "Não foi possível processar o reembolso. Tente novamente."
+    }
   }
 }
