@@ -12,6 +12,7 @@ export interface SubscriptionPatch {
   plan?: "pro" | "plus";
   current_period_start?: string;
   current_period_end?: string;
+  past_due_since?: string | null;
 }
 
 function addPeriod(iso: string, period: "monthly" | "yearly"): string {
@@ -28,7 +29,7 @@ function addPeriod(iso: string, period: "monthly" | "yearly"): string {
  */
 export function subscriptionPatchForPayment(record: PaymentRecord): SubscriptionPatch {
   if (record.status === "paid") {
-    const patch: SubscriptionPatch = { status: "active" };
+    const patch: SubscriptionPatch = { status: "active", past_due_since: null };
     const mapped = planFromValueCents(record.amountCents);
     if (mapped) {
       patch.plan = mapped.plan;

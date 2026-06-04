@@ -6,6 +6,8 @@
  */
 import { cache } from "react";
 
+import { effectiveProductLimit } from "@/lib/billing/limits";
+import { serverEnv } from "@/lib/env";
 import { PRODUCT_LIST_SELECT, toProductListItem } from "@/lib/products";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { createPublicClient } from "@/lib/supabase/public";
@@ -49,6 +51,25 @@ async function fetchPublicOwner(ownerId: string): Promise<PublicOwner> {
 }
 
 /**
+ * Limite efetivo de produtos da vitrine conforme o plano/estado da dona (#0019):
+ * Free ou inadimplente há ≥14 dias mostra só o limite Free (esconde o excedente).
+ * `null` = sem limite. Lê a assinatura via service role (sem RLS pública).
+ */
+async function fetchOwnerProductLimit(ownerId: string): Promise<number | null> {
+  const admin = createAdminClient();
+  const { data } = await admin
+    .from("subscriptions")
+    .select("plan, past_due_since")
+    .eq("owner_id", ownerId)
+    .maybeSingle();
+  return effectiveProductLimit(
+    data?.plan ?? "free",
+    data?.past_due_since ?? null,
+    serverEnv.LIMIT_FREE_PRODUCTS,
+  );
+}
+
+/**
  * Busca a vitrine ativa por slug com seus produtos ativos e o contato da dona.
  * Retorna `null` se o slug não existir ou a vitrine estiver inativa.
  *
@@ -67,7 +88,7 @@ export const getPublicVitrine = cache(async (slug: string): Promise<PublicVitrin
 
   if (!vitrine) return null;
 
-  const [{ data: productRows }, owner] = await Promise.all([
+  const [{ data: productRows }, owner, productLimit] = await Promise.all([
     supabase
       .from("products")
       .select(PRODUCT_LIST_SELECT)
@@ -77,7 +98,12 @@ export const getPublicVitrine = cache(async (slug: string): Promise<PublicVitrin
       .order("created_at", { ascending: false })
       .limit(PRODUCT_LIMIT),
     fetchPublicOwner(vitrine.owner_id),
+    fetchOwnerProductLimit(vitrine.owner_id),
   ]);
+
+  // Inadimplência/Free: esconde o excedente (mantém a ordem; nunca apaga).
+  const allProducts = (productRows ?? []).map(toProductListItem);
+  const products = productLimit !== null ? allProducts.slice(0, productLimit) : allProducts;
 
   return {
     id: vitrine.id,
@@ -88,6 +114,6 @@ export const getPublicVitrine = cache(async (slug: string): Promise<PublicVitrin
     themeMode: normalizeThemeMode(vitrine.theme_mode),
     themePrimary: vitrine.theme_primary,
     owner,
-    products: (productRows ?? []).map(toProductListItem),
+    products,
   };
 });

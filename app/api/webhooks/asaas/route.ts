@@ -31,7 +31,7 @@ async function resolveSubscription(
   if (subscriptionId) {
     const { data } = await admin
       .from("subscriptions")
-      .select("id, plan")
+      .select("id, plan, past_due_since")
       .eq("asaas_subscription_id", subscriptionId)
       .maybeSingle();
     if (data) return data;
@@ -39,7 +39,7 @@ async function resolveSubscription(
   if (customerId) {
     const { data } = await admin
       .from("subscriptions")
-      .select("id, plan")
+      .select("id, plan, past_due_since")
       .eq("asaas_customer_id", customerId)
       .maybeSingle();
     if (data) return data;
@@ -121,6 +121,10 @@ export async function POST(request: NextRequest) {
     if (invoiceError) throw new Error(`invoice upsert (${invoiceError.code})`);
 
     const patch = subscriptionPatchForPayment(record);
+    // Marca o início da inadimplência só na 1ª vez (não reinicia o relógio a cada reentrega).
+    if (patch.status === "past_due" && !subscription.past_due_since) {
+      patch.past_due_since = new Date().toISOString();
+    }
     if (Object.keys(patch).length > 0) {
       const { error: subError } = await admin
         .from("subscriptions")
