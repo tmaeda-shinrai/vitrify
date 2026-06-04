@@ -33,12 +33,12 @@ A camada de produto sobre a integração Asaas: como a usuária vê e gerencia o
 
 ## Tarefas
 
-- [ ] `PlanComparisonTable` (Free/Pro/Plus, Pro destacado) com diferenças
-- [ ] Fluxo de upgrade a partir do limite/feature paga → comparação → checkout → confirmação → toast + tour das novidades
-- [ ] Avisos de limite no Free ("5 de 5", etc.)
+- [x] `PlanComparisonTable` (Free/Pro/Plus, Pro destacado) com diferenças
+- [ ] Fluxo de upgrade a partir do limite/feature paga → comparação → checkout → confirmação → toast + tour das novidades _(comparação + checkout + anual feitos no PR1; toast + tour das novidades no PR2)_
+- [x] Avisos de limite no Free ("5 de 5", etc.)
 - [ ] Tela "Meu plano": status/período, upgrade, downgrade, cancelamento self-service + pesquisa de saída opcional
 - [ ] Histórico de faturas com download de PDF
-- [ ] Opção de plano anual com -20% na UI
+- [x] Opção de plano anual com -20% na UI
 - [ ] Cupons: tabelas + aplicação no checkout + limites (global/por usuária) + `PRIMEIRA50`/`ANUAL30`/`INDICACAO`
 - [ ] Garantia de 7 dias (reembolso integral) na 1ª assinatura
 - [ ] Lógica de inadimplência/expiração: `past_due` (graça) → 14d (volta ao limite Free na vitrine) → 30d (downgrade Free, dados preservados) → reativação restaura tudo
