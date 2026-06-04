@@ -146,7 +146,9 @@ vitrine/
 │   └── shared/
 ├── lib/
 │   ├── supabase/                 # Clients: server, browser, public (anon) e admin (service role)
-│   ├── asaas/                    # SDK do gateway
+│   ├── payments/                 # Abstração de gateway (PaymentGateway) + impl Asaas (#0018). `lib/asaas/` é stub vazio.
+│   ├── billing/                  # Inadimplência: transições por tempo + limite efetivo da vitrine (#0019)
+│   ├── email/                    # E-mails transacionais via Resend (#0019)
 │   ├── validators/               # Schemas Zod
 │   ├── utils/
 │   └── analytics/

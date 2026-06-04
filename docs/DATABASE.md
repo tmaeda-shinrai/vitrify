@@ -197,12 +197,16 @@ CREATE TABLE subscriptions (
   current_period_start TIMESTAMPTZ,
   current_period_end TIMESTAMPTZ,
   canceled_at TIMESTAMPTZ,
+  past_due_since TIMESTAMPTZ,                  -- início da inadimplência (#0019): régua D14/D30 e dunning
   created_at TIMESTAMPTZ DEFAULT now(),
   updated_at TIMESTAMPTZ DEFAULT now()
 );
 
 CREATE INDEX idx_subscriptions_status ON subscriptions(status);
+CREATE INDEX idx_subscriptions_past_due ON subscriptions(past_due_since) WHERE past_due_since IS NOT NULL;
 ```
+
+> `past_due_since` é setada pelo webhook do Asaas quando a assinatura entra em `past_due` (e limpa ao voltar a pagar). A partir dela, a vitrine pública esconde o excedente após 14 dias (cálculo ao vivo em `lib/billing/limits`) e o cron de billing rebaixa para Free aos 30 dias (`lib/billing/transitions` + `POST /api/cron/billing`). Cancelamento (`request_subscription_cancel`), reembolso (`downgrade_to_free`) e checkout (`attach_asaas_checkout`) escrevem via funções `SECURITY DEFINER` restritas a `auth.uid()`, pois a RLS de `subscriptions` é select-only.
 
 ### 2.9 `invoices`
 
