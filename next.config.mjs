@@ -37,4 +37,14 @@ export default withSentryConfig(config, {
   silent: !process.env.CI,
   widenClientFileUpload: true,
   sourcemaps: { disable: !process.env.SENTRY_AUTH_TOKEN },
+  // Enxuga o SDK no bundle (#0017 PR4): só queremos captura de erros, não
+  // performance tracing nem session replay — protege o orçamento de JS da
+  // vitrine pública (ARCHITECTURE §7). Performance monitoring pode voltar depois.
+  bundleSizeOptimizations: {
+    excludeTracing: true,
+    excludeReplayShadowDom: true,
+    excludeReplayIframe: true,
+    excludeReplayWorker: true,
+    excludeDebugStatements: true,
+  },
 });

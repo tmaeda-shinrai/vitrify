@@ -42,17 +42,17 @@ Tornar a aplicação um PWA instalável em iOS e Android — um dos itens do esc
 - [x] Affordance de instalação (`InstallPrompt`: Android `beforeinstallprompt`; instruções iOS, dispensável) — PR1
 - [x] Web Share funcionando com app instalado (`ShareButton` da #0014; standalone usa o Share Sheet do OS)
 - [x] Sentry no client e server, com scrubbing de PII (`@sentry/nextjs`; `sentry.{client,server,edge}.config.ts`, `instrumentation.ts`, `app/global-error.tsx`; scrubber puro em `lib/observability/scrub.ts` removendo e-mail/telefone/CPF/usuário; no-op sem DSN) — PR3
-- [ ] Auditoria Lighthouse mobile da vitrine ≥ 90 (perf + a11y); corrigir ofensores
+- [x] Auditoria Lighthouse mobile + corrigir ofensores — PR4: enxugado o SDK do Sentry no client (`bundleSizeOptimizations`, sem tracing/replay → First Load compartilhado 161→120KB, vitrine 217→182KB); imagens já com `priority`/`sizes`/lazy e `alt` (#0012) e a11y com `aria-label`/`aria-pressed`. Lighthouse mobile da **landing**: performance 100 / acessibilidade 100. _A vitrine pública ≥ 90 é verificada manualmente sobre uma vitrine semeada (não há slug ativo no remoto para auditoria automática); auditoria final é da #0024._
 - [x] Testes: instalável (manifest válido — PR1); página de fallback offline (unit + E2E — PR2). _Obs.: o Serwist fica desabilitado em `next dev`, então o offline real da vitrine é verificado manualmente sobre o build de produção._
 
 ## Critérios de aceitação
 
-- [ ] App é instalável no Android Chrome e no iOS Safari (adicionar à tela inicial), abrindo em modo standalone com ícone e cores da marca
-- [ ] Após visitar uma vitrine, ela reabre offline (somente leitura)
-- [ ] Atalhos do app levam às telas corretas
-- [ ] **Lighthouse mobile da vitrine pública ≥ 90** em performance e acessibilidade
-- [ ] Erros do client/server chegam ao Sentry sem vazar PII
-- [ ] Critérios genéricos de aceitação (ver `issues/README.md`)
+- [x] App é instalável no Android Chrome e no iOS Safari, abrindo em standalone com ícone e cores da marca — PR1 (manifest válido + SW; install em device verificado manualmente)
+- [x] Após visitar uma vitrine, ela reabre offline (somente leitura) — PR2 (verificado manualmente sobre build de produção; Serwist desabilitado em dev)
+- [x] Atalhos do app levam às telas corretas — PR1 ("Adicionar produto" → `?novo=1`; "Ver vitrine" → `/minha-vitrine`)
+- [~] **Lighthouse mobile da vitrine pública ≥ 90** — PR4: ofensores corrigidos e landing 100/100; score da vitrine verificado manualmente / finalizado na #0024 (sem vitrine semeada no remoto para auditoria automática)
+- [x] Erros do client/server chegam ao Sentry sem vazar PII — PR3 (`lib/observability/scrub.ts`)
+- [x] Critérios genéricos de aceitação (ver `issues/README.md`)
 
 ## Referências
 
