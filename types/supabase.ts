@@ -329,6 +329,30 @@ export type Database = {
           },
         ];
       };
+      payment_webhook_events: {
+        Row: {
+          event_id: string;
+          event_type: string | null;
+          id: string;
+          payment_id: string | null;
+          received_at: string;
+        };
+        Insert: {
+          event_id: string;
+          event_type?: string | null;
+          id?: string;
+          payment_id?: string | null;
+          received_at?: string;
+        };
+        Update: {
+          event_id?: string;
+          event_type?: string | null;
+          id?: string;
+          payment_id?: string | null;
+          received_at?: string;
+        };
+        Relationships: [];
+      };
       product_images: {
         Row: {
           alt_text: string | null;
