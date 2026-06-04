@@ -12,6 +12,8 @@ export const checkoutSchema = z.object({
   plan: z.enum(["pro", "plus"]),
   period: z.enum(["monthly", "yearly"]),
   cpfCnpj: z.string().trim().refine(isValidCpfCnpj, "Informe um CPF ou CNPJ válido."),
+  /** Cupom opcional (#0019); normalizado/validado no servidor. */
+  coupon: z.string().trim().max(40).optional(),
 });
 
 export type CheckoutInput = z.infer<typeof checkoutSchema>;

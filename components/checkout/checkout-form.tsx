@@ -45,7 +45,7 @@ export function CheckoutForm({ options, defaultPlan }: Props) {
     formState: { errors },
   } = useForm<CheckoutInput>({
     resolver: zodResolver(checkoutSchema),
-    defaultValues: { plan: defaultPlan, period: "monthly", cpfCnpj: "" },
+    defaultValues: { plan: defaultPlan, period: "monthly", cpfCnpj: "", coupon: "" },
   });
 
   const selectedPlan = watch("plan");
@@ -161,6 +161,17 @@ export function CheckoutForm({ options, defaultPlan }: Props) {
         />
         <FieldError message={errors.cpfCnpj?.message} />
         <p className="mt-1.5 text-xs text-muted-foreground">{t("cpfCnpjHint")}</p>
+      </div>
+
+      <div>
+        <Label htmlFor="coupon">{t("couponLabel")}</Label>
+        <Input
+          id="coupon"
+          autoComplete="off"
+          autoCapitalize="characters"
+          placeholder={t("couponPlaceholder")}
+          {...register("coupon")}
+        />
       </div>
 
       <Button type="submit" className="w-full" disabled={submitting}>

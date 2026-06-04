@@ -180,6 +180,7 @@ export class AsaasGateway implements PaymentGateway {
 
     return {
       subscriptionId: sub.id,
+      firstPaymentId: first?.id ?? null,
       currentPeriodStart: dateToIso(nextDueDate),
       currentPeriodEnd: addCycle(nextDueDate, input.cycle),
       invoiceUrl: first?.invoiceUrl ?? null,
@@ -195,6 +196,19 @@ export class AsaasGateway implements PaymentGateway {
   async refundPayment(paymentId: string): Promise<void> {
     await asaasFetch<{ status: string }>(`/payments/${paymentId}/refund`, {
       method: "POST",
+    });
+  }
+
+  async updatePayment(
+    paymentId: string,
+    changes: { valueCents?: number; dueDate?: string },
+  ): Promise<void> {
+    const body: Record<string, unknown> = {};
+    if (changes.valueCents !== undefined) body.value = centsToReais(changes.valueCents);
+    if (changes.dueDate) body.dueDate = changes.dueDate;
+    await asaasFetch<{ id: string }>(`/payments/${paymentId}`, {
+      method: "PUT",
+      body: JSON.stringify(body),
     });
   }
 

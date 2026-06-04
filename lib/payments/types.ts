@@ -38,6 +38,8 @@ export interface SubscriptionInput {
 
 export interface CreatedSubscription {
   subscriptionId: string;
+  /** Id da 1ª cobrança — usado para aplicar desconto de cupom só nela (#0019). */
+  firstPaymentId: string | null;
   /** Início do período corrente (ISO) — o webhook é a fonte autoritativa depois. */
   currentPeriodStart: string | null;
   currentPeriodEnd: string | null;
@@ -70,6 +72,11 @@ export interface PaymentGateway {
   cancelSubscription(subscriptionId: string): Promise<void>;
   /** Estorno integral de uma cobrança (garantia de 7 dias — #0019). */
   refundPayment(paymentId: string): Promise<void>;
+  /** Ajusta uma cobrança (valor e/ou vencimento) — usado p/ cupom na 1ª cobrança (#0019). */
+  updatePayment(
+    paymentId: string,
+    changes: { valueCents?: number; dueDate?: string },
+  ): Promise<void>;
   getPayment(paymentId: string): Promise<PaymentRecord>;
 }
 
