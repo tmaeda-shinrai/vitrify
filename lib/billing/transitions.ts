@@ -21,6 +21,12 @@ function ageDays(iso: string, now: Date): number {
   return (now.getTime() - new Date(iso).getTime()) / 86_400_000;
 }
 
+/** Etapa da régua de inadimplência (D1/D3/D7) para a idade do `past_due_since`. */
+export function dunningStage(pastDueSince: string, now: Date = new Date()): 1 | 3 | 7 | null {
+  const age = Math.floor(ageDays(pastDueSince, now));
+  return age === 1 || age === 3 || age === 7 ? age : null;
+}
+
 export function decideBillingAction(
   sub: BillingSubscription,
   now: Date = new Date(),

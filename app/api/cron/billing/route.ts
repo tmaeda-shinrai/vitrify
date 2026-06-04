@@ -1,7 +1,10 @@
 import { timingSafeEqual } from "node:crypto";
 import { NextResponse, type NextRequest } from "next/server";
 
-import { decideBillingAction } from "@/lib/billing/transitions";
+import { decideBillingAction, dunningStage } from "@/lib/billing/transitions";
+import { sendEmail } from "@/lib/email/client";
+import { getUserEmail } from "@/lib/email/recipient";
+import { dunningEmail } from "@/lib/email/templates";
 import { serverEnv } from "@/lib/env";
 import { createAdminClient } from "@/lib/supabase/admin";
 
@@ -31,7 +34,7 @@ export async function POST(request: NextRequest) {
   const admin = createAdminClient();
   const { data: subs, error } = await admin
     .from("subscriptions")
-    .select("id, plan, status, past_due_since, canceled_at, current_period_end")
+    .select("id, plan, status, past_due_since, canceled_at, current_period_end, owner_id")
     .neq("plan", "free")
     .or("status.eq.past_due,canceled_at.not.is.null")
     .limit(500);
@@ -43,8 +46,25 @@ export async function POST(request: NextRequest) {
 
   const now = new Date();
   let downgraded = 0;
+  let dunningSent = 0;
 
   for (const sub of subs ?? []) {
+    // Régua de inadimplência D1/D3/D7 (e-mail), isolada — nunca quebra o cron.
+    if (sub.status === "past_due" && sub.past_due_since) {
+      const stage = dunningStage(sub.past_due_since, now);
+      if (stage) {
+        try {
+          const email = await getUserEmail(admin, sub.owner_id);
+          if (email) {
+            await sendEmail({ to: email, ...dunningEmail(stage) });
+            dunningSent += 1;
+          }
+        } catch {
+          // best-effort
+        }
+      }
+    }
+
     const action = decideBillingAction(sub, now);
     if (action === "none") continue;
 
@@ -57,5 +77,5 @@ export async function POST(request: NextRequest) {
     if (!updateError) downgraded += 1;
   }
 
-  return NextResponse.json({ ok: true, scanned: subs?.length ?? 0, downgraded });
+  return NextResponse.json({ ok: true, scanned: subs?.length ?? 0, downgraded, dunningSent });
 }

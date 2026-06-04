@@ -151,12 +151,12 @@ Permitir cobrança real, lidar com upgrades, refinar tudo o que já está pronto
 
 ### Semana 10 — Gestão de plano
 
-- [ ] Tela "Meu plano" com upgrade, downgrade, cancelamento
-- [ ] Histórico de faturas com download de PDF
-- [ ] Comportamento ao expirar (downgrade para Free, sem perda de dados)
-- [ ] Aviso quando atinge limite do Free com CTA para upgrade
-- [ ] Cupons promocionais (PRIMEIRA50)
-- [ ] Pagamento anual com 20% de desconto
+- [x] Tela "Meu plano" com upgrade, downgrade, cancelamento
+- [x] Histórico de faturas com download de PDF
+- [x] Comportamento ao expirar (downgrade para Free, sem perda de dados)
+- [x] Aviso quando atinge limite do Free com CTA para upgrade
+- [x] Cupons promocionais (PRIMEIRA50)
+- [x] Pagamento anual com 20% de desconto
 
 ### Semana 11 — Suporte e conteúdo
 

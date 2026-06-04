@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { effectiveProductLimit } from "./limits";
-import { type BillingSubscription, decideBillingAction } from "./transitions";
+import { type BillingSubscription, decideBillingAction, dunningStage } from "./transitions";
 
 const now = new Date("2026-07-15T12:00:00Z");
 
@@ -54,6 +54,16 @@ describe("decideBillingAction", () => {
         now,
       ),
     ).toBe("none");
+  });
+});
+
+describe("dunningStage", () => {
+  it("retorna 1/3/7 nos dias exatos e null nos demais", () => {
+    expect(dunningStage("2026-07-14T12:00:00Z", now)).toBe(1);
+    expect(dunningStage("2026-07-12T12:00:00Z", now)).toBe(3);
+    expect(dunningStage("2026-07-08T12:00:00Z", now)).toBe(7);
+    expect(dunningStage("2026-07-13T12:00:00Z", now)).toBeNull(); // 2 dias
+    expect(dunningStage("2026-07-01T12:00:00Z", now)).toBeNull(); // 14 dias
   });
 });
 

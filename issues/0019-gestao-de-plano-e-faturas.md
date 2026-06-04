@@ -42,8 +42,8 @@ A camada de produto sobre a integração Asaas: como a usuária vê e gerencia o
 - [x] Cupons: tabelas + aplicação no checkout + limites (global/por usuária) + `PRIMEIRA50`/`ANUAL30`/`INDICACAO`
 - [x] Garantia de 7 dias (reembolso integral) na 1ª assinatura
 - [x] Lógica de inadimplência/expiração: `past_due` (graça) → 14d (volta ao limite Free na vitrine) → 30d (downgrade Free, dados preservados) → reativação restaura tudo
-- [ ] E-mails: confirmação de assinatura, fatura, sequência de inadimplência (D1/D3/D7) via Resend
-- [ ] Testes: upgrade Free→Pro libera produto extra; cancelar mantém acesso até fim do período; cupom aplica desconto e respeita limite; inadimplência esconde (não apaga) excedente; reembolso 7 dias
+- [x] E-mails: confirmação de assinatura, fatura, sequência de inadimplência (D1/D3/D7) via Resend
+- [x] Testes: upgrade Free→Pro libera produto extra; cancelar mantém acesso até fim do período; cupom aplica desconto e respeita limite; inadimplência esconde (não apaga) excedente; reembolso 7 dias
 
 ## Critérios de aceitação
 
