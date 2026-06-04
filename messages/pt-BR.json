@@ -343,5 +343,48 @@
       "unlimited": "Ilimitado",
       "upTo3": "Até 3"
     }
+  },
+  "plano": {
+    "title": "Meu plano",
+    "profileTab": "Perfil",
+    "planTab": "Meu plano",
+    "currentPlan": "Plano {plan}",
+    "status": {
+      "trialing": "Em teste",
+      "active": "Ativo",
+      "past_due": "Pagamento pendente",
+      "canceled": "Cancelado",
+      "expired": "Expirado"
+    },
+    "period": {
+      "monthly": "Cobrança mensal",
+      "yearly": "Cobrança anual"
+    },
+    "nextCharge": "Próxima cobrança em {date}.",
+    "accessUntil": "Cancelado. Acesso garantido até {date}.",
+    "changePlan": "Trocar de plano",
+    "freeDescription": "Você está no plano Free. Faça upgrade para liberar produtos ilimitados e recursos avançados.",
+    "seePlans": "Ver planos",
+    "invoicesTitle": "Faturas",
+    "noInvoices": "Nenhuma fatura por aqui ainda.",
+    "downloadPdf": "Baixar PDF",
+    "method": {
+      "pix": "PIX",
+      "credit_card": "Cartão",
+      "boleto": "Boleto"
+    },
+    "invoiceStatus": {
+      "paid": "Paga",
+      "pending": "Pendente",
+      "overdue": "Vencida",
+      "refunded": "Reembolsada"
+    },
+    "welcomeToast": "Bem-vinda ao {plan}! 🎉",
+    "welcomeTitle": "Bem-vinda ao {plan}!",
+    "welcomeDescription": "Seu plano está ativo. Veja o que você desbloqueou:",
+    "welcomeUnlimited": "Produtos ilimitados na sua vitrine",
+    "welcomeTraffic": "Origem do tráfego nas estatísticas",
+    "welcomeColors": "Personalização das cores da vitrine",
+    "welcomeCta": "Explorar"
   }
 }
