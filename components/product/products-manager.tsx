@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useQueryClient } from "@tanstack/react-query";
 import {
@@ -41,6 +42,7 @@ import { BRANDS_QUERY_KEY, useBrands } from "@/hooks/use-brands";
 import { useCategories } from "@/hooks/use-categories";
 import { PRODUCTS_QUERY_KEY, useProducts } from "@/hooks/use-products";
 import { moveById, type BrandItem, type CategoryItem, type ProductListItem } from "@/lib/products";
+import { cn } from "@/lib/utils";
 
 interface Props {
   vitrineId: string;
@@ -183,6 +185,24 @@ export function ProductsManager({
           </Button>
         </div>
       </header>
+
+      {productLimit !== null ? (
+        <div
+          className={cn(
+            "flex flex-wrap items-center justify-between gap-3 rounded-lg border p-3 text-sm",
+            atLimit ? "border-primary/40 bg-primary/5" : "border-input bg-muted/40",
+          )}
+        >
+          <span className={atLimit ? "font-medium" : "text-muted-foreground"}>
+            {atLimit
+              ? t("limitBannerReached", { limit: productLimit })
+              : t("limitBannerCount", { count: products.length, limit: productLimit })}
+          </span>
+          <Button asChild size="sm" variant={atLimit ? "default" : "outline"}>
+            <Link href="/assinar">{t("limitBannerCta")}</Link>
+          </Button>
+        </div>
+      ) : null}
 
       {products.length === 0 ? (
         <EmptyState

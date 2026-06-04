@@ -211,7 +211,10 @@
     "limitTitle": "Você atingiu o limite do plano Free",
     "limitDescription": "O plano Free permite até 5 produtos. Faça upgrade para o Pro e cadastre quantos quiser.",
     "limitCta": "Conhecer o Pro",
-    "limitDismiss": "Agora não"
+    "limitDismiss": "Agora não",
+    "limitBannerCount": "Você tem {count} de {limit} produtos no plano Free.",
+    "limitBannerReached": "Você atingiu o limite de {limit} produtos do plano Free.",
+    "limitBannerCta": "Fazer upgrade"
   },
   "vitrine": {
     "emptyTitle": "Vitrine em montagem",
@@ -297,6 +300,10 @@
       "plus": {
         "name": "Plus",
         "description": "Tudo do Pro, com mais vitrines e recursos para quem vende em escala."
+      },
+      "free": {
+        "name": "Free",
+        "description": "Para começar."
       }
     },
     "cpfCnpjLabel": "CPF ou CNPJ",
@@ -305,6 +312,36 @@
     "submit": "Ir para o pagamento",
     "submitting": "Gerando cobrança…",
     "redirectNote": "Você será levada à página segura do Asaas para pagar via PIX, cartão ou boleto.",
-    "genericError": "Não foi possível iniciar o pagamento. Tente novamente."
+    "genericError": "Não foi possível iniciar o pagamento. Tente novamente.",
+    "comparisonTitle": "Compare os planos",
+    "billingPeriod": "Período de cobrança",
+    "periodMonthly": "Mensal",
+    "periodYearly": "Anual (-20%)",
+    "perYear": "{price}/ano",
+    "perMonthEquivalent": "equivale a {price}/mês",
+    "featureColumn": "Recurso",
+    "included": "incluído",
+    "notIncluded": "não incluído",
+    "features": {
+      "publicVitrine": "Vitrine pública",
+      "slug": "Slug personalizado",
+      "whatsapp": "Botão WhatsApp",
+      "productLimit": "Limite de produtos",
+      "multiPhotos": "Múltiplas fotos por produto",
+      "categories": "Categorias e filtros",
+      "basicStats": "Estatísticas básicas",
+      "trafficSource": "Origem do tráfego",
+      "colors": "Personalização de cores",
+      "video": "Vídeo nos produtos",
+      "multiVitrines": "Múltiplas vitrines",
+      "customDomain": "Domínio próprio",
+      "prioritySupport": "Suporte prioritário",
+      "exportReports": "Exportar relatórios"
+    },
+    "values": {
+      "limit5": "5 produtos",
+      "unlimited": "Ilimitado",
+      "upTo3": "Até 3"
+    }
   }
 }
