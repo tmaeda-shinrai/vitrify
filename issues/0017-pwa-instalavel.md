@@ -41,7 +41,7 @@ Tornar a aplicação um PWA instalável em iOS e Android — um dos itens do esc
 - [x] Atalhos no manifest ("Adicionar produto" → `/produtos?novo=1`; "Ver vitrine" → `/minha-vitrine`) — PR1
 - [x] Affordance de instalação (`InstallPrompt`: Android `beforeinstallprompt`; instruções iOS, dispensável) — PR1
 - [x] Web Share funcionando com app instalado (`ShareButton` da #0014; standalone usa o Share Sheet do OS)
-- [ ] Sentry no client e server, com scrubbing de PII
+- [x] Sentry no client e server, com scrubbing de PII (`@sentry/nextjs`; `sentry.{client,server,edge}.config.ts`, `instrumentation.ts`, `app/global-error.tsx`; scrubber puro em `lib/observability/scrub.ts` removendo e-mail/telefone/CPF/usuário; no-op sem DSN) — PR3
 - [ ] Auditoria Lighthouse mobile da vitrine ≥ 90 (perf + a11y); corrigir ofensores
 - [x] Testes: instalável (manifest válido — PR1); página de fallback offline (unit + E2E — PR2). _Obs.: o Serwist fica desabilitado em `next dev`, então o offline real da vitrine é verificado manualmente sobre o build de produção._
 
