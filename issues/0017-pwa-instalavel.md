@@ -34,13 +34,13 @@ Tornar a aplicação um PWA instalável em iOS e Android — um dos itens do esc
 
 ## Tarefas
 
-- [ ] `manifest.json` + ícones (vários tamanhos) gerados; `theme_color`/`background_color` da marca
+- [x] `manifest.json` + ícones (vários tamanhos) gerados; `theme_color`/`background_color` da marca — PR1 (`app/manifest.ts`, `scripts/generate-icons.mjs`; ícone-fonte monograma temporário em `assets/icon-source.svg`)
 - [ ] Service worker (`next-pwa`/Serwist) registrado; estratégias de cache por recurso
 - [ ] Cache offline read-only da vitrine pública
 - [ ] Cache da última versão do painel (offline)
-- [ ] Atalhos no manifest ("Adicionar produto", "Ver vitrine")
-- [ ] Affordance de instalação (Android `beforeinstallprompt`; instruções iOS)
-- [ ] Web Share funcionando com app instalado (coordena com #0014)
+- [x] Atalhos no manifest ("Adicionar produto" → `/produtos?novo=1`; "Ver vitrine" → `/minha-vitrine`) — PR1
+- [x] Affordance de instalação (`InstallPrompt`: Android `beforeinstallprompt`; instruções iOS, dispensável) — PR1
+- [x] Web Share funcionando com app instalado (`ShareButton` da #0014; standalone usa o Share Sheet do OS)
 - [ ] Sentry no client e server, com scrubbing de PII
 - [ ] Auditoria Lighthouse mobile da vitrine ≥ 90 (perf + a11y); corrigir ofensores
 - [ ] Testes: instalável (manifest válido, SW registra); vitrine abre offline após primeira visita

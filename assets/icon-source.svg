@@ -1,0 +1,12 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <!-- Monograma temporário do Vitrinio (#0017) — substituir pelo logo final. -->
+  <rect width="512" height="512" rx="112" fill="#7C3AED" />
+  <path
+    d="M150 158 L256 360 L362 158"
+    fill="none"
+    stroke="#FFFFFF"
+    stroke-width="60"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+</svg>

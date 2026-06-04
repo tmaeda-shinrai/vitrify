@@ -27,6 +27,16 @@ export const metadata: Metadata = {
   title: `${clientEnv.NEXT_PUBLIC_APP_NAME} — sua vitrine digital em um link`,
   description: "Monte sua vitrine, compartilhe o link nas redes e venda direto pelo WhatsApp.",
   applicationName: clientEnv.NEXT_PUBLIC_APP_NAME,
+  manifest: "/manifest.webmanifest",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: clientEnv.NEXT_PUBLIC_APP_NAME,
+  },
+  icons: {
+    icon: [{ url: "/icons/icon-192.png", sizes: "192x192", type: "image/png" }],
+    apple: [{ url: "/icons/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
+  },
 };
 
 export const viewport: Viewport = {

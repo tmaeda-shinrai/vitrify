@@ -1,6 +1,7 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { useQueryClient } from "@tanstack/react-query";
 import {
   closestCenter,
@@ -62,6 +63,7 @@ export function ProductsManager({
   productLimit,
 }: Props) {
   const t = useTranslations("produtos");
+  const searchParams = useSearchParams();
   const queryClient = useQueryClient();
   const { data: products } = useProducts(initialProducts);
   const { data: categories } = useCategories(initialCategories);
@@ -153,6 +155,14 @@ export function ProductsManager({
     setFormOpen(false);
     setLimitOpen(true);
   }
+
+  // Atalho do PWA "Adicionar produto" (#0017): abre o formulário ao chegar com ?novo=1.
+  useEffect(() => {
+    if (searchParams.get("novo") !== "1") return;
+    handleAdd();
+    window.history.replaceState(null, "", "/produtos");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams]);
 
   return (
     <div className="space-y-6">

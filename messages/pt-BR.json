@@ -11,6 +11,13 @@
     "share": "Compartilhar",
     "linkCopied": "Link copiado!"
   },
+  "pwa": {
+    "installTitle": "Instale o {appName}",
+    "installDescription": "Adicione à tela inicial para abrir rápido, em tela cheia.",
+    "install": "Instalar app",
+    "dismiss": "Agora não",
+    "iosInstructions": "Toque em Compartilhar e depois em \"Adicionar à Tela de Início\"."
+  },
   "landing": {
     "title": "Sua vitrine digital em um link",
     "subtitle": "Monte sua loja, compartilhe nas redes e venda pelo WhatsApp.",
