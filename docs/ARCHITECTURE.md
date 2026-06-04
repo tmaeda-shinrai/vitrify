@@ -300,6 +300,8 @@ Estruturados em JSON, com `userId`, `requestId`, `route`, `level`. Coletados via
 
 Sentry com source maps. Alertas no Slack/Discord para erros críticos. Filtro de PII (nunca enviar e-mail, telefone, senha para Sentry).
 
+Implementado (#0017): `@sentry/nextjs` com `sentry.{client,server,edge}.config.ts` carregadas via `instrumentation.ts`, `app/global-error.tsx` para erros de render, e `withSentryConfig` no `next.config.mjs` (upload de source maps só com `SENTRY_AUTH_TOKEN`). O scrubbing de PII é centralizado em `lib/observability/scrub.ts` (`beforeSend`/`beforeSendTransaction`): remove `user` (e-mail/usuário/IP), cookies/authorization e redige e-mail/telefone/CPF em message, querystring, breadcrumbs e extra — preservando stack traces. Sem `NEXT_PUBLIC_SENTRY_DSN` o SDK fica desabilitado (dev/local). Alertas no Slack/Discord ficam para #0024.
+
 ### 8.4 Alertas
 
 | Condição                           | Canal          | Severidade |

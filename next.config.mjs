@@ -1,3 +1,4 @@
+import { withSentryConfig } from "@sentry/nextjs";
 import withSerwistInit from "@serwist/next";
 import createNextIntlPlugin from "next-intl/plugin";
 
@@ -15,6 +16,8 @@ const withSerwist = withSerwistInit({
 const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
+  // Habilita instrumentation.ts (carrega o Sentry server/edge) no Next 14.
+  experimental: { instrumentationHook: true },
   images: {
     remotePatterns: [
       { protocol: "https", hostname: "*.supabase.co" },
@@ -23,4 +26,15 @@ const nextConfig = {
   },
 };
 
-export default withSerwist(withNextIntl(nextConfig));
+const config = withSerwist(withNextIntl(nextConfig));
+
+// Sentry (#0017): injeta a instrumentação do client/server. Upload de source
+// maps só quando há SENTRY_AUTH_TOKEN (CI/prod); no-op sem DSN (dev/local).
+export default withSentryConfig(config, {
+  org: process.env.SENTRY_ORG,
+  project: process.env.SENTRY_PROJECT,
+  authToken: process.env.SENTRY_AUTH_TOKEN,
+  silent: !process.env.CI,
+  widenClientFileUpload: true,
+  sourcemaps: { disable: !process.env.SENTRY_AUTH_TOKEN },
+});
