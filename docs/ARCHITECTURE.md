@@ -243,7 +243,7 @@ Toda input do usuário passa por validação Zod tanto no cliente (UX) quanto no
 
 ### 6.3 Webhooks
 
-O webhook do Asaas valida HMAC antes de processar. Idempotência garantida via `event_id` único — webhook duplicado não processa duas vezes.
+O webhook do Asaas autentica pelo **token compartilhado** que o Asaas envia no header `asaas-access-token` (comparado contra `ASAAS_WEBHOOK_SECRET` em **tempo constante** — `node:crypto` `timingSafeEqual`; o Asaas não assina um HMAC do corpo). Idempotência garantida gravando o `event_id` na tabela `payment_webhook_events` (UNIQUE) **antes** de aplicar o efeito — reentrega do mesmo evento sai sem reprocessar; se o processamento falhar, o registro é desfeito para permitir o retry. Único handler com **service role** (a RLS de `subscriptions`/`invoices` não cobre essa escrita).
 
 ### 6.4 Limites e rate limiting
 

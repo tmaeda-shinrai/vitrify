@@ -55,3 +55,20 @@ export const PLAN_CATALOG: Record<PlanSlug, Record<BillingPeriod, PlanCatalogEnt
 export function getPlanEntry(plan: PlanSlug, period: BillingPeriod): PlanCatalogEntry {
   return PLAN_CATALOG[plan][period];
 }
+
+/**
+ * Descobre o plano/período pelo valor cobrado — usado no webhook para saber em
+ * qual plano ativar a assinatura sem precisar de coluna extra. Os 4 valores são
+ * distintos (3900/37440/6900/66240), então o mapeamento é único. (Cupons/descontos
+ * mudariam isso, mas ficam para #0019.)
+ */
+export function planFromValueCents(
+  valueCents: number,
+): { plan: PlanSlug; period: BillingPeriod } | null {
+  for (const plan of ["pro", "plus"] as const) {
+    for (const period of ["monthly", "yearly"] as const) {
+      if (PLAN_CATALOG[plan][period].valueCents === valueCents) return { plan, period };
+    }
+  }
+  return null;
+}

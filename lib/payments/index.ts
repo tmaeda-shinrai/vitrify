@@ -2,7 +2,8 @@ import { AsaasGateway } from "./asaas";
 import type { PaymentGateway } from "./types";
 
 export * from "./types";
-export { PLAN_CATALOG, getPlanEntry, type PlanCatalogEntry } from "./plans";
+export { PLAN_CATALOG, getPlanEntry, planFromValueCents, type PlanCatalogEntry } from "./plans";
+export { mapAsaasPayment, type AsaasPaymentRaw } from "./asaas";
 
 let gateway: PaymentGateway | null = null;
 
