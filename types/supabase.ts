@@ -728,9 +728,14 @@ export type Database = {
         };
         Returns: undefined;
       };
+      downgrade_to_free: { Args: never; Returns: undefined };
       increment_vitrine_views: { Args: { p_slug: string }; Returns: undefined };
       is_slug_available: { Args: { p_slug: string }; Returns: boolean };
       request_account_deletion: { Args: never; Returns: undefined };
+      request_subscription_cancel: {
+        Args: { p_comment?: string; p_reason?: string };
+        Returns: undefined;
+      };
     };
     Enums: {
       coupon_discount_type: "percent" | "fixed_cents" | "free_days";

@@ -68,6 +68,8 @@ export interface PaymentGateway {
   createCustomer(input: CustomerInput): Promise<CreatedCustomer>;
   createSubscription(input: SubscriptionInput): Promise<CreatedSubscription>;
   cancelSubscription(subscriptionId: string): Promise<void>;
+  /** Estorno integral de uma cobrança (garantia de 7 dias — #0019). */
+  refundPayment(paymentId: string): Promise<void>;
   getPayment(paymentId: string): Promise<PaymentRecord>;
 }
 

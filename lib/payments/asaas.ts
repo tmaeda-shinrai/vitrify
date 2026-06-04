@@ -192,6 +192,12 @@ export class AsaasGateway implements PaymentGateway {
     });
   }
 
+  async refundPayment(paymentId: string): Promise<void> {
+    await asaasFetch<{ status: string }>(`/payments/${paymentId}/refund`, {
+      method: "POST",
+    });
+  }
+
   async getPayment(paymentId: string): Promise<PaymentRecord> {
     const raw = await asaasFetch<AsaasPaymentRaw>(`/payments/${paymentId}`);
     return mapAsaasPayment(raw);
