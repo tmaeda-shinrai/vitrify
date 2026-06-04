@@ -731,10 +731,25 @@ export type Database = {
       downgrade_to_free: { Args: never; Returns: undefined };
       increment_vitrine_views: { Args: { p_slug: string }; Returns: undefined };
       is_slug_available: { Args: { p_slug: string }; Returns: boolean };
+      redeem_coupon: {
+        Args: { p_code: string; p_subscription_id: string };
+        Returns: boolean;
+      };
       request_account_deletion: { Args: never; Returns: undefined };
       request_subscription_cancel: {
         Args: { p_comment?: string; p_reason?: string };
         Returns: undefined;
+      };
+      validate_coupon: {
+        Args: {
+          p_code: string;
+          p_plan: Database["public"]["Enums"]["subscription_plan"];
+        };
+        Returns: {
+          code: string;
+          discount_type: Database["public"]["Enums"]["coupon_discount_type"];
+          discount_value: number;
+        }[];
       };
     };
     Enums: {

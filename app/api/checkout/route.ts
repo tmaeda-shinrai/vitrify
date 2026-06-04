@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 
+import { applyDiscount } from "@/lib/coupons";
 import { onlyDigits } from "@/lib/cpf-cnpj";
 import { getPaymentGateway, getPlanEntry, PaymentGatewayError } from "@/lib/payments";
 import { checkCheckoutRateLimit } from "@/lib/rate-limit";
@@ -7,6 +8,18 @@ import { createClient } from "@/lib/supabase/server";
 import { checkoutSchema } from "@/lib/validators/checkout";
 
 export const runtime = "nodejs";
+
+/** Data (BRT) em `YYYY-MM-DD` deslocada por `days` — p/ cupons de dias grátis. */
+function dueDateInDays(days: number): string {
+  const d = new Date();
+  d.setDate(d.getDate() + days);
+  return new Intl.DateTimeFormat("en-CA", {
+    timeZone: "America/Sao_Paulo",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).format(d);
+}
 
 /**
  * `POST /api/checkout` (#0018) — cria/garante o cliente Asaas, abre a assinatura
@@ -39,6 +52,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Dados de checkout inválidos." }, { status: 400 });
   }
   const { plan, period, cpfCnpj } = parsed.data;
+  const couponCode = parsed.data.coupon?.trim() ? parsed.data.coupon.trim().toUpperCase() : null;
 
   const [{ data: profile }, { data: subscription }] = await Promise.all([
     supabase.from("profiles").select("full_name, whatsapp").eq("id", user.id).maybeSingle(),
@@ -54,6 +68,26 @@ export async function POST(request: NextRequest) {
   }
   if (!user.email) {
     return NextResponse.json({ error: "Conta sem e-mail para faturamento." }, { status: 400 });
+  }
+
+  // Valida o cupom antes de criar a assinatura; inválido = bloqueia com mensagem clara.
+  let coupon: {
+    code: string;
+    discount_type: "percent" | "fixed_cents" | "free_days";
+    discount_value: number;
+  } | null = null;
+  if (couponCode) {
+    const { data: rows } = await supabase.rpc("validate_coupon", {
+      p_code: couponCode,
+      p_plan: plan,
+    });
+    coupon = rows?.[0] ?? null;
+    if (!coupon) {
+      return NextResponse.json(
+        { error: "Cupom inválido, expirado ou já utilizado.", field: "coupon" },
+        { status: 400 },
+      );
+    }
   }
 
   const gateway = getPaymentGateway();
@@ -86,6 +120,22 @@ export async function POST(request: NextRequest) {
       p_period_start: result.currentPeriodStart ?? undefined,
       p_period_end: result.currentPeriodEnd ?? undefined,
     });
+
+    // Cupom: desconto só na 1ª cobrança (valor ou adiamento do vencimento) + resgate.
+    if (coupon && result.firstPaymentId) {
+      const effect = applyDiscount(entry.valueCents, coupon.discount_type, coupon.discount_value);
+      if (effect.firstChargeCents !== null) {
+        await gateway.updatePayment(result.firstPaymentId, { valueCents: effect.firstChargeCents });
+      } else if (effect.freeDays) {
+        await gateway.updatePayment(result.firstPaymentId, {
+          dueDate: dueDateInDays(effect.freeDays),
+        });
+      }
+      await supabase.rpc("redeem_coupon", {
+        p_code: coupon.code,
+        p_subscription_id: subscription.id,
+      });
+    }
 
     if (!result.invoiceUrl) {
       return NextResponse.json(

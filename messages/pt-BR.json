@@ -342,7 +342,9 @@
       "limit5": "5 produtos",
       "unlimited": "Ilimitado",
       "upTo3": "Até 3"
-    }
+    },
+    "couponLabel": "Cupom (opcional)",
+    "couponPlaceholder": "Ex.: PRIMEIRA50"
   },
   "plano": {
     "title": "Meu plano",

@@ -39,7 +39,7 @@ A camada de produto sobre a integração Asaas: como a usuária vê e gerencia o
 - [x] Tela "Meu plano": status/período, upgrade, downgrade, cancelamento self-service + pesquisa de saída opcional _(status/período/upgrade no PR2; cancelamento + pesquisa de saída no PR3)_
 - [x] Histórico de faturas com download de PDF
 - [x] Opção de plano anual com -20% na UI
-- [ ] Cupons: tabelas + aplicação no checkout + limites (global/por usuária) + `PRIMEIRA50`/`ANUAL30`/`INDICACAO`
+- [x] Cupons: tabelas + aplicação no checkout + limites (global/por usuária) + `PRIMEIRA50`/`ANUAL30`/`INDICACAO`
 - [x] Garantia de 7 dias (reembolso integral) na 1ª assinatura
 - [ ] Lógica de inadimplência/expiração: `past_due` (graça) → 14d (volta ao limite Free na vitrine) → 30d (downgrade Free, dados preservados) → reativação restaura tudo
 - [ ] E-mails: confirmação de assinatura, fatura, sequência de inadimplência (D1/D3/D7) via Resend
