@@ -1,8 +1,12 @@
 import { timingSafeEqual } from "node:crypto";
 import { NextResponse, type NextRequest } from "next/server";
 
+import { sendEmail } from "@/lib/email/client";
+import { getUserEmail } from "@/lib/email/recipient";
+import { invoiceReceiptEmail, subscriptionConfirmedEmail } from "@/lib/email/templates";
 import { serverEnv } from "@/lib/env";
-import { mapAsaasPayment } from "@/lib/payments";
+import { formatBRL } from "@/lib/money";
+import { mapAsaasPayment, planFromValueCents } from "@/lib/payments";
 import {
   eventIdFor,
   invoiceRowForPayment,
@@ -12,6 +16,8 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { asaasWebhookSchema } from "@/lib/validators/asaas-webhook";
 
 export const runtime = "nodejs";
+
+const PLAN_NAMES: Record<string, string> = { pro: "Pro", plus: "Plus" };
 
 type AdminClient = ReturnType<typeof createAdminClient>;
 
@@ -31,7 +37,7 @@ async function resolveSubscription(
   if (subscriptionId) {
     const { data } = await admin
       .from("subscriptions")
-      .select("id, plan, past_due_since")
+      .select("id, plan, past_due_since, owner_id")
       .eq("asaas_subscription_id", subscriptionId)
       .maybeSingle();
     if (data) return data;
@@ -39,7 +45,7 @@ async function resolveSubscription(
   if (customerId) {
     const { data } = await admin
       .from("subscriptions")
-      .select("id, plan, past_due_since")
+      .select("id, plan, past_due_since, owner_id")
       .eq("asaas_customer_id", customerId)
       .maybeSingle();
     if (data) return data;
@@ -131,6 +137,31 @@ export async function POST(request: NextRequest) {
         .update(patch)
         .eq("id", subscription.id);
       if (subError) throw new Error(`subscription update (${subError.code})`);
+    }
+
+    // E-mails transacionais (isolados: nunca quebram o webhook). Recibo a cada
+    // pagamento; confirmação de boas-vindas só na 1ª ativação (plano ainda era free).
+    if (record.status === "paid") {
+      try {
+        const email = await getUserEmail(admin, subscription.owner_id);
+        if (email) {
+          const mapped = planFromValueCents(record.amountCents);
+          const planName = (mapped && PLAN_NAMES[mapped.plan]) || "Vitrinio";
+          await sendEmail({
+            to: email,
+            ...invoiceReceiptEmail({
+              planName,
+              amountLabel: formatBRL(record.amountCents),
+              invoiceUrl: record.invoiceUrl,
+            }),
+          });
+          if (subscription.plan === "free") {
+            await sendEmail({ to: email, ...subscriptionConfirmedEmail({ planName }) });
+          }
+        }
+      } catch {
+        // E-mail é best-effort.
+      }
     }
 
     return NextResponse.json({ ok: true });
