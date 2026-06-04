@@ -115,11 +115,11 @@ Tornar a vitrine pública acessível, registrar intenções de pedido, implement
 
 ### Semana 7 — Intent de pedido + Estatísticas
 
-- [ ] Endpoint `/api/intent` com rate limit
-- [ ] Registro de hash de IP, user agent resumido, source
-- [ ] Tela "Pedidos" no painel: feed de intents, agrupamento por dia
-- [ ] Tela "Estatísticas": views totais, cliques, top produtos
-- [ ] Gráfico simples de últimos 7 e 30 dias
+- [x] Endpoint `/api/intent` com rate limit
+- [x] Registro de hash de IP, user agent resumido, source
+- [x] Tela "Pedidos" no painel: feed de intents, agrupamento por dia
+- [x] Tela "Estatísticas": views totais, cliques, top produtos
+- [x] Gráfico simples de últimos 7 e 30 dias
 
 ### Semana 8 — PWA + Performance
 
@@ -212,7 +212,7 @@ A partir daqui o roadmap deixa de ser linear e passa a ser orientado por dados e
 - [ ] Programa de indicação ("traga uma amiga")
 - [ ] Importação em lote de produtos via CSV
 - [ ] Personalização de cores da vitrine (Pro+)
-- [ ] Origem do tráfego nas estatísticas
+- [x] Origem do tráfego nas estatísticas (antecipado no #0016, Pro+)
 
 ### Médio prazo (mês 6-8)
 
