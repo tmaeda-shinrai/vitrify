@@ -719,6 +719,15 @@ export type Database = {
     };
     Functions: {
       anonymize_account: { Args: { p_user: string }; Returns: undefined };
+      attach_asaas_checkout: {
+        Args: {
+          p_customer_id?: string;
+          p_period_end?: string;
+          p_period_start?: string;
+          p_subscription_id?: string;
+        };
+        Returns: undefined;
+      };
       increment_vitrine_views: { Args: { p_slug: string }; Returns: undefined };
       is_slug_available: { Args: { p_slug: string }; Returns: boolean };
       request_account_deletion: { Args: never; Returns: undefined };

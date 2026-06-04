@@ -282,5 +282,29 @@
     "viewsMilestoneTitle": "Sua vitrine passou de 100 visitas! 🎉",
     "viewsMilestoneDescription": "Descubra de onde vêm suas visitas e cliques com o plano Pro.",
     "viewsMilestoneCta": "Conhecer o Pro"
+  },
+  "assinar": {
+    "title": "Assine o Vitrinio",
+    "subtitle": "Desbloqueie produtos ilimitados e os recursos avançados da vitrine.",
+    "formTitle": "Escolha seu plano",
+    "choosePlan": "Plano",
+    "perMonth": "{price}/mês",
+    "plans": {
+      "pro": {
+        "name": "Pro",
+        "description": "Produtos ilimitados, origem do tráfego e estatísticas completas."
+      },
+      "plus": {
+        "name": "Plus",
+        "description": "Tudo do Pro, com mais vitrines e recursos para quem vende em escala."
+      }
+    },
+    "cpfCnpjLabel": "CPF ou CNPJ",
+    "cpfCnpjPlaceholder": "Somente números",
+    "cpfCnpjHint": "Necessário para a emissão da cobrança. Não fica salvo no Vitrinio.",
+    "submit": "Ir para o pagamento",
+    "submitting": "Gerando cobrança…",
+    "redirectNote": "Você será levada à página segura do Asaas para pagar via PIX, cartão ou boleto.",
+    "genericError": "Não foi possível iniciar o pagamento. Tente novamente."
   }
 }
