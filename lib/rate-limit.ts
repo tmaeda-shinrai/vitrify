@@ -61,6 +61,16 @@ const viewRatelimit = redis
     })
   : null;
 
+/** Checkout: 5 req/min por usuária (evita criar assinaturas Asaas em loop). */
+const checkoutRatelimit = redis
+  ? new Ratelimit({
+      redis,
+      limiter: Ratelimit.slidingWindow(5, "1 m"),
+      prefix: "ratelimit:checkout",
+      analytics: false,
+    })
+  : null;
+
 export async function checkLoginRateLimit(ip: string): Promise<RateLimitResult> {
   if (!loginRatelimit) return { success: true, remaining: 5 };
   const { success, remaining } = await loginRatelimit.limit(ip);
@@ -92,6 +102,12 @@ export async function markIntentOnce(key: string, windowSeconds = 60): Promise<b
 export async function checkViewRateLimit(ip: string): Promise<RateLimitResult> {
   if (!viewRatelimit) return { success: true, remaining: 60 };
   const { success, remaining } = await viewRatelimit.limit(ip);
+  return { success, remaining };
+}
+
+export async function checkCheckoutRateLimit(userId: string): Promise<RateLimitResult> {
+  if (!checkoutRatelimit) return { success: true, remaining: 5 };
+  const { success, remaining } = await checkoutRatelimit.limit(userId);
   return { success, remaining };
 }
 

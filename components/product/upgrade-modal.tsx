@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useTranslations } from "next-intl";
 
 import { Button } from "@/components/ui/button";
@@ -23,8 +24,8 @@ interface Props {
 /**
  * Gancho de upgrade reutilizável. Por padrão mostra a mensagem do limite de produtos
  * (#0010); com `title`/`description` serve outros gatilhos (ex.: origem do tráfego e
- * 100 views, #0016). A comparação de planos e o checkout chegam na #0019 — por ora a
- * CTA é placeholder.
+ * 100 views, #0016). A CTA leva ao checkout do Asaas (`/assinar`, #0018); a tela de
+ * comparação de planos com anual/cupons é #0019.
  */
 export function UpgradeModal({ open, onOpenChange, title, description }: Props) {
   const t = useTranslations("produtos");
@@ -40,8 +41,9 @@ export function UpgradeModal({ open, onOpenChange, title, description }: Props) 
           <Button variant="ghost" onClick={() => onOpenChange(false)}>
             {t("limitDismiss")}
           </Button>
-          {/* TODO(#0019): abrir comparação de planos / checkout Asaas. */}
-          <Button disabled>{t("limitCta")}</Button>
+          <Button asChild>
+            <Link href="/assinar">{t("limitCta")}</Link>
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
