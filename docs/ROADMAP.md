@@ -123,12 +123,12 @@ Tornar a vitrine pública acessível, registrar intenções de pedido, implement
 
 ### Semana 8 — PWA + Performance
 
-- [ ] Manifest.json configurado, ícones gerados
-- [ ] Service worker com next-pwa ou Serwist
-- [ ] Cache offline da vitrine pública (somente leitura)
-- [ ] Compressão de imagem otimizada
-- [ ] Auditoria Lighthouse: alvo 90+ em mobile
-- [ ] Sentry configurado
+- [x] Manifest.json configurado, ícones gerados (#0017)
+- [x] Service worker com Serwist (#0017)
+- [x] Cache offline da vitrine pública (somente leitura) (#0017)
+- [x] Compressão de imagem otimizada (browser-image-compression no upload, #0010)
+- [x] Auditoria Lighthouse: alvo 90+ em mobile (#0017 — landing 100/100; vitrine verificada manualmente / final na #0024)
+- [x] Sentry configurado (#0017, com scrubbing de PII)
 
 ### Marco fim da Fase 2
 
