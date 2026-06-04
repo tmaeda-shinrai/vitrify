@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 
 import { DesktopSidebar } from "@/components/dashboard/desktop-sidebar";
 import { MobileBottomNav } from "@/components/dashboard/mobile-bottom-nav";
+import { InstallPrompt } from "@/components/shared/install-prompt";
 import { createClient } from "@/lib/supabase/server";
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
@@ -29,6 +30,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
         <main className="flex-1 px-4 py-6 pb-20 md:px-8 md:pb-8">{children}</main>
       </div>
       <MobileBottomNav />
+      <InstallPrompt />
     </div>
   );
 }
