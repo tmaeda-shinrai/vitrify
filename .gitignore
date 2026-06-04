@@ -44,6 +44,11 @@ pnpm-debug.log*
 *.swo
 Thumbs.db
 
+# PWA / Serwist — service worker gerado no build (#0017)
+public/sw.js
+public/sw.js.map
+public/swe-worker-*.js
+
 # Sentry
 .sentryclirc
 

@@ -35,15 +35,15 @@ Tornar a aplicação um PWA instalável em iOS e Android — um dos itens do esc
 ## Tarefas
 
 - [x] `manifest.json` + ícones (vários tamanhos) gerados; `theme_color`/`background_color` da marca — PR1 (`app/manifest.ts`, `scripts/generate-icons.mjs`; ícone-fonte monograma temporário em `assets/icon-source.svg`)
-- [ ] Service worker (`next-pwa`/Serwist) registrado; estratégias de cache por recurso
-- [ ] Cache offline read-only da vitrine pública
-- [ ] Cache da última versão do painel (offline)
+- [x] Service worker (**Serwist** `@serwist/next`) registrado; estratégias de cache por recurso (`app/sw.ts`) — PR2
+- [x] Cache offline read-only da vitrine pública (`defaultCache` NetworkFirst de páginas/RSC + CacheFirst das imagens do Supabase Storage) — PR2
+- [x] Cache da última versão do painel (offline) (`defaultCache`) — PR2
 - [x] Atalhos no manifest ("Adicionar produto" → `/produtos?novo=1`; "Ver vitrine" → `/minha-vitrine`) — PR1
 - [x] Affordance de instalação (`InstallPrompt`: Android `beforeinstallprompt`; instruções iOS, dispensável) — PR1
 - [x] Web Share funcionando com app instalado (`ShareButton` da #0014; standalone usa o Share Sheet do OS)
 - [ ] Sentry no client e server, com scrubbing de PII
 - [ ] Auditoria Lighthouse mobile da vitrine ≥ 90 (perf + a11y); corrigir ofensores
-- [ ] Testes: instalável (manifest válido, SW registra); vitrine abre offline após primeira visita
+- [x] Testes: instalável (manifest válido — PR1); página de fallback offline (unit + E2E — PR2). _Obs.: o Serwist fica desabilitado em `next dev`, então o offline real da vitrine é verificado manualmente sobre o build de produção._
 
 ## Critérios de aceitação
 
