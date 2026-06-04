@@ -570,6 +570,7 @@ export type Database = {
           current_period_start: string | null;
           id: string;
           owner_id: string;
+          past_due_since: string | null;
           plan: Database["public"]["Enums"]["subscription_plan"];
           status: Database["public"]["Enums"]["subscription_status"];
           updated_at: string | null;
@@ -583,6 +584,7 @@ export type Database = {
           current_period_start?: string | null;
           id?: string;
           owner_id: string;
+          past_due_since?: string | null;
           plan?: Database["public"]["Enums"]["subscription_plan"];
           status?: Database["public"]["Enums"]["subscription_status"];
           updated_at?: string | null;
@@ -596,6 +598,7 @@ export type Database = {
           current_period_start?: string | null;
           id?: string;
           owner_id?: string;
+          past_due_since?: string | null;
           plan?: Database["public"]["Enums"]["subscription_plan"];
           status?: Database["public"]["Enums"]["subscription_status"];
           updated_at?: string | null;

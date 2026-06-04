@@ -29,6 +29,7 @@ const serverSchema = z.object({
   UPSTASH_REDIS_REST_URL: requiredInProd(z.string().url()),
   UPSTASH_REDIS_REST_TOKEN: requiredInProd(z.string().min(1)),
 
+  CRON_SECRET: z.string().min(16).optional(),
   ADMIN_EMAILS: z.string().optional(),
   DEBUG_MODE: z
     .string()
