@@ -1,11 +1,12 @@
 "use server";
 
-import { headers } from "next/headers";
+import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
 
 import { DEFAULT_REDIRECT, sanitizeNext } from "@/lib/auth/redirect";
 import { clientEnv } from "@/lib/env";
 import { checkLoginRateLimit, getClientIp } from "@/lib/rate-limit";
+import { REFERRAL_COOKIE, normalizeReferralCode } from "@/lib/referrals";
 import { createClient } from "@/lib/supabase/server";
 import {
   loginSchema,
@@ -30,13 +31,21 @@ export async function signUpAction(input: unknown): Promise<ActionResult> {
   }
 
   const { fullName, email, password } = parsed.data;
+
+  // Indicação (#0020): código capturado no cookie (middleware) → metadata; o trigger
+  // handle_new_user concede 30 dias de Pro à indicada e registra o vínculo no signup.
+  const cookieStore = await cookies();
+  const referralCode = normalizeReferralCode(cookieStore.get(REFERRAL_COOKIE)?.value);
+
   const supabase = await createClient();
 
   const { error } = await supabase.auth.signUp({
     email,
     password,
     options: {
-      data: { full_name: fullName },
+      data: referralCode
+        ? { full_name: fullName, referral_code: referralCode }
+        : { full_name: fullName },
       emailRedirectTo: appUrl(`/auth/confirm?next=${encodeURIComponent(DEFAULT_REDIRECT)}`),
     },
   });
@@ -47,6 +56,9 @@ export async function signUpAction(input: unknown): Promise<ActionResult> {
     }
     return { ok: false, error: "Não foi possível criar a conta. Tente novamente." };
   }
+
+  // Consumido: o vínculo já foi criado pelo trigger no momento do signup.
+  if (referralCode) cookieStore.delete(REFERRAL_COOKIE);
 
   return { ok: true };
 }

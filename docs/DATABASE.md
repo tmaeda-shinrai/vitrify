@@ -41,11 +41,15 @@ CREATE TABLE profiles (
   whatsapp_verified_at TIMESTAMPTZ,
   bio TEXT CHECK (char_length(bio) <= 160),
   onboarding_completed_at TIMESTAMPTZ,
+  referral_code VARCHAR(20),               -- código de indicação opaco, gerado sob demanda (#0020)
+  referral_nudge_sent_at TIMESTAMPTZ,      -- e-mail "indique uma amiga" já enviado (#0020)
   created_at TIMESTAMPTZ DEFAULT now(),
   updated_at TIMESTAMPTZ DEFAULT now()
 );
 
 CREATE INDEX idx_profiles_whatsapp ON profiles(whatsapp);
+-- unicidade parcial: ignora os NULL (quem ainda não gerou código)
+CREATE UNIQUE INDEX idx_profiles_referral_code ON profiles(referral_code) WHERE referral_code IS NOT NULL;
 ```
 
 ### 2.2 `vitrines`
@@ -249,19 +253,24 @@ Retenção: 180 dias, com job de limpeza automático.
 
 ### 2.11 `referrals`
 
-Programa de indicação (1 mês grátis por amiga indicada que assina o Pro+).
+Programa de indicação (#0020). A indicada ganha 30 dias de Pro (trial) no cadastro; quem indica (Pro+) ganha 1 mês grátis na próxima fatura quando a indicada vira pagante Pro+. O código compartilhável de cada usuária fica em `profiles.referral_code`; **esta tabela é por-evento** (uma linha por indicada) e registra o vínculo + a conversão. O `code` aqui é apenas uma cópia denormalizada (opcional) do código usado na captura — o `UNIQUE NOT NULL` original do schema #0003 foi removido na #0020, pois um referrer indica várias pessoas com o mesmo código.
 
 ```sql
 CREATE TABLE referrals (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   referrer_id UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
-  referred_id UUID UNIQUE REFERENCES profiles(id) ON DELETE SET NULL,
-  code VARCHAR(20) UNIQUE NOT NULL,
+  referred_id UUID UNIQUE REFERENCES profiles(id) ON DELETE SET NULL,  -- 1 indicação por indicada (+ idempotência)
+  code VARCHAR(20),                         -- cópia denormalizada do código usado (#0020)
   converted_at TIMESTAMPTZ,                 -- quando a indicada virou pagante
   reward_granted BOOLEAN DEFAULT FALSE,
   created_at TIMESTAMPTZ DEFAULT now()
 );
+
+CREATE INDEX idx_referrals_referrer ON referrals(referrer_id);
+CREATE INDEX idx_referrals_converted_at ON referrals(converted_at);
 ```
+
+Captura: o `?ref=` é guardado em cookie httpOnly pelo middleware e vira `referrals` no cadastro — pelo trigger `handle_new_user` (e-mail, via `raw_user_meta_data`) ou pela RPC `apply_referral` (OAuth, no callback). A conversão (`converted_at`/`reward_granted`) é escrita só por service role no webhook do Asaas (#0020 PR2). RLS: `referrals_select_own`/`referrals_insert_own` (sem UPDATE/DELETE).
 
 ### 2.12 `coupons`
 
@@ -360,6 +369,8 @@ CREATE TRIGGER on_auth_user_created
   AFTER INSERT ON auth.users
   FOR EACH ROW EXECUTE FUNCTION handle_new_user();
 ```
+
+> **#0020 — indicação:** o `handle_new_user` passou a ler `raw_user_meta_data->>'referral_code'`; se for o código de **outra** usuária, a indicada nasce com `subscriptions(plan='pro', status='trialing', current_period_end = now()+30d)` em vez de `free/active`, e grava um `referrals(referrer_id, referred_id, code)`. Sem código válido, o caminho padrão (Free) é inalterado. Funções de apoio: `ensure_referral_code()` (gera/retorna o código opaco da usuária, sob demanda) e `apply_referral(p_code)` (mesma concessão para o cadastro via OAuth, chamada no callback, restrita a conta recém-criada).
 
 ### 3.2 Atualizar `updated_at` automaticamente
 

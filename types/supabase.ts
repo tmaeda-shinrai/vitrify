@@ -485,6 +485,8 @@ export type Database = {
           full_name: string;
           id: string;
           onboarding_completed_at: string | null;
+          referral_code: string | null;
+          referral_nudge_sent_at: string | null;
           updated_at: string | null;
           whatsapp: string | null;
           whatsapp_verified_at: string | null;
@@ -497,6 +499,8 @@ export type Database = {
           full_name: string;
           id: string;
           onboarding_completed_at?: string | null;
+          referral_code?: string | null;
+          referral_nudge_sent_at?: string | null;
           updated_at?: string | null;
           whatsapp?: string | null;
           whatsapp_verified_at?: string | null;
@@ -509,6 +513,8 @@ export type Database = {
           full_name?: string;
           id?: string;
           onboarding_completed_at?: string | null;
+          referral_code?: string | null;
+          referral_nudge_sent_at?: string | null;
           updated_at?: string | null;
           whatsapp?: string | null;
           whatsapp_verified_at?: string | null;
@@ -517,7 +523,7 @@ export type Database = {
       };
       referrals: {
         Row: {
-          code: string;
+          code: string | null;
           converted_at: string | null;
           created_at: string | null;
           id: string;
@@ -526,7 +532,7 @@ export type Database = {
           reward_granted: boolean | null;
         };
         Insert: {
-          code: string;
+          code?: string | null;
           converted_at?: string | null;
           created_at?: string | null;
           id?: string;
@@ -535,7 +541,7 @@ export type Database = {
           reward_granted?: boolean | null;
         };
         Update: {
-          code?: string;
+          code?: string | null;
           converted_at?: string | null;
           created_at?: string | null;
           id?: string;
@@ -722,6 +728,7 @@ export type Database = {
     };
     Functions: {
       anonymize_account: { Args: { p_user: string }; Returns: undefined };
+      apply_referral: { Args: { p_code: string }; Returns: boolean };
       attach_asaas_checkout: {
         Args: {
           p_customer_id?: string;
@@ -732,6 +739,7 @@ export type Database = {
         Returns: undefined;
       };
       downgrade_to_free: { Args: never; Returns: undefined };
+      ensure_referral_code: { Args: never; Returns: string };
       increment_vitrine_views: { Args: { p_slug: string }; Returns: undefined };
       is_slug_available: { Args: { p_slug: string }; Returns: boolean };
       redeem_coupon: {
