@@ -10,24 +10,54 @@ vi.mock("@/lib/env", () => ({
   clientEnv: {},
 }));
 vi.mock("@/lib/supabase/admin", () => ({ createAdminClient: () => fakeAdmin }));
+vi.mock("@/lib/email/recipient", () => ({ getUserEmail: vi.fn(async () => "user@example.com") }));
+vi.mock("@/lib/email/client", () => ({ sendEmail: vi.fn(async () => {}) }));
 
 import { POST } from "./route";
 
-function makeFakeAdmin(subs: Array<Record<string, unknown>>) {
+interface FakeOptions {
+  profiles?: Array<{ id: string }>;
+  paidOwners?: string[];
+}
+
+function makeFakeAdmin(subs: Array<Record<string, unknown>>, opts: FakeOptions = {}) {
+  const { profiles = [], paidOwners = [] } = opts;
   const updates: Array<{ patch: Record<string, unknown>; id: unknown }> = [];
-  const builder = {
-    select: () => builder,
-    neq: () => builder,
-    or: () => builder,
-    limit: () => Promise.resolve({ data: subs, error: null }),
-    update: (patch: Record<string, unknown>) => ({
-      eq: (_col: string, id: unknown) => {
-        updates.push({ patch, id });
-        return Promise.resolve({ error: null });
+  const stamped: unknown[] = [];
+
+  function makeBuilder(table: string) {
+    const ctx = { paidQuery: false };
+    const data = () => (table === "profiles" ? profiles : subs);
+    const builder = {
+      select: (cols?: string) => {
+        if (table === "subscriptions" && cols === "owner_id") ctx.paidQuery = true;
+        return builder;
       },
-    }),
-  };
-  return { from: () => builder, __updates: updates };
+      neq: () => builder,
+      or: () => builder,
+      is: () => builder,
+      gte: () => builder,
+      lt: () => builder,
+      in: () => builder,
+      limit: () => Promise.resolve({ data: data(), error: null }),
+      update: (patch: Record<string, unknown>) => ({
+        eq: (_col: string, id: unknown) => {
+          if (table === "profiles") stamped.push(id);
+          else updates.push({ patch, id });
+          return Promise.resolve({ error: null });
+        },
+      }),
+      // Thenable: cobre a query de paidSubs (`.in(...).in(...)` awaited).
+      then: (resolve: (v: unknown) => void) =>
+        resolve({
+          data: ctx.paidQuery ? paidOwners.map((owner_id) => ({ owner_id })) : data(),
+          error: null,
+        }),
+    };
+    return builder;
+  }
+
+  return { from: (table: string) => makeBuilder(table), __updates: updates, __stamped: stamped };
 }
 
 function makeRequest(token: string | null = SECRET) {
@@ -38,6 +68,7 @@ function makeRequest(token: string | null = SECRET) {
 }
 
 beforeEach(() => {
+  vi.clearAllMocks();
   fakeAdmin = makeFakeAdmin([]);
 });
 
@@ -90,5 +121,34 @@ describe("POST /api/cron/billing", () => {
     expect(ids).toEqual(["a", "b"]);
     const aPatch = fakeAdmin.__updates.find((u: { id: string }) => u.id === "a")!.patch;
     expect(aPatch).toMatchObject({ plan: "free", status: "expired", past_due_since: null });
+  });
+
+  it("rebaixa trial de indicação vencido para free/expired", async () => {
+    const old = new Date(Date.now() - 40 * 86_400_000).toISOString();
+    fakeAdmin = makeFakeAdmin([
+      {
+        id: "t",
+        plan: "pro",
+        status: "trialing",
+        past_due_since: null,
+        canceled_at: null,
+        current_period_end: old,
+      },
+    ]);
+
+    const res = await POST(makeRequest());
+    expect(await res.json()).toMatchObject({ downgraded: 1 });
+    expect(fakeAdmin.__updates[0].patch).toMatchObject({ plan: "free", status: "expired" });
+  });
+
+  it("envia nudge de indicação só para Pro+ no fim da janela e carimba", async () => {
+    fakeAdmin = makeFakeAdmin([], {
+      profiles: [{ id: "p1" }, { id: "p2" }],
+      paidOwners: ["p1"], // só p1 está em Pro+
+    });
+
+    const res = await POST(makeRequest());
+    expect(await res.json()).toMatchObject({ nudgeSent: 1 });
+    expect(fakeAdmin.__stamped).toEqual(["p1"]);
   });
 });

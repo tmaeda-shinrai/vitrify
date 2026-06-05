@@ -54,6 +54,17 @@ export function invoiceReceiptEmail(params: {
 
 const REFERRALS_URL = `${APP_URL}/conta/indicacoes`;
 
+export function referralInviteEmail(): EmailContent {
+  return {
+    subject: "Indique uma amiga e ganhe 1 mês grátis 🎁",
+    html: layout(
+      "Convide amigas e ganhe meses grátis",
+      `<p>Conhece outras revendedoras? Indique pelo seu link: cada amiga entra com 30 dias de Pro grátis e, quando ela assina, <strong>você ganha 1 mês grátis</strong> na sua próxima fatura.</p>
+       ${button(REFERRALS_URL, "Pegar meu link de indicação")}`,
+    ),
+  };
+}
+
 export function referralConvertedEmail(): EmailContent {
   return {
     subject: "Sua indicação assinou — você ganhou 1 mês grátis! 🎉",

@@ -4,7 +4,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { decideBillingAction, dunningStage } from "@/lib/billing/transitions";
 import { sendEmail } from "@/lib/email/client";
 import { getUserEmail } from "@/lib/email/recipient";
-import { dunningEmail } from "@/lib/email/templates";
+import { dunningEmail, referralInviteEmail } from "@/lib/email/templates";
 import { serverEnv } from "@/lib/env";
 import { createAdminClient } from "@/lib/supabase/admin";
 
@@ -79,5 +79,53 @@ export async function POST(request: NextRequest) {
     if (!updateError) downgraded += 1;
   }
 
-  return NextResponse.json({ ok: true, scanned: subs?.length ?? 0, downgraded, dunningSent });
+  // Nudge de indicação (#0020): ~30 dias após o cadastro, lembra quem está em Pro+ de
+  // indicar amigas. Idempotente via profiles.referral_nudge_sent_at. Best-effort.
+  let nudgeSent = 0;
+  const dayMs = 86_400_000;
+  const nudgeFrom = new Date(now.getTime() - 33 * dayMs).toISOString();
+  const nudgeTo = new Date(now.getTime() - 30 * dayMs).toISOString();
+  const { data: nudgeCandidates } = await admin
+    .from("profiles")
+    .select("id")
+    .is("referral_nudge_sent_at", null)
+    .gte("created_at", nudgeFrom)
+    .lt("created_at", nudgeTo)
+    .limit(200);
+
+  if (nudgeCandidates && nudgeCandidates.length > 0) {
+    const ids = nudgeCandidates.map((p) => p.id);
+    const { data: paidSubs } = await admin
+      .from("subscriptions")
+      .select("owner_id")
+      .in("owner_id", ids)
+      .in("plan", ["pro", "plus"]);
+    const paidIds = new Set((paidSubs ?? []).map((s) => s.owner_id));
+
+    for (const id of ids) {
+      if (!paidIds.has(id)) continue; // só Pro+ recebe o nudge
+      try {
+        const email = await getUserEmail(admin, id);
+        if (email) {
+          await sendEmail({ to: email, ...referralInviteEmail() });
+          nudgeSent += 1;
+        }
+        // Carimba para não reenviar (mesmo sem e-mail). Falha antes daqui → retry no dia seguinte.
+        await admin
+          .from("profiles")
+          .update({ referral_nudge_sent_at: now.toISOString() })
+          .eq("id", id);
+      } catch {
+        // best-effort
+      }
+    }
+  }
+
+  return NextResponse.json({
+    ok: true,
+    scanned: subs?.length ?? 0,
+    downgraded,
+    dunningSent,
+    nudgeSent,
+  });
 }
