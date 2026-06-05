@@ -4,6 +4,7 @@ import {
   dunningEmail,
   invoiceReceiptEmail,
   referralConvertedEmail,
+  referralInviteEmail,
   subscriptionConfirmedEmail,
 } from "./templates";
 
@@ -36,6 +37,12 @@ describe("templates de e-mail", () => {
   it("conversão de indicação anuncia o mês grátis e linka as indicações", () => {
     const mail = referralConvertedEmail();
     expect(mail.subject).toContain("1 mês");
+    expect(mail.html).toContain("/conta/indicacoes");
+  });
+
+  it("nudge de indicação convida e linka o painel", () => {
+    const mail = referralInviteEmail();
+    expect(mail.subject.length).toBeGreaterThan(0);
     expect(mail.html).toContain("/conta/indicacoes");
   });
 

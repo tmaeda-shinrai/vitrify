@@ -13,6 +13,7 @@ import { cn } from "@/lib/utils";
 const tabs = [
   { key: "profileTab", href: "/conta" },
   { key: "planTab", href: "/conta/plano" },
+  { key: "referralsTab", href: "/conta/indicacoes" },
 ] as const;
 
 export function ContaTabs() {

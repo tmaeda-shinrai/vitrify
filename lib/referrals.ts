@@ -56,3 +56,39 @@ export function decideReferralReward(params: {
     newDueDate: addDaysToDate(params.nextPaymentDueDate, REFERRAL_REWARD_DAYS),
   };
 }
+
+export type ReferralStatus = "pending" | "converted" | "rewarded";
+
+export interface ReferralRow {
+  converted_at: string | null;
+  reward_granted: boolean | null;
+}
+
+/** Status (partição) de uma indicação, para o badge da lista. Recompensa > convertida > pendente. */
+export function referralStatus(row: ReferralRow): ReferralStatus {
+  if (row.reward_granted) return "rewarded";
+  if (row.converted_at) return "converted";
+  return "pending";
+}
+
+export interface ReferralSummary {
+  pending: number;
+  converted: number;
+  rewarded: number;
+}
+
+/**
+ * Contadores do painel (#0020 PR3). `converted` inclui as já recompensadas (recompensa
+ * é subconjunto de convertida); `pending + converted` = total. Puro/testável.
+ */
+export function summarizeReferrals(rows: ReferralRow[]): ReferralSummary {
+  let pending = 0;
+  let converted = 0;
+  let rewarded = 0;
+  for (const row of rows) {
+    if (row.converted_at) converted += 1;
+    else pending += 1;
+    if (row.reward_granted) rewarded += 1;
+  }
+  return { pending, converted, rewarded };
+}

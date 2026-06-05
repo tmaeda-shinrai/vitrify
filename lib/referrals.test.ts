@@ -1,6 +1,11 @@
 import { describe, expect, it } from "vitest";
 
-import { decideReferralReward, normalizeReferralCode } from "./referrals";
+import {
+  decideReferralReward,
+  normalizeReferralCode,
+  referralStatus,
+  summarizeReferrals,
+} from "./referrals";
 
 describe("normalizeReferralCode", () => {
   it("normaliza maiúsculas e remove espaços", () => {
@@ -66,5 +71,29 @@ describe("decideReferralReward", () => {
         nextPaymentDueDate: null,
       }),
     ).toEqual({ shouldGrant: false, newDueDate: null });
+  });
+});
+
+describe("referralStatus", () => {
+  it("recompensa > convertida > pendente", () => {
+    expect(referralStatus({ converted_at: "2026-06-01", reward_granted: true })).toBe("rewarded");
+    expect(referralStatus({ converted_at: "2026-06-01", reward_granted: false })).toBe("converted");
+    expect(referralStatus({ converted_at: null, reward_granted: false })).toBe("pending");
+  });
+});
+
+describe("summarizeReferrals", () => {
+  it("conta pendentes/convertidas/recompensas (recompensa ⊆ convertida)", () => {
+    expect(
+      summarizeReferrals([
+        { converted_at: null, reward_granted: false },
+        { converted_at: "2026-06-01", reward_granted: false },
+        { converted_at: "2026-06-02", reward_granted: true },
+      ]),
+    ).toEqual({ pending: 1, converted: 2, rewarded: 1 });
+  });
+
+  it("lista vazia → zeros", () => {
+    expect(summarizeReferrals([])).toEqual({ pending: 0, converted: 0, rewarded: 0 });
   });
 });

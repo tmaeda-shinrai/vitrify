@@ -11,6 +11,30 @@
     "share": "Compartilhar",
     "linkCopied": "Link copiado!"
   },
+  "indicacoes": {
+    "title": "Programa de indicação",
+    "intro": "Indique amigas revendedoras: cada uma entra com 30 dias de Pro grátis e, quando assina o Pro ou Plus, você ganha 1 mês grátis na sua próxima fatura.",
+    "yourLink": "Seu link de indicação",
+    "shareLabel": "Compartilhar meu link",
+    "shareTitle": "Crie sua vitrine no Vitrinio",
+    "stats": {
+      "pending": "Pendentes",
+      "converted": "Convertidas",
+      "rewarded": "Recompensas"
+    },
+    "listTitle": "Suas indicações",
+    "item": "Indicação #{n}",
+    "status": {
+      "pending": "Pendente",
+      "converted": "Convertida",
+      "rewarded": "Recompensa concedida"
+    },
+    "emptyTitle": "Você ainda não indicou ninguém",
+    "emptyDescription": "Compartilhe seu link com amigas revendedoras. Quando elas assinarem o Pro ou Plus, você ganha 1 mês grátis.",
+    "lockedTitle": "Indique amigas e ganhe meses grátis",
+    "lockedDescription": "O programa de indicação está disponível nos planos Pro e Plus. Faça upgrade para gerar seu link e ganhar 1 mês grátis a cada amiga que assinar.",
+    "lockedCta": "Conhecer os planos"
+  },
   "pwa": {
     "installTitle": "Instale o {appName}",
     "installDescription": "Adicione à tela inicial para abrir rápido, em tela cheia.",
@@ -350,6 +374,7 @@
     "title": "Meu plano",
     "profileTab": "Perfil",
     "planTab": "Meu plano",
+    "referralsTab": "Indicações",
     "currentPlan": "Plano {plan}",
     "status": {
       "trialing": "Em teste",

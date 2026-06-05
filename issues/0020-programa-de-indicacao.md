@@ -32,22 +32,24 @@ Revendedoras de venda direta vivem de indicação — "é a língua nativa delas
 
 ## Tarefas
 
-- [ ] Geração de `code`/link de indicação por usuária
-- [ ] Captura de `?ref=` no cadastro → cria `referrals` (referrer/referred)
-- [ ] Bônus de 30 dias de Pro para a indicada
-- [ ] Ao a indicada assinar Pro+: marca `converted_at`, concede 1 mês grátis ao referrer (`reward_granted`), via service role
-- [ ] Painel simples de indicações no perfil (pendentes/convertidas/recompensas)
-- [ ] E-mail aos 30 dias + banner no painel (Pro+) — integra com #0019
-- [ ] Anti-abuso (sem auto-indicação; 1 recompensa por conversão real; e-mail verificado)
-- [ ] Testes: indicada com `ref` ganha 30d Pro; conversão da indicada concede 1 mês ao referrer; auto-indicação bloqueada
+- [x] Geração de `code`/link de indicação por usuária <!-- PR1: profiles.referral_code + ensure_referral_code; PR3: link no painel -->
+- [x] Captura de `?ref=` no cadastro → cria `referrals` (referrer/referred) <!-- PR1: cookie no middleware + trigger (e-mail) / apply_referral (OAuth) -->
+- [x] Bônus de 30 dias de Pro para a indicada <!-- PR1: handle_new_user semeia pro/trialing +30d -->
+- [x] Ao a indicada assinar Pro+: marca `converted_at`, concede 1 mês grátis ao referrer (`reward_granted`), via service role <!-- PR2: webhook -->
+- [x] Painel simples de indicações no perfil (pendentes/convertidas/recompensas) <!-- PR3: /conta/indicacoes -->
+- [x] E-mail aos 30 dias + banner no painel (Pro+) — integra com #0019 <!-- PR3: nudge no cron + ReferralGate -->
+- [x] Anti-abuso (sem auto-indicação; 1 recompensa por conversão real; e-mail verificado) <!-- PR1/PR2: guards no trigger/RPC + idempotência converted_at; recompensa só em pagamento real (login exige e-mail confirmado) -->
+- [x] Testes: indicada com `ref` ganha 30d Pro; conversão da indicada concede 1 mês ao referrer; auto-indicação bloqueada <!-- normalizeReferralCode/decideReferralReward/summarizeReferrals + cron/painel; fluxos de DB/webhook validados manualmente (Supabase remoto) -->
+
+> **Status:** implementada em 3 PRs sequenciais — PR1 (modelo + captura), PR2 (motor de recompensas), PR3 (painel + nudge).
 
 ## Critérios de aceitação
 
-- [ ] Usuária Pro+ tem um link de indicação; quem se cadastra por ele entra com 30 dias de Pro
-- [ ] Quando a indicada assina Pro+, a indicadora recebe 1 mês grátis na próxima fatura (uma única vez)
-- [ ] O perfil mostra o status das indicações (pendentes/convertidas/recompensas)
-- [ ] Auto-indicação e abusos triviais são bloqueados
-- [ ] Critérios genéricos de aceitação (ver `issues/README.md`)
+- [x] Usuária Pro+ tem um link de indicação; quem se cadastra por ele entra com 30 dias de Pro
+- [x] Quando a indicada assina Pro+, a indicadora recebe 1 mês grátis na próxima fatura (uma única vez)
+- [x] O perfil mostra o status das indicações (pendentes/convertidas/recompensas)
+- [x] Auto-indicação e abusos triviais são bloqueados
+- [x] Critérios genéricos de aceitação (ver `issues/README.md`)
 
 ## Referências
 
