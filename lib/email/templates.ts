@@ -52,6 +52,19 @@ export function invoiceReceiptEmail(params: {
   };
 }
 
+const REFERRALS_URL = `${APP_URL}/conta/indicacoes`;
+
+export function referralConvertedEmail(): EmailContent {
+  return {
+    subject: "Sua indicação assinou — você ganhou 1 mês grátis! 🎉",
+    html: layout(
+      "Você ganhou 1 mês grátis",
+      `<p>Boa notícia! Uma pessoa que você indicou assinou o Vitrinio. Como agradecimento, <strong>sua próxima fatura foi adiada em 1 mês</strong> — esse mês é por nossa conta.</p>
+       ${button(REFERRALS_URL, "Ver minhas indicações")}`,
+    ),
+  };
+}
+
 const DUNNING: Record<1 | 3 | 7, { subject: string; heading: string; body: string }> = {
   1: {
     subject: "Não conseguimos confirmar seu pagamento",

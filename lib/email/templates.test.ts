@@ -1,6 +1,11 @@
 import { describe, expect, it } from "vitest";
 
-import { dunningEmail, invoiceReceiptEmail, subscriptionConfirmedEmail } from "./templates";
+import {
+  dunningEmail,
+  invoiceReceiptEmail,
+  referralConvertedEmail,
+  subscriptionConfirmedEmail,
+} from "./templates";
 
 describe("templates de e-mail", () => {
   it("confirmação traz o nome do plano no assunto", () => {
@@ -26,6 +31,12 @@ describe("templates de e-mail", () => {
       invoiceUrl: null,
     });
     expect(mail.html).not.toContain("Ver fatura");
+  });
+
+  it("conversão de indicação anuncia o mês grátis e linka as indicações", () => {
+    const mail = referralConvertedEmail();
+    expect(mail.subject).toContain("1 mês");
+    expect(mail.html).toContain("/conta/indicacoes");
   });
 
   it("dunning tem copy distinta por etapa e CTA de atualizar pagamento", () => {

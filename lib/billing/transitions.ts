@@ -4,7 +4,11 @@
  * esconde o excedente ao vivo, ver `lib/billing/limits`).
  */
 
-export type BillingAction = "none" | "downgrade_past_due" | "downgrade_canceled";
+export type BillingAction =
+  | "none"
+  | "downgrade_past_due"
+  | "downgrade_canceled"
+  | "downgrade_trial_expired";
 
 /** 30 dias em past_due → cai oficialmente para Free (dados preservados). */
 export const PAST_DUE_DOWNGRADE_DAYS = 30;
@@ -32,6 +36,15 @@ export function decideBillingAction(
   now: Date = new Date(),
 ): BillingAction {
   if (sub.plan === "free") return "none";
+
+  // Trial de indicação (#0020): vencido o período → cai para Free (dados preservados).
+  if (
+    sub.status === "trialing" &&
+    sub.current_period_end &&
+    new Date(sub.current_period_end).getTime() <= now.getTime()
+  ) {
+    return "downgrade_trial_expired";
+  }
 
   if (
     sub.status === "past_due" &&
