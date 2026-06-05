@@ -3,15 +3,21 @@ import { NextResponse, type NextRequest } from "next/server";
 
 import { sendEmail } from "@/lib/email/client";
 import { getUserEmail } from "@/lib/email/recipient";
-import { invoiceReceiptEmail, subscriptionConfirmedEmail } from "@/lib/email/templates";
+import {
+  invoiceReceiptEmail,
+  referralConvertedEmail,
+  subscriptionConfirmedEmail,
+} from "@/lib/email/templates";
 import { serverEnv } from "@/lib/env";
 import { formatBRL } from "@/lib/money";
-import { mapAsaasPayment, planFromValueCents } from "@/lib/payments";
+import { getPaymentGateway, mapAsaasPayment, planFromValueCents } from "@/lib/payments";
 import {
   eventIdFor,
   invoiceRowForPayment,
   subscriptionPatchForPayment,
 } from "@/lib/payments/webhook";
+import { isPaidPlan } from "@/lib/plan";
+import { decideReferralReward } from "@/lib/referrals";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { asaasWebhookSchema } from "@/lib/validators/asaas-webhook";
 
@@ -161,6 +167,66 @@ export async function POST(request: NextRequest) {
         }
       } catch {
         // E-mail é best-effort.
+      }
+
+      // Conversão de indicação (#0020): a indicada virou pagante Pro+? Marca a
+      // conversão e concede 1 mês grátis ao referrer (Pro+) adiando a próxima fatura.
+      // Isolado/best-effort — nunca quebra o webhook de pagamento.
+      try {
+        const referredPlan = planFromValueCents(record.amountCents)?.plan ?? null;
+        if (isPaidPlan(referredPlan)) {
+          const { data: referral } = await admin
+            .from("referrals")
+            .select("id, referrer_id")
+            .eq("referred_id", subscription.owner_id)
+            .is("converted_at", null)
+            .maybeSingle();
+
+          if (referral) {
+            const { data: referrer } = await admin
+              .from("subscriptions")
+              .select("plan, asaas_subscription_id")
+              .eq("owner_id", referral.referrer_id)
+              .maybeSingle();
+
+            let rewardGranted = false;
+            if (referrer?.asaas_subscription_id && isPaidPlan(referrer.plan)) {
+              const gateway = getPaymentGateway();
+              const nextPayment = await gateway.getNextPendingPayment(
+                referrer.asaas_subscription_id,
+              );
+              const decision = decideReferralReward({
+                referrerPlan: referrer.plan,
+                referredPaidPlan: referredPlan,
+                nextPaymentDueDate: nextPayment?.dueDate ?? null,
+              });
+              if (decision.shouldGrant && nextPayment && decision.newDueDate) {
+                await gateway.updatePayment(nextPayment.paymentId, {
+                  dueDate: decision.newDueDate,
+                });
+                rewardGranted = true;
+              } else {
+                console.warn("[asaas-webhook] indicação convertida sem fatura p/ adiar", {
+                  referralId: referral.id,
+                });
+              }
+            }
+
+            // Idempotente: o filtro converted_at IS NULL barra reprocessamento.
+            await admin
+              .from("referrals")
+              .update({ converted_at: new Date().toISOString(), reward_granted: rewardGranted })
+              .eq("id", referral.id)
+              .is("converted_at", null);
+
+            if (rewardGranted) {
+              const refEmail = await getUserEmail(admin, referral.referrer_id);
+              if (refEmail) await sendEmail({ to: refEmail, ...referralConvertedEmail() });
+            }
+          }
+        }
+      } catch {
+        // Indicação é best-effort: nunca quebra o webhook.
       }
     }
 

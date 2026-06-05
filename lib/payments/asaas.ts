@@ -216,4 +216,17 @@ export class AsaasGateway implements PaymentGateway {
     const raw = await asaasFetch<AsaasPaymentRaw>(`/payments/${paymentId}`);
     return mapAsaasPayment(raw);
   }
+
+  async getNextPendingPayment(subscriptionId: string): Promise<PaymentRecord | null> {
+    // Lista as cobranças da assinatura e escolhe a PENDENTE de menor vencimento — sem
+    // depender da ordenação/filtro do gateway (robusto a variações da API).
+    const payments = await asaasFetch<{ data: AsaasPaymentRaw[] }>(
+      `/subscriptions/${subscriptionId}/payments?limit=50`,
+    );
+    const pending = (payments.data ?? [])
+      .map(mapAsaasPayment)
+      .filter((p) => p.status === "pending" && p.dueDate)
+      .sort((a, b) => (a.dueDate ?? "").localeCompare(b.dueDate ?? ""));
+    return pending[0] ?? null;
+  }
 }

@@ -3,23 +3,12 @@ import { NextResponse, type NextRequest } from "next/server";
 import { applyDiscount } from "@/lib/coupons";
 import { onlyDigits } from "@/lib/cpf-cnpj";
 import { getPaymentGateway, getPlanEntry, PaymentGatewayError } from "@/lib/payments";
+import { dueDateInDays } from "@/lib/payments/dates";
 import { checkCheckoutRateLimit } from "@/lib/rate-limit";
 import { createClient } from "@/lib/supabase/server";
 import { checkoutSchema } from "@/lib/validators/checkout";
 
 export const runtime = "nodejs";
-
-/** Data (BRT) em `YYYY-MM-DD` deslocada por `days` — p/ cupons de dias grátis. */
-function dueDateInDays(days: number): string {
-  const d = new Date();
-  d.setDate(d.getDate() + days);
-  return new Intl.DateTimeFormat("en-CA", {
-    timeZone: "America/Sao_Paulo",
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-  }).format(d);
-}
 
 /**
  * `POST /api/checkout` (#0018) — cria/garante o cliente Asaas, abre a assinatura

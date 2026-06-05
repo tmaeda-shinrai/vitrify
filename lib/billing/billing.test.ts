@@ -55,6 +55,24 @@ describe("decideBillingAction", () => {
       ),
     ).toBe("none");
   });
+
+  it("trial de indicação vencido → downgrade_trial_expired", () => {
+    expect(
+      decideBillingAction(
+        sub({ status: "trialing", current_period_end: "2026-07-10T00:00:00Z" }),
+        now,
+      ),
+    ).toBe("downgrade_trial_expired");
+  });
+
+  it("trial de indicação ainda vigente → nada", () => {
+    expect(
+      decideBillingAction(
+        sub({ status: "trialing", current_period_end: "2026-08-10T00:00:00Z" }),
+        now,
+      ),
+    ).toBe("none");
+  });
 });
 
 describe("dunningStage", () => {

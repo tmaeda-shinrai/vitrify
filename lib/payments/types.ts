@@ -78,6 +78,8 @@ export interface PaymentGateway {
     changes: { valueCents?: number; dueDate?: string },
   ): Promise<void>;
   getPayment(paymentId: string): Promise<PaymentRecord>;
+  /** Próxima cobrança PENDENTE da assinatura (a vencer), ou null — recompensa de indicação (#0020). */
+  getNextPendingPayment(subscriptionId: string): Promise<PaymentRecord | null>;
 }
 
 /** Erro de domínio — a `message` é segura para log (nunca traz CPF/cartão). */

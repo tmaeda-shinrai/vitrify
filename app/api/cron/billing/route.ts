@@ -32,11 +32,12 @@ export async function POST(request: NextRequest) {
   }
 
   const admin = createAdminClient();
+  // Inclui trials de indicação (#0020): status 'trialing' precisa entrar no escopo p/ expirar.
   const { data: subs, error } = await admin
     .from("subscriptions")
     .select("id, plan, status, past_due_since, canceled_at, current_period_end, owner_id")
     .neq("plan", "free")
-    .or("status.eq.past_due,canceled_at.not.is.null")
+    .or("status.eq.past_due,status.eq.trialing,canceled_at.not.is.null")
     .limit(500);
 
   if (error) {
@@ -68,10 +69,11 @@ export async function POST(request: NextRequest) {
     const action = decideBillingAction(sub, now);
     if (action === "none") continue;
 
+    // Cancelada → 'canceled'; past_due/trial vencido → 'expired'. Nunca apaga produtos.
     const patch =
-      action === "downgrade_past_due"
-        ? { plan: "free" as const, status: "expired" as const, past_due_since: null }
-        : { plan: "free" as const, status: "canceled" as const };
+      action === "downgrade_canceled"
+        ? { plan: "free" as const, status: "canceled" as const }
+        : { plan: "free" as const, status: "expired" as const, past_due_since: null };
 
     const { error: updateError } = await admin.from("subscriptions").update(patch).eq("id", sub.id);
     if (!updateError) downgraded += 1;
