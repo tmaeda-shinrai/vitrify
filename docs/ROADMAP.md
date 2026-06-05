@@ -209,7 +209,7 @@ A partir daqui o roadmap deixa de ser linear e passa a ser orientado por dados e
 
 ### Curto prazo (mês 4-5)
 
-- [ ] Programa de indicação ("traga uma amiga")
+- [x] Programa de indicação ("traga uma amiga") — entregue no #0020 (M5, 3 PRs)
 - [ ] Importação em lote de produtos via CSV
 - [ ] Personalização de cores da vitrine (Pro+)
 - [x] Origem do tráfego nas estatísticas (antecipado no #0016, Pro+)
