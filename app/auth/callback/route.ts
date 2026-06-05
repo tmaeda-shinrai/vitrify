@@ -1,6 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server";
 
 import { sanitizeNext } from "@/lib/auth/redirect";
+import { REFERRAL_COOKIE, normalizeReferralCode } from "@/lib/referrals";
 import { createClient } from "@/lib/supabase/server";
 
 /**
@@ -23,7 +24,22 @@ export async function GET(request: NextRequest) {
     const supabase = await createClient();
     const { error } = await supabase.auth.exchangeCodeForSession(code);
     if (!error) {
-      return NextResponse.redirect(new URL(next, origin));
+      const response = NextResponse.redirect(new URL(next, origin));
+
+      // Indicação (#0020): no OAuth o metadata não chega ao trigger, então
+      // aplicamos o código capturado (cookie) agora que a sessão existe. A RPC só
+      // promove conta nova (Free/recém-criada). Best-effort — nunca bloqueia o login.
+      const referralCode = normalizeReferralCode(request.cookies.get(REFERRAL_COOKIE)?.value);
+      if (referralCode) {
+        try {
+          await supabase.rpc("apply_referral", { p_code: referralCode });
+        } catch {
+          // segue o login mesmo se a indicação falhar
+        }
+        response.cookies.delete(REFERRAL_COOKIE);
+      }
+
+      return response;
     }
   }
 
