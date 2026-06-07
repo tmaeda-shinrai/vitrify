@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { HelpCircle } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 import { desktopNavItems, type NavItem } from "@/components/dashboard/nav-items";
@@ -36,6 +37,19 @@ export function DesktopSidebar() {
             />
           ))}
         </nav>
+        <Link
+          href="/ajuda"
+          className={cn(
+            "mt-auto flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium",
+            isActive(pathname, "/ajuda")
+              ? "bg-primary/10 text-primary"
+              : "text-muted-foreground hover:bg-accent hover:text-foreground",
+          )}
+          aria-current={isActive(pathname, "/ajuda") ? "page" : undefined}
+        >
+          <HelpCircle className="size-5" />
+          {t("help")}
+        </Link>
       </div>
     </aside>
   );

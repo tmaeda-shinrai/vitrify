@@ -47,6 +47,10 @@ const clientSchema = z.object({
   NEXT_PUBLIC_SUPABASE_ANON_KEY: requiredInProd(z.string().min(20)),
   NEXT_PUBLIC_SENTRY_DSN: z.string().url().optional(),
   NEXT_PUBLIC_PLAUSIBLE_DOMAIN: z.string().optional(),
+  // Suporte e conteúdo (#0022). WhatsApp em E.164 sem '+'; vídeos por YouTube id.
+  NEXT_PUBLIC_SUPPORT_WHATSAPP: z.string().optional(),
+  NEXT_PUBLIC_SUPPORT_EMAIL: z.string().default("suporte@vitrinio.com.br"),
+  NEXT_PUBLIC_INTRO_VIDEO_ID: z.string().optional(),
 });
 
 const clientParsed = clientSchema.safeParse(process.env);
