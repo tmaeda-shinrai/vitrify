@@ -1,7 +1,9 @@
+import { Suspense } from "react";
 import { redirect } from "next/navigation";
 
 import { DesktopSidebar } from "@/components/dashboard/desktop-sidebar";
 import { MobileBottomNav } from "@/components/dashboard/mobile-bottom-nav";
+import { WelcomeTour } from "@/components/help/welcome-tour";
 import { PlanWelcome } from "@/components/plan/plan-welcome";
 import { InstallPrompt } from "@/components/shared/install-prompt";
 import { LegalFooter } from "@/components/shared/legal-footer";
@@ -35,6 +37,9 @@ export default async function DashboardLayout({ children }: { children: React.Re
       <MobileBottomNav />
       <InstallPrompt />
       <PlanWelcome />
+      <Suspense>
+        <WelcomeTour />
+      </Suspense>
     </div>
   );
 }
