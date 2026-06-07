@@ -169,5 +169,6 @@ export async function completeOnboardingAction(): Promise<ActionResult> {
     return { ok: false, error: "Não foi possível concluir. Tente novamente." };
   }
 
-  redirect("/produtos");
+  // `bemvinda=1` aciona o card de boas-vindas de primeiro acesso (#0022, WelcomeTour).
+  redirect("/produtos?bemvinda=1");
 }
