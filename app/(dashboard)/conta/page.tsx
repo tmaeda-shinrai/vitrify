@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { redirect } from "next/navigation";
+import { HelpCircle } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 
 import { ContaTabs } from "@/components/conta/conta-tabs";
 import { DeleteAccount } from "@/components/conta/delete-account";
+import { SupportCta } from "@/components/help/support-cta";
 import { ProfileForm } from "@/components/conta/profile-form";
 import { VitrineForm } from "@/components/conta/vitrine-form";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -67,6 +70,27 @@ export default async function ContaPage() {
               subtitle: vitrine?.subtitle ?? "",
             }}
           />
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-lg">Precisa de ajuda?</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-3">
+          <p className="text-sm text-muted-foreground">
+            Veja a Central de Ajuda com perguntas frequentes e tutoriais, ou fale com a gente.
+          </p>
+          <div className="flex flex-col gap-2 sm:flex-row">
+            <Link
+              href="/ajuda"
+              className="inline-flex items-center justify-center gap-2 rounded-md border border-input bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground"
+            >
+              <HelpCircle className="size-4" aria-hidden />
+              Central de Ajuda
+            </Link>
+            <SupportCta />
+          </div>
         </CardContent>
       </Card>
 

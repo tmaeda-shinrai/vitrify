@@ -24,6 +24,9 @@ export function LegalFooter({ className }: { className?: string }) {
           {link.label}
         </Link>
       ))}
+      <Link href="/ajuda" className="underline-offset-4 hover:text-foreground hover:underline">
+        Ajuda
+      </Link>
       <a
         href={`mailto:${RIGHTS_EMAIL}`}
         className="underline-offset-4 hover:text-foreground hover:underline"
