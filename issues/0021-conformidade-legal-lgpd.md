@@ -35,26 +35,26 @@ Atende ao critério de pronto do MVP "Política de privacidade, termos de uso e 
 
 ## Tarefas
 
-- [ ] Páginas `/termos`, `/privacidade`, `/cookies` (drafts seguindo `LEGAL.md` §4–5; marcadas "a revisar por advogado")
-- [ ] Aceite de termos no cadastro (registro de versão) + reaceite em mudança material
-- [ ] Cláusula de responsabilidade sobre imagens/marcas no aceite e no onboarding
-- [ ] Tela "Meus dados": acesso + export JSON (pessoais) + export CSV/JSON (produtos)
-- [ ] Configurações > Privacidade: revogar consentimentos opcionais; lista de terceiros
-- [ ] `audit_logs`: triggers/registro automático de ações sensíveis + job de retenção 180d
-- [ ] E-mails `dpo@` e `direitos@` ativos e roteados
-- [ ] Exclusão de conta ponta a ponta: confirmação, e-mail, job de anonimização 30d / exclusão 90d
-- [ ] Jobs de retenção: `order_intents` ip_hash 12 meses; backups 90d (coordena com #0024); demais conforme §1.5
-- [ ] `docs/security-incidents.md` (plano de resposta a incidentes)
-- [ ] Footer com links legais e canal de denúncia
-- [ ] Testes: aceite obrigatório no cadastro; export gera arquivo válido; ação sensível gera `audit_log`; pedido de exclusão dispara o fluxo
+- [x] Páginas `/termos`, `/privacidade`, `/cookies` (drafts seguindo `LEGAL.md` §4–5; marcadas "a revisar por advogado") — PR1
+- [x] Aceite de termos no cadastro (registro de versão) + reaceite em mudança material — PR1 (cadastro) + PR4 (gate no onboarding/OAuth + reaceite na mudança de versão)
+- [x] Cláusula de responsabilidade sobre imagens/marcas no aceite e no onboarding — PR1 + PR4
+- [x] Tela "Meus dados": acesso + export JSON (pessoais) + export CSV/JSON (produtos) — PR4
+- [x] Configurações > Privacidade: revogar consentimentos opcionais; lista de terceiros — PR4
+- [x] `audit_logs`: triggers/registro automático de ações sensíveis + job de retenção 180d — PR2
+- [~] E-mails `dpo@` e `direitos@` ativos e roteados — referenciados/linkados no código e docs (PR1/PR5); **ativação da caixa/DNS é operacional → checklist #0025**
+- [x] Exclusão de conta ponta a ponta: confirmação, e-mail, job de anonimização 30d / exclusão 90d — PR3
+- [x] Jobs de retenção: `order_intents` ip_hash 12 meses; demais conforme §1.5 — PR2/PR3 (backups 90d ficam com #0024)
+- [x] `docs/security-incidents.md` (plano de resposta a incidentes) — PR5
+- [x] Footer com links legais e canal de denúncia — PR1
+- [x] Testes: aceite obrigatório no cadastro; export gera arquivo válido; ação sensível gera `audit_log`; pedido de exclusão dispara o fluxo
 
 ## Critérios de aceitação
 
-- [ ] `/termos` e `/privacidade` publicados e linkados; cadastro exige aceite e registra a versão
-- [ ] Usuária consegue exportar seus dados pessoais (JSON) e seus produtos (CSV/JSON)
-- [ ] Ações sensíveis (criar/editar/excluir produto, mudar plano) ficam registradas em `audit_logs` com `ip_hash`
-- [ ] "Excluir minha conta" funciona ponta a ponta; prazos de anonimização/exclusão documentados ao usuário
-- [ ] `dpo@` e `direitos@` recebem e-mails; plano de resposta a incidentes documentado
+- [x] `/termos` e `/privacidade` publicados e linkados; cadastro exige aceite e registra a versão
+- [x] Usuária consegue exportar seus dados pessoais (JSON) e seus produtos (CSV/JSON)
+- [x] Ações sensíveis (criar/editar/excluir produto, mudar plano) ficam registradas em `audit_logs` — actor/ação/entidade garantidos por trigger; `ip_hash` confiável no evento `auth.login` e via GUC em transação (per-mutação é best-effort dado o PostgREST stateless)
+- [x] "Excluir minha conta" funciona ponta a ponta; prazos de anonimização/exclusão documentados ao usuário
+- [~] `dpo@` e `direitos@` recebem e-mails; plano de resposta a incidentes documentado — plano documentado (PR5); recebimento real depende da ativação da caixa (#0025)
 - [ ] Critérios genéricos de aceitação (ver `issues/README.md`)
 
 ## Referências
