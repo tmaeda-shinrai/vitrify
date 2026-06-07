@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 
 import { OnboardingWizard } from "@/components/onboarding/onboarding-wizard";
 import { clientEnv } from "@/lib/env";
+import { TERMS_VERSION } from "@/lib/legal/version";
 import { createClient } from "@/lib/supabase/server";
 
 export const metadata: Metadata = { title: "Vamos montar sua vitrine" };
@@ -17,7 +18,7 @@ export default async function OnboardingPage() {
   const [{ data: profile }, { data: vitrine }] = await Promise.all([
     supabase
       .from("profiles")
-      .select("full_name, whatsapp, onboarding_completed_at")
+      .select("full_name, whatsapp, onboarding_completed_at, terms_version, terms_accepted_at")
       .eq("id", user.id)
       .maybeSingle(),
     supabase
@@ -55,6 +56,7 @@ export default async function OnboardingPage() {
             googleAvatarUrl,
           }}
           initialStep={initialStep}
+          needsTerms={!profile?.terms_accepted_at || profile.terms_version !== TERMS_VERSION}
         />
       </div>
     </main>

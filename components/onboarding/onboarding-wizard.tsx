@@ -7,6 +7,7 @@ import { StepName } from "@/components/onboarding/steps/step-name";
 import { StepPhoto } from "@/components/onboarding/steps/step-photo";
 import { StepSlug } from "@/components/onboarding/steps/step-slug";
 import { StepWhatsapp } from "@/components/onboarding/steps/step-whatsapp";
+import { TermsGate } from "@/components/onboarding/terms-gate";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 export interface OnboardingData {
@@ -20,13 +21,21 @@ const TOTAL_STEPS = 4;
 export function OnboardingWizard({
   data,
   initialStep,
+  needsTerms,
 }: {
   data: OnboardingData;
   initialStep: number;
+  needsTerms: boolean;
 }) {
   const t = useTranslations("onboarding");
   const [step, setStep] = useState(Math.min(Math.max(initialStep, 1), TOTAL_STEPS));
   const [name, setName] = useState(data.fullName);
+  const [termsAccepted, setTermsAccepted] = useState(!needsTerms);
+
+  // Gate de aceite (OAuth/reaceite) antes de qualquer passo do wizard.
+  if (!termsAccepted) {
+    return <TermsGate onAccepted={() => setTermsAccepted(true)} />;
+  }
 
   const next = () => setStep((s) => Math.min(s + 1, TOTAL_STEPS));
 

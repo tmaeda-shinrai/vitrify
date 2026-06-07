@@ -380,6 +380,8 @@
     "profileTab": "Perfil",
     "planTab": "Meu plano",
     "referralsTab": "Indicações",
+    "dataTab": "Meus dados",
+    "privacyTab": "Privacidade",
     "currentPlan": "Plano {plan}",
     "status": {
       "trialing": "Em teste",

@@ -7,13 +7,16 @@ import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 
 /**
- * Abas internas da Conta (#0019): Perfil (`/conta`) e Meu plano (`/conta/plano`).
- * Espelha o padrão de `SectionTabs` (Pedidos/Estatísticas).
+ * Abas internas da Conta: Perfil (`/conta`), Meu plano (`/conta/plano`), Indicações
+ * (#0019/#0020), Meus dados e Privacidade (#0021). Rolagem horizontal no mobile,
+ * já que são 5 abas.
  */
 const tabs = [
   { key: "profileTab", href: "/conta" },
   { key: "planTab", href: "/conta/plano" },
   { key: "referralsTab", href: "/conta/indicacoes" },
+  { key: "dataTab", href: "/conta/dados" },
+  { key: "privacyTab", href: "/conta/privacidade" },
 ] as const;
 
 export function ContaTabs() {
@@ -22,8 +25,8 @@ export function ContaTabs() {
 
   return (
     <nav
-      aria-label={`${t("profileTab")} / ${t("planTab")}`}
-      className="flex gap-1 rounded-lg bg-muted p-1"
+      aria-label={t("profileTab")}
+      className="flex gap-1 overflow-x-auto rounded-lg bg-muted p-1"
     >
       {tabs.map((tab) => {
         const active = pathname === tab.href;
@@ -33,7 +36,7 @@ export function ContaTabs() {
             href={tab.href}
             aria-current={active ? "page" : undefined}
             className={cn(
-              "flex-1 rounded-md px-3 py-1.5 text-center text-sm font-medium transition-colors",
+              "whitespace-nowrap rounded-md px-3 py-1.5 text-center text-sm font-medium transition-colors",
               active
                 ? "bg-background text-foreground shadow-sm"
                 : "text-muted-foreground hover:text-foreground",
