@@ -3,6 +3,8 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
+import { sendEmail } from "@/lib/email/client";
+import { accountDeletionRequestedEmail } from "@/lib/email/templates";
 import { type SignedUpload } from "@/lib/image";
 import { isReservedSlug } from "@/lib/slug";
 import { createClient } from "@/lib/supabase/server";
@@ -117,6 +119,15 @@ export async function updateVitrineAction(input: unknown): Promise<ActionResult>
   return { ok: true };
 }
 
+/** Data pt-BR (DD/MM/AAAA) a partir de `now` + N dias — usada nos prazos LGPD. */
+function brDatePlusDays(days: number): string {
+  const d = new Date(Date.now() + days * 86_400_000);
+  return new Intl.DateTimeFormat("pt-BR", {
+    dateStyle: "long",
+    timeZone: "America/Sao_Paulo",
+  }).format(d);
+}
+
 export async function requestAccountDeletionAction(): Promise<ActionResult> {
   const supabase = await createClient();
   const {
@@ -126,6 +137,21 @@ export async function requestAccountDeletionAction(): Promise<ActionResult> {
 
   const { error } = await supabase.rpc("request_account_deletion");
   if (error) return { ok: false, error: "Não foi possível concluir o pedido. Tente novamente." };
+
+  // E-mail de confirmação com os prazos (#0021). Best-effort: nunca bloqueia o fluxo.
+  if (user.email) {
+    try {
+      await sendEmail({
+        to: user.email,
+        ...accountDeletionRequestedEmail({
+          anonymizeDate: brDatePlusDays(30),
+          deleteDate: brDatePlusDays(90),
+        }),
+      });
+    } catch {
+      // best-effort
+    }
+  }
 
   await supabase.auth.signOut();
   redirect("/login?erro=conta-excluida");

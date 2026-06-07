@@ -9,6 +9,12 @@ export const AUDIT_LOG_RETENTION_DAYS = 180;
 /** Hash de IP em intenções de pedido: 12 meses (analytics agregada). */
 export const ORDER_INTENT_IP_RETENTION_MONTHS = 12;
 
+/** Conta excluída: anonimização da PII aos 30 dias do pedido. */
+export const ACCOUNT_ANONYMIZE_DAYS = 30;
+
+/** Conta excluída: exclusão definitiva aos 90 dias do pedido. */
+export const ACCOUNT_DELETE_DAYS = 90;
+
 /** ISO da data-limite N dias antes de `now` (registros mais antigos expiram). */
 export function cutoffDaysAgo(now: Date, days: number): string {
   const cutoff = new Date(now);

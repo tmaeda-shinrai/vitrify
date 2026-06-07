@@ -76,6 +76,44 @@ export function referralConvertedEmail(): EmailContent {
   };
 }
 
+export function accountDeletionRequestedEmail(params: {
+  anonymizeDate: string;
+  deleteDate: string;
+}): EmailContent {
+  return {
+    subject: "Recebemos seu pedido de exclusão de conta",
+    html: layout(
+      "Pedido de exclusão registrado",
+      `<p>Sua conta foi marcada para exclusão e sua vitrine saiu do ar.</p>
+       <p>Seus dados pessoais serão anonimizados em <strong>${params.anonymizeDate}</strong> (30 dias)
+       e excluídos definitivamente em <strong>${params.deleteDate}</strong> (90 dias).</p>
+       <p>Mudou de ideia? Entre novamente antes da anonimização para reativar sua conta.</p>`,
+    ),
+  };
+}
+
+export function accountAnonymizedEmail(): EmailContent {
+  return {
+    subject: "Seus dados pessoais foram anonimizados",
+    html: layout(
+      "Dados pessoais anonimizados",
+      `<p>Conforme seu pedido, os dados pessoais da sua conta no Vitrinio foram anonimizados.
+       A exclusão definitiva ocorrerá 90 dias após o pedido.</p>`,
+    ),
+  };
+}
+
+export function accountDeletedEmail(): EmailContent {
+  return {
+    subject: "Sua conta foi excluída",
+    html: layout(
+      "Conta excluída",
+      `<p>Sua conta no Vitrinio foi excluída definitivamente, conforme seu pedido.
+       Obrigado por ter feito parte. Você pode criar uma nova conta quando quiser.</p>`,
+    ),
+  };
+}
+
 const DUNNING: Record<1 | 3 | 7, { subject: string; heading: string; body: string }> = {
   1: {
     subject: "Não conseguimos confirmar seu pagamento",

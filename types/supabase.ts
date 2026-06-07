@@ -237,6 +237,39 @@ export type Database = {
         };
         Relationships: [];
       };
+      invoice_archive: {
+        Row: {
+          amount_cents: number;
+          archived_at: string | null;
+          asaas_payment_id: string | null;
+          due_date: string | null;
+          id: string;
+          paid_at: string | null;
+          payment_method: string | null;
+          status: string;
+        };
+        Insert: {
+          amount_cents: number;
+          archived_at?: string | null;
+          asaas_payment_id?: string | null;
+          due_date?: string | null;
+          id?: string;
+          paid_at?: string | null;
+          payment_method?: string | null;
+          status: string;
+        };
+        Update: {
+          amount_cents?: number;
+          archived_at?: string | null;
+          asaas_payment_id?: string | null;
+          due_date?: string | null;
+          id?: string;
+          paid_at?: string | null;
+          payment_method?: string | null;
+          status?: string;
+        };
+        Relationships: [];
+      };
       invoices: {
         Row: {
           amount_cents: number;
@@ -478,6 +511,7 @@ export type Database = {
       };
       profiles: {
         Row: {
+          anonymized_at: string | null;
           avatar_url: string | null;
           bio: string | null;
           created_at: string | null;
@@ -494,6 +528,7 @@ export type Database = {
           whatsapp_verified_at: string | null;
         };
         Insert: {
+          anonymized_at?: string | null;
           avatar_url?: string | null;
           bio?: string | null;
           created_at?: string | null;
@@ -510,6 +545,7 @@ export type Database = {
           whatsapp_verified_at?: string | null;
         };
         Update: {
+          anonymized_at?: string | null;
           avatar_url?: string | null;
           bio?: string | null;
           created_at?: string | null;
@@ -746,6 +782,7 @@ export type Database = {
       };
       downgrade_to_free: { Args: never; Returns: undefined };
       ensure_referral_code: { Args: never; Returns: string };
+      hard_delete_account: { Args: { p_user: string }; Returns: undefined };
       increment_vitrine_views: { Args: { p_slug: string }; Returns: undefined };
       is_slug_available: { Args: { p_slug: string }; Returns: boolean };
       record_login_audit: { Args: { p_ip_hash: string }; Returns: undefined };
