@@ -2,12 +2,34 @@
 
 import { redirect } from "next/navigation";
 
+import { TERMS_VERSION } from "@/lib/legal/version";
 import { createClient } from "@/lib/supabase/server";
 import { nameStepSchema, slugStepSchema, whatsappStepSchema } from "@/lib/validators/onboarding";
 
 export interface ActionResult {
   ok: boolean;
   error?: string;
+}
+
+/**
+ * Registra o aceite dos Termos no onboarding (#0021) — cobre OAuth e reaceite em
+ * mudança material. Grava a versão vigente + timestamp; o trigger de auditoria
+ * (profiles.terms_accepted_at) registra automaticamente em audit_logs.
+ */
+export async function acceptTermsAction(): Promise<ActionResult> {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return { ok: false, error: "Sessão expirada. Entre novamente." };
+
+  const { error } = await supabase
+    .from("profiles")
+    .update({ terms_version: TERMS_VERSION, terms_accepted_at: new Date().toISOString() })
+    .eq("id", user.id);
+  if (error) return { ok: false, error: "Não foi possível registrar o aceite. Tente novamente." };
+
+  return { ok: true };
 }
 
 async function requireUserId(): Promise<string | null> {

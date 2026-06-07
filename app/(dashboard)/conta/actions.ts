@@ -119,6 +119,23 @@ export async function updateVitrineAction(input: unknown): Promise<ActionResult>
   return { ok: true };
 }
 
+/** Revoga/concede o consentimento opcional de marketing (#0021, LGPD §1.4). */
+export async function updateConsentAction(marketingOptIn: boolean): Promise<ActionResult> {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return { ok: false, error: "Sessão expirada. Entre novamente." };
+
+  const { error } = await supabase
+    .from("profiles")
+    .update({ marketing_opt_in: marketingOptIn })
+    .eq("id", user.id);
+  if (error) return { ok: false, error: "Não foi possível salvar. Tente novamente." };
+
+  return { ok: true };
+}
+
 /** Data pt-BR (DD/MM/AAAA) a partir de `now` + N dias — usada nos prazos LGPD. */
 function brDatePlusDays(days: number): string {
   const d = new Date(Date.now() + days * 86_400_000);

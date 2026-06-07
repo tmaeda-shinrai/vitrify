@@ -518,6 +518,7 @@ export type Database = {
           deletion_requested_at: string | null;
           full_name: string;
           id: string;
+          marketing_opt_in: boolean;
           onboarding_completed_at: string | null;
           referral_code: string | null;
           referral_nudge_sent_at: string | null;
@@ -535,6 +536,7 @@ export type Database = {
           deletion_requested_at?: string | null;
           full_name: string;
           id: string;
+          marketing_opt_in?: boolean;
           onboarding_completed_at?: string | null;
           referral_code?: string | null;
           referral_nudge_sent_at?: string | null;
@@ -552,6 +554,7 @@ export type Database = {
           deletion_requested_at?: string | null;
           full_name?: string;
           id?: string;
+          marketing_opt_in?: boolean;
           onboarding_completed_at?: string | null;
           referral_code?: string | null;
           referral_nudge_sent_at?: string | null;

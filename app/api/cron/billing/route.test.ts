@@ -36,6 +36,7 @@ function makeFakeAdmin(subs: Array<Record<string, unknown>>, opts: FakeOptions =
       neq: () => builder,
       or: () => builder,
       is: () => builder,
+      eq: () => builder,
       gte: () => builder,
       lt: () => builder,
       in: () => builder,

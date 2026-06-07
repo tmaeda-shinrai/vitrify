@@ -89,6 +89,7 @@ export async function POST(request: NextRequest) {
     .from("profiles")
     .select("id")
     .is("referral_nudge_sent_at", null)
+    .eq("marketing_opt_in", true)
     .gte("created_at", nudgeFrom)
     .lt("created_at", nudgeTo)
     .limit(200);
