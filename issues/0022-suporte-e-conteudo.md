@@ -31,20 +31,20 @@ Atende ao critério de pronto do MVP "Documentação de suporte básica publicad
 
 ## Tarefas
 
-- [ ] Página de FAQ com busca; redigir ≥ 20 perguntas/respostas em pt-BR
-- [ ] Gravar/editar ≥ 5 vídeos tutoriais curtos; definir hospedagem; incorporar no app
-- [ ] Vídeo de 60s embutido no primeiro acesso (pós-onboarding)
-- [ ] Tour guiado no primeiro acesso (passos sobre nav/adicionar produto/compartilhar)
-- [ ] Botão/links de suporte via WhatsApp no app
-- [ ] Sinalizar "suporte prioritário" no Plus (coordena com #0019)
-- [ ] Testes: busca da FAQ retorna resultados; tour aparece só no 1º acesso e pode ser pulado
+- [x] Página de FAQ com busca; redigir ≥ 20 perguntas/respostas em pt-BR — PR1 (`/ajuda`, 24 perguntas, `lib/help/faq.ts`)
+- [~] Gravar/editar ≥ 5 vídeos tutoriais curtos; definir hospedagem; incorporar no app — PR1: estrutura/embeds prontos (YouTube não-listado + facade, `lib/help/tutorials.ts`); **gravação dos vídeos é operacional → #0025**
+- [~] Vídeo de 60s embutido no primeiro acesso (pós-onboarding) — PR2: `WelcomeTour` embute o vídeo via `NEXT_PUBLIC_INTRO_VIDEO_ID`; **gravar o vídeo → #0025**
+- [x] Tour guiado no primeiro acesso (passos sobre nav/adicionar produto/compartilhar) — PR2: card de boas-vindas com 3 dicas/CTAs (decisão: card em vez de spotlight)
+- [x] Botão/links de suporte via WhatsApp no app — PR1 (`SupportCta`, `NEXT_PUBLIC_SUPPORT_WHATSAPP`)
+- [x] Sinalizar "suporte prioritário" no Plus — já existia (`lib/plan-features.ts`, `prioritySupport`)
+- [x] Testes: busca da FAQ retorna resultados; tour aparece só no 1º acesso e pode ser pulado
 
 ## Critérios de aceitação
 
-- [ ] FAQ publicada com ≥ 20 perguntas e busca funcionando
-- [ ] ≥ 5 tutoriais em vídeo curtos disponíveis e acessíveis no app
-- [ ] Primeiro acesso mostra o vídeo introdutório e o tour guiado (puláveis)
-- [ ] Há um caminho claro para falar com o suporte via WhatsApp
+- [x] FAQ publicada com ≥ 20 perguntas e busca funcionando
+- [~] ≥ 5 tutoriais em vídeo curtos disponíveis e acessíveis no app — estrutura/embeds no app; vídeos a gravar (#0025)
+- [~] Primeiro acesso mostra o vídeo introdutório e o tour guiado (puláveis) — card + embed prontos; vídeo intro a gravar (#0025)
+- [x] Há um caminho claro para falar com o suporte via WhatsApp
 - [ ] Critérios genéricos de aceitação (ver `issues/README.md`)
 
 ## Referências
