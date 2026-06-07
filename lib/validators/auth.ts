@@ -31,6 +31,10 @@ export const signUpSchema = z
     email,
     password,
     confirmPassword: z.string(),
+    // Aceite obrigatório dos Termos e da Política de Privacidade (#0021).
+    termsAccepted: z.literal(true, {
+      errorMap: () => ({ message: "É necessário aceitar os termos para criar a conta." }),
+    }),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "As senhas não conferem.",

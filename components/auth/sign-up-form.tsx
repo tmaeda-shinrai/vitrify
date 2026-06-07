@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 import { signUpAction } from "@/app/(auth)/actions";
@@ -12,8 +12,10 @@ import { FieldError } from "@/components/auth/field-error";
 import { GoogleButton } from "@/components/auth/google-button";
 import { OrDivider } from "@/components/auth/or-divider";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { LEGAL_ROUTES } from "@/lib/legal/links";
 import { signUpSchema, type SignUpInput } from "@/lib/validators/auth";
 
 export function SignUpForm() {
@@ -21,6 +23,7 @@ export function SignUpForm() {
   const t = useTranslations("auth");
   const {
     register,
+    control,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<SignUpInput>({ resolver: zodResolver(signUpSchema) });
@@ -85,6 +88,46 @@ export function SignUpForm() {
             aria-invalid={!!errors.confirmPassword}
           />
           <FieldError message={errors.confirmPassword?.message} />
+        </div>
+
+        <div className="space-y-1">
+          <div className="flex items-start gap-2">
+            <Controller
+              name="termsAccepted"
+              control={control}
+              render={({ field }) => (
+                <Checkbox
+                  id="termsAccepted"
+                  className="mt-0.5"
+                  checked={field.value === true}
+                  onCheckedChange={(checked) => field.onChange(checked === true)}
+                  aria-invalid={!!errors.termsAccepted}
+                />
+              )}
+            />
+            <Label htmlFor="termsAccepted" className="text-sm font-normal leading-snug">
+              {t("termsBefore")}{" "}
+              <a
+                href={LEGAL_ROUTES.termos}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary underline-offset-4 hover:underline"
+              >
+                {t("termsLink")}
+              </a>{" "}
+              {t("termsAnd")}{" "}
+              <a
+                href={LEGAL_ROUTES.privacidade}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary underline-offset-4 hover:underline"
+              >
+                {t("privacyLink")}
+              </a>
+              . {t("termsResponsibility")}
+            </Label>
+          </div>
+          <FieldError message={errors.termsAccepted?.message} />
         </div>
 
         <Button type="submit" className="w-full" disabled={isSubmitting}>

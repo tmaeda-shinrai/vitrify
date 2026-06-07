@@ -28,10 +28,16 @@ describe("signUpSchema", () => {
     email: "maria@email.com",
     password: "senha1234",
     confirmPassword: "senha1234",
+    termsAccepted: true as const,
   };
 
   it("aceita cadastro válido", () => {
     expect(signUpSchema.safeParse(base).success).toBe(true);
+  });
+
+  it("rejeita quando os termos não são aceitos", () => {
+    expect(signUpSchema.safeParse({ ...base, termsAccepted: false }).success).toBe(false);
+    expect(signUpSchema.safeParse({ ...base, termsAccepted: undefined }).success).toBe(false);
   });
 
   it("rejeita senha com menos de 8 caracteres", () => {
