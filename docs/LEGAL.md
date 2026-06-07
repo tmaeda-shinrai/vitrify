@@ -221,17 +221,17 @@ Antes de aceitar o primeiro pagamento real, verificar:
 - [ ] Empresa constituída com CNPJ ativo
 - [ ] Conta bancária PJ aberta
 - [ ] Contador contratado
-- [ ] Termos de Uso publicados e aceitos por todos os usuários
-- [ ] Política de Privacidade publicada e aceita
-- [ ] Política de Cookies (se aplicável)
-- [ ] Processo de exclusão de conta funcionando
-- [ ] Processo de export de dados funcionando
-- [ ] E-mail `dpo@dominio` ativo e monitorado
-- [ ] E-mail `direitos@dominio` ativo para denúncias
-- [ ] Sistema de denúncia funcionando na vitrine pública
-- [ ] Logs de auditoria funcionando
-- [ ] Backup automático testado
-- [ ] Plano de resposta a incidentes documentado
+- [x] Termos de Uso publicados (`/termos`, draft) e aceitos no cadastro/onboarding — #0021
+- [x] Política de Privacidade publicada (`/privacidade`, draft) e aceita — #0021
+- [x] Política de Cookies publicada (`/cookies`, draft) — #0021
+- [x] Processo de exclusão de conta funcionando (pedido + anonimização 30d + exclusão 90d) — #0021
+- [x] Processo de export de dados funcionando (JSON pessoais + CSV/JSON produtos) — #0021
+- [ ] E-mail `dpo@dominio` ativo e monitorado (referenciado no código/docs; ativar caixa/DNS — #0025)
+- [ ] E-mail `direitos@dominio` ativo para denúncias (referenciado; ativar caixa/DNS — #0025)
+- [ ] Sistema de denúncia funcionando na vitrine pública (#0023)
+- [x] Logs de auditoria funcionando (triggers automáticos + retenção 180d) — #0021
+- [ ] Backup automático testado (#0024)
+- [x] Plano de resposta a incidentes documentado (`docs/security-incidents.md`) — #0021
 - [ ] Revisão jurídica feita por advogado especializado
 - [ ] NF-e emitindo automaticamente após pagamentos
 

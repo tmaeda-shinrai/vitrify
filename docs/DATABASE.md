@@ -253,7 +253,9 @@ CREATE INDEX idx_audit_actor_date ON audit_logs(actor_id, created_at DESC);
 CREATE INDEX idx_audit_action ON audit_logs(action);
 ```
 
-Retenção: 180 dias, com job de limpeza automático.
+Retenção: 180 dias, com job de limpeza automático (`POST /api/cron/retention`, ver §7).
+
+**Registro automático (#0021):** a função `log_audit_event()` é disparada por triggers em `products`, `vitrines`, `profiles` e `subscriptions` (migration `*_audit_triggers.sql`) — grava `actor_id` (= `auth.uid()`), `action` (`<entidade>.created/updated/deleted`), `entity_type/id` e `metadata` (plano/status em `subscriptions`). Os `UPDATE` só disparam em **campos materiais** (exclui bumps de `views_count`/`intents_count`/`display_order`/`referral_nudge_sent_at`). O `ip_hash` vem do GUC `app.audit_ip_hash` (via `set_audit_ip_hash`, escopo de transação) quando a mutação roda na mesma transação; o `ip_hash` confiável de acesso ao painel é gravado no evento `auth.login` (`record_login_audit`, chamado no `loginAction`). Cumpre o Art. 15 do Marco Civil. Sem política RLS → leitura só por service role (painel admin é #0023).
 
 ### 2.11 `referrals`
 
@@ -559,7 +561,9 @@ Os índices full-text (`GIN`) e os parciais já entram na própria `initial_sche
 
 - Backup nativo Supabase: diário, retenção de 7 ou 30 dias dependendo do plano
 - Backup adicional: dump semanal exportado para storage externo (Wasabi/S3) com retenção de 90 dias
-- Dados de usuária excluída (LGPD): anonimização em 30 dias, conforme política em [LEGAL.md](./LEGAL.md)
+- Dados de usuária excluída (LGPD): anonimização em 30 dias, exclusão definitiva em 90 dias — conforme política em [LEGAL.md](./LEGAL.md) §1.5
+- **Implementado em #0021**: `POST /api/cron/retention` (agendado por pg_cron, migration `*_retention_cron.sql`) aplica as janelas — apaga `audit_logs` > 180 dias, anula `ip_hash` de `order_intents` > 12 meses, anonimiza contas aos 30d (`anonymize_account`, carimba `profiles.anonymized_at`) e exclui aos 90d (`hard_delete_account` → `DELETE FROM auth.users` em cascata). A retenção fiscal de 5 anos é preservada arquivando os campos não-PII das faturas em **`invoice_archive`** antes do hard delete. Janelas puras em `lib/retention/windows.ts`.
+- Colunas LGPD adicionadas a `profiles` (#0021): `terms_version`/`terms_accepted_at` (aceite versionado), `marketing_opt_in` (consentimento opcional), `anonymized_at` (marcador do job dos 30d).
 
 ## 8. Performance e otimizações futuras
 
