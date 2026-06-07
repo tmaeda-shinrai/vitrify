@@ -1,6 +1,9 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  accountAnonymizedEmail,
+  accountDeletedEmail,
+  accountDeletionRequestedEmail,
   dunningEmail,
   invoiceReceiptEmail,
   referralConvertedEmail,
@@ -44,6 +47,20 @@ describe("templates de e-mail", () => {
     const mail = referralInviteEmail();
     expect(mail.subject.length).toBeGreaterThan(0);
     expect(mail.html).toContain("/conta/indicacoes");
+  });
+
+  it("confirmação de exclusão traz os prazos de anonimização e exclusão", () => {
+    const mail = accountDeletionRequestedEmail({
+      anonymizeDate: "7 de julho de 2026",
+      deleteDate: "5 de setembro de 2026",
+    });
+    expect(mail.html).toContain("7 de julho de 2026");
+    expect(mail.html).toContain("5 de setembro de 2026");
+  });
+
+  it("anonimização e exclusão têm assunto não vazio", () => {
+    expect(accountAnonymizedEmail().subject.length).toBeGreaterThan(0);
+    expect(accountDeletedEmail().subject.length).toBeGreaterThan(0);
   });
 
   it("dunning tem copy distinta por etapa e CTA de atualizar pagamento", () => {
