@@ -487,6 +487,8 @@ export type Database = {
           onboarding_completed_at: string | null;
           referral_code: string | null;
           referral_nudge_sent_at: string | null;
+          terms_accepted_at: string | null;
+          terms_version: string | null;
           updated_at: string | null;
           whatsapp: string | null;
           whatsapp_verified_at: string | null;
@@ -501,6 +503,8 @@ export type Database = {
           onboarding_completed_at?: string | null;
           referral_code?: string | null;
           referral_nudge_sent_at?: string | null;
+          terms_accepted_at?: string | null;
+          terms_version?: string | null;
           updated_at?: string | null;
           whatsapp?: string | null;
           whatsapp_verified_at?: string | null;
@@ -515,6 +519,8 @@ export type Database = {
           onboarding_completed_at?: string | null;
           referral_code?: string | null;
           referral_nudge_sent_at?: string | null;
+          terms_accepted_at?: string | null;
+          terms_version?: string | null;
           updated_at?: string | null;
           whatsapp?: string | null;
           whatsapp_verified_at?: string | null;
@@ -742,6 +748,7 @@ export type Database = {
       ensure_referral_code: { Args: never; Returns: string };
       increment_vitrine_views: { Args: { p_slug: string }; Returns: undefined };
       is_slug_available: { Args: { p_slug: string }; Returns: boolean };
+      record_login_audit: { Args: { p_ip_hash: string }; Returns: undefined };
       redeem_coupon: {
         Args: { p_code: string; p_subscription_id: string };
         Returns: boolean;
@@ -751,6 +758,7 @@ export type Database = {
         Args: { p_comment?: string; p_reason?: string };
         Returns: undefined;
       };
+      set_audit_ip_hash: { Args: { p_hash: string }; Returns: undefined };
       validate_coupon: {
         Args: {
           p_code: string;

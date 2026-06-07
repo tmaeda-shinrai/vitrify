@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 
 import { DEFAULT_REDIRECT, sanitizeNext } from "@/lib/auth/redirect";
 import { clientEnv } from "@/lib/env";
+import { hashIp } from "@/lib/intent-source";
 import { TERMS_VERSION } from "@/lib/legal/version";
 import { checkLoginRateLimit, getClientIp } from "@/lib/rate-limit";
 import { REFERRAL_COOKIE, normalizeReferralCode } from "@/lib/referrals";
@@ -100,6 +101,10 @@ export async function loginAction(input: unknown): Promise<ActionResult> {
     }
     return { ok: false, error: "E-mail ou senha incorretos." };
   }
+
+  // Auditoria do acesso ao painel com hash do IP (#0021, Marco Civil §3.2). Best-effort:
+  // a sessão já está ativa no client, então auth.uid() resolve dentro da RPC.
+  await supabase.rpc("record_login_audit", { p_ip_hash: hashIp(ip) });
 
   return { ok: true };
 }
