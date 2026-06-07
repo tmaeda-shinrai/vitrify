@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 
 import { DEFAULT_REDIRECT, sanitizeNext } from "@/lib/auth/redirect";
 import { clientEnv } from "@/lib/env";
+import { TERMS_VERSION } from "@/lib/legal/version";
 import { checkLoginRateLimit, getClientIp } from "@/lib/rate-limit";
 import { REFERRAL_COOKIE, normalizeReferralCode } from "@/lib/referrals";
 import { createClient } from "@/lib/supabase/server";
@@ -39,13 +40,20 @@ export async function signUpAction(input: unknown): Promise<ActionResult> {
 
   const supabase = await createClient();
 
+  // Aceite de termos (#0021): grava QUAL versão foi aceita e QUANDO via metadata →
+  // o trigger handle_new_user persiste em profiles.terms_version/terms_accepted_at.
+  const termsMeta = {
+    terms_version: TERMS_VERSION,
+    terms_accepted_at: new Date().toISOString(),
+  };
+
   const { error } = await supabase.auth.signUp({
     email,
     password,
     options: {
       data: referralCode
-        ? { full_name: fullName, referral_code: referralCode }
-        : { full_name: fullName },
+        ? { full_name: fullName, referral_code: referralCode, ...termsMeta }
+        : { full_name: fullName, ...termsMeta },
       emailRedirectTo: appUrl(`/auth/confirm?next=${encodeURIComponent(DEFAULT_REDIRECT)}`),
     },
   });
