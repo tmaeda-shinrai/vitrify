@@ -114,6 +114,27 @@ export function accountDeletedEmail(): EmailContent {
   };
 }
 
+export function reportFiledEmail(params: {
+  slug: string;
+  reasonLabel: string;
+  description: string | null;
+  reporterEmail: string | null;
+}): EmailContent {
+  const vitrineUrl = `${APP_URL.replace(/\/$/, "")}/${params.slug}`;
+  return {
+    subject: `Nova denúncia de vitrine — @${params.slug}`,
+    html: layout(
+      "Nova denúncia recebida",
+      `<p><strong>Vitrine:</strong> @${params.slug}</p>
+       <p><strong>Motivo:</strong> ${params.reasonLabel}</p>
+       ${params.description ? `<p><strong>Descrição:</strong> ${params.description}</p>` : ""}
+       <p><strong>Denunciante:</strong> ${params.reporterEmail || "não informado"}</p>
+       ${button(vitrineUrl, "Ver a vitrine")}
+       <p style="font-size:12px;color:#6B7280">Analise e, se necessário, oculte a vitrine no painel admin (SLA 48h).</p>`,
+    ),
+  };
+}
+
 const DUNNING: Record<1 | 3 | 7, { subject: string; heading: string; body: string }> = {
   1: {
     subject: "Não conseguimos confirmar seu pagamento",
