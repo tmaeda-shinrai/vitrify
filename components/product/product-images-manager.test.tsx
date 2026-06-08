@@ -13,32 +13,50 @@ vi.mock("@/components/shared/image-uploader", () => ({
   ),
 }));
 
-const urls = ["https://x.test/a.webp", "https://x.test/b.webp", "https://x.test/c.webp"];
+const img = (url: string, alt = "") => ({ url, alt });
+const images = [
+  img("https://x.test/a.webp"),
+  img("https://x.test/b.webp"),
+  img("https://x.test/c.webp"),
+];
 
 describe("ProductImagesManager", () => {
   it("remove a foto pelo índice", () => {
     const onChange = vi.fn();
-    render(<ProductImagesManager value={urls} onChange={onChange} />);
+    render(<ProductImagesManager value={images} onChange={onChange} />);
     fireEvent.click(screen.getAllByLabelText("removePhoto")[0]!);
-    expect(onChange).toHaveBeenCalledWith([urls[1], urls[2]]);
+    expect(onChange).toHaveBeenCalledWith([images[1], images[2]]);
   });
 
   it("move a foto escolhida para a capa (índice 0)", () => {
     const onChange = vi.fn();
-    render(<ProductImagesManager value={urls} onChange={onChange} />);
+    render(<ProductImagesManager value={images} onChange={onChange} />);
     fireEvent.click(screen.getAllByLabelText("makeCover")[2]!);
-    expect(onChange).toHaveBeenCalledWith([urls[2], urls[0], urls[1]]);
+    expect(onChange).toHaveBeenCalledWith([images[2], images[0], images[1]]);
   });
 
-  it("adiciona a foto enviada ao fim da lista", () => {
+  it("adiciona a foto enviada ao fim da lista (alt vazio)", () => {
     const onChange = vi.fn();
-    render(<ProductImagesManager value={urls} onChange={onChange} />);
+    render(<ProductImagesManager value={images} onChange={onChange} />);
     fireEvent.click(screen.getByText("mock-add"));
-    expect(onChange).toHaveBeenCalledWith([...urls, "https://x.test/new.webp"]);
+    expect(onChange).toHaveBeenCalledWith([...images, img("https://x.test/new.webp")]);
+  });
+
+  it("edita o texto alternativo da foto", () => {
+    const onChange = vi.fn();
+    render(<ProductImagesManager value={images} onChange={onChange} />);
+    fireEvent.change(screen.getAllByLabelText("altLabel")[0]!, {
+      target: { value: "Batom azul" },
+    });
+    expect(onChange).toHaveBeenCalledWith([
+      img("https://x.test/a.webp", "Batom azul"),
+      images[1],
+      images[2],
+    ]);
   });
 
   it("esconde o controle de adicionar ao atingir o máximo", () => {
-    const five = Array.from({ length: 5 }, (_, i) => `https://x.test/${i}.webp`);
+    const five = Array.from({ length: 5 }, (_, i) => img(`https://x.test/${i}.webp`));
     render(<ProductImagesManager value={five} onChange={vi.fn()} />);
     expect(screen.queryByText("mock-add")).not.toBeInTheDocument();
   });

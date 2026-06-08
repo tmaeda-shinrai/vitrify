@@ -17,7 +17,7 @@ const product: ProductListItem = {
   category_name: null,
   brand_id: null,
   brand_name: null,
-  images: ["https://x/a.webp"],
+  images: [{ url: "https://x/a.webp", alt: "" }],
   cover_url: "https://x/a.webp",
 };
 

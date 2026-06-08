@@ -5,14 +5,17 @@ import Image from "next/image";
 import { ChevronLeft, ChevronRight, ImageOff } from "lucide-react";
 import { useTranslations } from "next-intl";
 
+import type { ProductImage } from "@/lib/products";
 import { cn } from "@/lib/utils";
 
 /**
  * Carrossel das fotos do produto no modal. Scroll-snap nativo (sem dependência),
  * com setas e dots quando há mais de uma foto. A 1ª imagem carrega eager; as
  * demais lazy. Animações respeitam `prefers-reduced-motion` (regra global).
+ *
+ * `alt` é o fallback (nome do produto) para fotos sem texto alternativo próprio.
  */
-export function ProductCarousel({ images, alt }: { images: string[]; alt: string }) {
+export function ProductCarousel({ images, alt }: { images: ProductImage[]; alt: string }) {
   const t = useTranslations("vitrine");
   const trackRef = useRef<HTMLDivElement>(null);
   const [index, setIndex] = useState(0);
@@ -49,11 +52,11 @@ export function ProductCarousel({ images, alt }: { images: string[]; alt: string
         onScroll={handleScroll}
         className="flex aspect-square w-full snap-x snap-mandatory overflow-x-auto rounded-md bg-muted [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
-        {images.map((src, i) => (
-          <div key={src} className="relative aspect-square w-full shrink-0 snap-center">
+        {images.map((img, i) => (
+          <div key={img.url} className="relative aspect-square w-full shrink-0 snap-center">
             <Image
-              src={src}
-              alt={alt}
+              src={img.url}
+              alt={img.alt || alt}
               fill
               priority={i === 0}
               loading={i === 0 ? "eager" : "lazy"}
@@ -86,9 +89,9 @@ export function ProductCarousel({ images, alt }: { images: string[]; alt: string
             <ChevronRight className="size-5" />
           </button>
           <div className="absolute inset-x-0 bottom-2 flex justify-center gap-1.5">
-            {images.map((src, i) => (
+            {images.map((img, i) => (
               <span
-                key={src}
+                key={img.url}
                 className={cn(
                   "size-1.5 rounded-full bg-foreground/30",
                   i === index && "bg-foreground",

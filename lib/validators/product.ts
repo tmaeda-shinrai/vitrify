@@ -45,8 +45,24 @@ const priceStringField = z
   .refine((v) => parseBRLToCents(v) !== null, "Informe um preço válido.");
 
 export const PRODUCT_IMAGES_MAX = 5;
+/** Texto alternativo por imagem — casa com `product_images.alt_text VARCHAR(120)`. */
+export const IMAGE_ALT_MAX = 120;
+
+/**
+ * Cada foto carrega a URL e um `alt` opcional (texto alternativo de acessibilidade).
+ * `alt` vazio é permitido: a leitura aplica fallback para o nome do produto, então
+ * toda imagem sempre tem alt significativo (#0024 / WCAG 2.1 AA).
+ */
+const imageField = z.object({
+  url: z.string().url(),
+  alt: z
+    .string()
+    .trim()
+    .max(IMAGE_ALT_MAX, `A descrição da foto pode ter no máximo ${IMAGE_ALT_MAX} caracteres.`),
+});
+
 const imagesField = z
-  .array(z.string().url())
+  .array(imageField)
   .min(1, "Adicione ao menos uma foto.")
   .max(PRODUCT_IMAGES_MAX, `No máximo ${PRODUCT_IMAGES_MAX} fotos.`);
 
