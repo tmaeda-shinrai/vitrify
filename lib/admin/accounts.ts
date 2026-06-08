@@ -24,8 +24,10 @@ export interface AdminAccountDetail extends AdminAccountRow {
   bio: string | null;
   onboardingCompletedAt: string | null;
   deletionRequestedAt: string | null;
+  accountBlockedAt: string | null;
   vitrineId: string | null;
   vitrineTitle: string | null;
+  vitrineBlockedAt: string | null;
 }
 
 /** Map id→email de até USER_CAP usuárias do Auth. */
@@ -96,14 +98,14 @@ export async function getAccount(id: string): Promise<AdminAccountDetail | null>
     admin
       .from("profiles")
       .select(
-        "id, full_name, whatsapp, bio, created_at, onboarding_completed_at, deletion_requested_at",
+        "id, full_name, whatsapp, bio, created_at, onboarding_completed_at, deletion_requested_at, blocked_at",
       )
       .eq("id", id)
       .maybeSingle(),
     admin.from("subscriptions").select("plan, status").eq("owner_id", id).maybeSingle(),
     admin
       .from("vitrines")
-      .select("id, slug, title, is_active")
+      .select("id, slug, title, is_active, blocked_at")
       .eq("owner_id", id)
       .eq("is_default", true)
       .maybeSingle(),
@@ -124,6 +126,8 @@ export async function getAccount(id: string): Promise<AdminAccountDetail | null>
     vitrineActive: vitrine?.is_active ?? null,
     vitrineId: vitrine?.id ?? null,
     vitrineTitle: vitrine?.title ?? null,
+    vitrineBlockedAt: vitrine?.blocked_at ?? null,
+    accountBlockedAt: profile.blocked_at,
     onboardingCompletedAt: profile.onboarding_completed_at,
     deletionRequestedAt: profile.deletion_requested_at,
     createdAt: profile.created_at,

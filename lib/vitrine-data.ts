@@ -30,6 +30,20 @@ export async function getActiveVitrineSlugs(limit = 1000): Promise<string[]> {
   return (data ?? []).map((vitrine) => vitrine.slug);
 }
 
+/**
+ * Estado de moderação de um slug (#0023) — só consultado no caminho not-found do
+ * público, para distinguir "bloqueada" (mensagem neutra) de "inexistente" (404).
+ * Service role: a policy pública esconde vitrines bloqueadas, então o anon não as vê.
+ */
+export async function getVitrineModerationState(
+  slug: string,
+): Promise<"ok" | "blocked" | "missing"> {
+  const admin = createAdminClient();
+  const { data } = await admin.from("vitrines").select("blocked_at").eq("slug", slug).maybeSingle();
+  if (!data) return "missing";
+  return data.blocked_at ? "blocked" : "ok";
+}
+
 function normalizeThemeMode(mode: string | null): ThemeMode {
   return mode === "light" || mode === "dark" ? mode : "auto";
 }
