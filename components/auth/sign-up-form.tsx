@@ -111,7 +111,7 @@ export function SignUpForm() {
                 href={LEGAL_ROUTES.termos}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-primary underline-offset-4 hover:underline"
+                className="text-primary underline underline-offset-4"
               >
                 {t("termsLink")}
               </a>{" "}
@@ -120,7 +120,7 @@ export function SignUpForm() {
                 href={LEGAL_ROUTES.privacidade}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-primary underline-offset-4 hover:underline"
+                className="text-primary underline underline-offset-4"
               >
                 {t("privacyLink")}
               </a>
@@ -136,7 +136,7 @@ export function SignUpForm() {
 
         <p className="text-center text-sm text-muted-foreground">
           {t("hasAccount")}{" "}
-          <Link href="/login" className="text-primary underline-offset-4 hover:underline">
+          <Link href="/login" className="text-primary underline underline-offset-4">
             {t("login")}
           </Link>
         </p>

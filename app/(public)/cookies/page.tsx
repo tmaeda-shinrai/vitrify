@@ -47,10 +47,7 @@ export default function CookiesPage() {
       <LegalSection title="4. Mais informações">
         <p>
           Para detalhes sobre o tratamento dos seus dados, consulte a nossa{" "}
-          <a
-            href={LEGAL_ROUTES.privacidade}
-            className="text-primary underline-offset-4 hover:underline"
-          >
+          <a href={LEGAL_ROUTES.privacidade} className="text-primary underline underline-offset-4">
             Política de Privacidade
           </a>
           .

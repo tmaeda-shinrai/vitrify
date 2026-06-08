@@ -62,7 +62,7 @@ export function RequestResetForm() {
       </Button>
 
       <p className="text-center text-sm text-muted-foreground">
-        <Link href="/login" className="text-primary underline-offset-4 hover:underline">
+        <Link href="/login" className="text-primary underline underline-offset-4">
           {t("backToLogin")}
         </Link>
       </p>

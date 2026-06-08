@@ -58,7 +58,7 @@ export function LoginForm() {
             <Label htmlFor="password">{t("password")}</Label>
             <Link
               href="/recuperar-senha"
-              className="text-sm text-primary underline-offset-4 hover:underline"
+              className="text-sm text-primary underline underline-offset-4"
             >
               {t("forgotPassword")}
             </Link>
@@ -79,7 +79,7 @@ export function LoginForm() {
 
         <p className="text-center text-sm text-muted-foreground">
           {t("noAccount")}{" "}
-          <Link href="/cadastro" className="text-primary underline-offset-4 hover:underline">
+          <Link href="/cadastro" className="text-primary underline underline-offset-4">
             {t("signup")}
           </Link>
         </p>
