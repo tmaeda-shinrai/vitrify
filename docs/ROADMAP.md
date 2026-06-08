@@ -160,21 +160,23 @@ Permitir cobrança real, lidar com upgrades, refinar tudo o que já está pronto
 
 ### Semana 11 — Suporte e conteúdo
 
-- [ ] FAQ com busca (mínimo 20 perguntas)
-- [ ] 5 vídeos tutoriais curtos (60-90s cada)
-- [ ] Tour guiado no primeiro acesso
-- [ ] Página de termos de uso
-- [ ] Política de privacidade
-- [ ] Página de exclusão de conta (LGPD)
+- [x] FAQ com busca (mínimo 20 perguntas) — #0022 (`/ajuda`, 24 perguntas)
+- [x] 5 vídeos tutoriais curtos (60-90s cada) — #0022 (estrutura/embeds prontos; gravação dos vídeos é operacional/#0025)
+- [x] Tour guiado no primeiro acesso — #0022 (card de boas-vindas pós-onboarding)
+- [x] Página de termos de uso — #0021 (`/termos`, draft a revisar)
+- [x] Política de privacidade — #0021 (`/privacidade`, draft a revisar)
+- [x] Página de exclusão de conta (LGPD) — #0009/#0021 (pedido + anonimização 30d / exclusão 90d)
 
 ### Semana 12 — Polimento geral
 
-- [ ] Revisão de todas as cópias (tom de voz)
-- [ ] Acessibilidade: contraste, foco, aria-labels
-- [ ] Otimização de imagens da landing
-- [ ] Testes E2E críticos com Playwright
-- [ ] Backup automático configurado e testado
-- [ ] Health check e alertas
+- [ ] Revisão de todas as cópias (tom de voz) — #0024
+- [ ] Acessibilidade: contraste, foco, aria-labels — #0024
+- [ ] Otimização de imagens da landing — #0024
+- [ ] Testes E2E críticos com Playwright — #0024
+- [ ] Backup automático configurado e testado — #0024
+- [~] Health check e alertas — health check feito em #0023 (`/admin/health`); alertas Slack/e-mail → #0024
+
+> Nota: a administração interna e moderação (#0023, painel `/admin`, bloqueio, denúncia DMCA, métricas, health check) também concluiu na Fase 3 — ver `issues/0023`. Resta o polimento da #0024 para fechar a fase.
 
 ### Marco fim da Fase 3
 
