@@ -8,7 +8,8 @@ import {
   productSchema,
 } from "@/lib/validators/product";
 
-const IMG = "https://proj.supabase.co/storage/v1/object/public/products/u/x.webp";
+const IMG_URL = "https://proj.supabase.co/storage/v1/object/public/products/u/x.webp";
+const IMG = { url: IMG_URL, alt: "" };
 
 const valid = {
   name: "Batom Matte Vermelho",
@@ -58,10 +59,27 @@ describe("productSchema", () => {
   });
 
   it("aceita de 1 a 5 fotos e barra a 6ª", () => {
-    const five = Array.from({ length: PRODUCT_IMAGES_MAX }, (_, i) => `https://x.test/${i}.webp`);
+    const five = Array.from({ length: PRODUCT_IMAGES_MAX }, (_, i) => ({
+      url: `https://x.test/${i}.webp`,
+      alt: "",
+    }));
     expect(productSchema.safeParse({ ...valid, images: five }).success).toBe(true);
     expect(
-      productSchema.safeParse({ ...valid, images: [...five, "https://x.test/5.webp"] }).success,
+      productSchema.safeParse({
+        ...valid,
+        images: [...five, { url: "https://x.test/5.webp", alt: "" }],
+      }).success,
+    ).toBe(false);
+  });
+
+  it("aceita texto alternativo na foto e barra acima do limite", () => {
+    expect(
+      productSchema.safeParse({ ...valid, images: [{ url: IMG_URL, alt: "Batom vermelho" }] })
+        .success,
+    ).toBe(true);
+    expect(
+      productSchema.safeParse({ ...valid, images: [{ url: IMG_URL, alt: "a".repeat(121) }] })
+        .success,
     ).toBe(false);
   });
 

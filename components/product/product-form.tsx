@@ -162,7 +162,7 @@ export function ProductForm({
         <Label>{t("photosLabel")}</Label>
         <ProductImagesManager
           value={images}
-          onChange={(urls) => setValue("images", urls, { shouldValidate: true, shouldDirty: true })}
+          onChange={(next) => setValue("images", next, { shouldValidate: true, shouldDirty: true })}
         />
         <FieldError message={errors.images?.message} />
       </div>

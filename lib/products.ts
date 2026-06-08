@@ -4,6 +4,12 @@
  * lados sem virar uma client reference.
  */
 
+/** Foto do produto: URL + texto alternativo (`alt` vazio = sem override da dona). */
+export interface ProductImage {
+  url: string;
+  alt: string;
+}
+
 export interface ProductListItem {
   id: string;
   name: string;
@@ -15,8 +21,8 @@ export interface ProductListItem {
   category_name: string | null;
   brand_id: string | null;
   brand_name: string | null;
-  /** URLs das fotos, ordenadas (índice 0 = capa). */
-  images: string[];
+  /** Fotos ordenadas (índice 0 = capa). `alt` é o override da dona (pode ser ""). */
+  images: ProductImage[];
   cover_url: string | null;
 }
 
@@ -33,7 +39,7 @@ export interface BrandItem {
 
 /** Colunas explícitas da listagem (CONTRIBUTING: nunca `SELECT *`). */
 export const PRODUCT_LIST_SELECT =
-  "id, name, description, price_cents, promo_price_cents, is_available, category_id, brand_id, created_at, categories(name), brands(name), product_images(url, display_order)";
+  "id, name, description, price_cents, promo_price_cents, is_available, category_id, brand_id, created_at, categories(name), brands(name), product_images(url, alt_text, display_order)";
 
 interface ProductRow {
   id: string;
@@ -46,7 +52,7 @@ interface ProductRow {
   brand_id: string | null;
   categories: { name: string } | null;
   brands: { name: string } | null;
-  product_images: { url: string; display_order: number | null }[];
+  product_images: { url: string; alt_text: string | null; display_order: number | null }[];
 }
 
 /** Move o item `activeId` para a posição do item `overId` (reordenação por drag). */
@@ -68,7 +74,7 @@ export function moveById<T extends { id: string }>(
 export function toProductListItem(row: ProductRow): ProductListItem {
   const images = [...row.product_images]
     .sort((a, b) => (a.display_order ?? 0) - (b.display_order ?? 0))
-    .map((img) => img.url);
+    .map((img) => ({ url: img.url, alt: img.alt_text ?? "" }));
   return {
     id: row.id,
     name: row.name,
@@ -81,6 +87,6 @@ export function toProductListItem(row: ProductRow): ProductListItem {
     brand_id: row.brand_id,
     brand_name: row.brands?.name ?? null,
     images,
-    cover_url: images[0] ?? null,
+    cover_url: images[0]?.url ?? null,
   };
 }

@@ -5,7 +5,7 @@ import { revalidatePath } from "next/cache";
 
 import { serverEnv } from "@/lib/env";
 import { OUTPUT_IMAGE_EXTENSION, type SignedUpload } from "@/lib/image";
-import type { ProductListItem } from "@/lib/products";
+import type { ProductImage, ProductListItem } from "@/lib/products";
 import { checkProductWriteRateLimit } from "@/lib/rate-limit";
 import { createClient } from "@/lib/supabase/server";
 import { productSchema } from "@/lib/validators/product";
@@ -107,28 +107,34 @@ async function resolveCategoryAndBrand(
 }
 
 /**
- * Reconcilia `product_images` para a lista ordenada de URLs (índice 0 = capa):
- * mantém/insere/reordena as desejadas e remove (com limpeza no Storage) as que saíram.
+ * Reconcilia `product_images` para a lista ordenada de fotos (índice 0 = capa):
+ * mantém/insere/reordena as desejadas (gravando o `alt_text`) e remove (com limpeza
+ * no Storage) as que saíram. `alt` vazio vira NULL (a leitura aplica o fallback).
  */
 async function reconcileProductImages(
   supabase: SupabaseServer,
   productId: string,
   existing: { id: string; url: string }[],
-  urls: string[],
+  images: ProductImage[],
 ): Promise<void> {
-  for (let index = 0; index < urls.length; index++) {
-    const url = urls[index]!;
+  for (let index = 0; index < images.length; index++) {
+    const { url, alt } = images[index]!;
+    const altText = alt ? alt : null;
     const row = existing.find((e) => e.url === url);
     if (row) {
-      await supabase.from("product_images").update({ display_order: index }).eq("id", row.id);
+      await supabase
+        .from("product_images")
+        .update({ display_order: index, alt_text: altText })
+        .eq("id", row.id);
     } else {
       await supabase
         .from("product_images")
-        .insert({ product_id: productId, url, display_order: index });
+        .insert({ product_id: productId, url, display_order: index, alt_text: altText });
     }
   }
 
-  const removed = existing.filter((e) => !urls.includes(e.url));
+  const desiredUrls = new Set(images.map((img) => img.url));
+  const removed = existing.filter((e) => !desiredUrls.has(e.url));
   if (removed.length) {
     await supabase
       .from("product_images")
@@ -247,15 +253,20 @@ export async function createProductAction(input: unknown): Promise<ProductMutati
     };
   }
 
-  const { error: imageError } = await supabase
-    .from("product_images")
-    .insert(images.map((url, index) => ({ product_id: product.id, url, display_order: index })));
+  const { error: imageError } = await supabase.from("product_images").insert(
+    images.map((img, index) => ({
+      product_id: product.id,
+      url: img.url,
+      display_order: index,
+      alt_text: img.alt ? img.alt : null,
+    })),
+  );
 
   if (imageError) {
     // Rollback best-effort: produto sem foto não deve existir nesta etapa.
     await supabase.from("products").delete().eq("id", product.id);
     const paths = images
-      .map((url) => storagePathFromPublicUrl(url))
+      .map((img) => storagePathFromPublicUrl(img.url))
       .filter((p): p is string => p !== null);
     if (paths.length) await supabase.storage.from(PRODUCTS_BUCKET).remove(paths);
     return {
@@ -281,7 +292,7 @@ export async function createProductAction(input: unknown): Promise<ProductMutati
       brand_id: refs.brandId,
       brand_name: refs.brandName,
       images,
-      cover_url: images[0] ?? null,
+      cover_url: images[0]?.url ?? null,
     },
   };
 }
@@ -369,7 +380,7 @@ export async function updateProductAction(
       brand_id: refs.brandId,
       brand_name: refs.brandName,
       images,
-      cover_url: images[0] ?? null,
+      cover_url: images[0]?.url ?? null,
     },
   };
 }
@@ -464,7 +475,7 @@ export async function duplicateProductAction(productId: string): Promise<Product
     supabase.from("subscriptions").select("plan").eq("owner_id", user.id).maybeSingle(),
     supabase
       .from("product_images")
-      .select("url, display_order")
+      .select("url, alt_text, display_order")
       .eq("product_id", productId)
       .order("display_order", { ascending: true }),
   ]);
@@ -510,7 +521,8 @@ export async function duplicateProductAction(productId: string): Promise<Product
   }
 
   // Copia cada imagem no Storage (objetos próprios); fallback p/ a URL original.
-  const newUrls: string[] = [];
+  // Preserva o texto alternativo (alt_text) da foto original.
+  const newImages: ProductImage[] = [];
   for (const img of originalImages ?? []) {
     let url = img.url;
     const fromPath = storagePathFromPublicUrl(img.url);
@@ -523,12 +535,17 @@ export async function duplicateProductAction(productId: string): Promise<Product
         url = supabase.storage.from(PRODUCTS_BUCKET).getPublicUrl(toPath).data.publicUrl;
       }
     }
-    newUrls.push(url);
+    newImages.push({ url, alt: img.alt_text ?? "" });
   }
-  if (newUrls.length) {
-    await supabase
-      .from("product_images")
-      .insert(newUrls.map((url, index) => ({ product_id: product.id, url, display_order: index })));
+  if (newImages.length) {
+    await supabase.from("product_images").insert(
+      newImages.map((img, index) => ({
+        product_id: product.id,
+        url: img.url,
+        display_order: index,
+        alt_text: img.alt ? img.alt : null,
+      })),
+    );
   }
 
   revalidatePath(`/${vitrine.slug}`);
@@ -546,8 +563,8 @@ export async function duplicateProductAction(productId: string): Promise<Product
       category_name: original.categories?.name ?? null,
       brand_id: original.brand_id,
       brand_name: original.brands?.name ?? null,
-      images: newUrls,
-      cover_url: newUrls[0] ?? null,
+      images: newImages,
+      cover_url: newImages[0]?.url ?? null,
     },
   };
 }

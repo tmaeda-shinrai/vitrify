@@ -37,7 +37,7 @@ const vitrineFixture: PublicVitrine = {
       category_name: null,
       brand_id: null,
       brand_name: "Natura",
-      images: ["https://x/p.webp"],
+      images: [{ url: "https://x/p.webp", alt: "" }],
       cover_url: "https://x/p.webp",
     },
   ],
