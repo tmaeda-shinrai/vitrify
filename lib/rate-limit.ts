@@ -61,6 +61,16 @@ const viewRatelimit = redis
     })
   : null;
 
+/** Denúncia pública: 5 por hora por IP (evita flood de denúncias — #0023). */
+const reportRatelimit = redis
+  ? new Ratelimit({
+      redis,
+      limiter: Ratelimit.slidingWindow(5, "1 h"),
+      prefix: "ratelimit:report",
+      analytics: false,
+    })
+  : null;
+
 /** Checkout: 5 req/min por usuária (evita criar assinaturas Asaas em loop). */
 const checkoutRatelimit = redis
   ? new Ratelimit({
@@ -102,6 +112,12 @@ export async function markIntentOnce(key: string, windowSeconds = 60): Promise<b
 export async function checkViewRateLimit(ip: string): Promise<RateLimitResult> {
   if (!viewRatelimit) return { success: true, remaining: 60 };
   const { success, remaining } = await viewRatelimit.limit(ip);
+  return { success, remaining };
+}
+
+export async function checkReportRateLimit(ip: string): Promise<RateLimitResult> {
+  if (!reportRatelimit) return { success: true, remaining: 5 };
+  const { success, remaining } = await reportRatelimit.limit(ip);
   return { success, remaining };
 }
 

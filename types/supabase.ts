@@ -617,6 +617,50 @@ export type Database = {
           },
         ];
       };
+      reports: {
+        Row: {
+          admin_notes: string | null;
+          created_at: string | null;
+          description: string | null;
+          id: string;
+          reason: string;
+          reporter_email: string | null;
+          resolved_at: string | null;
+          status: string;
+          vitrine_id: string;
+        };
+        Insert: {
+          admin_notes?: string | null;
+          created_at?: string | null;
+          description?: string | null;
+          id?: string;
+          reason: string;
+          reporter_email?: string | null;
+          resolved_at?: string | null;
+          status?: string;
+          vitrine_id: string;
+        };
+        Update: {
+          admin_notes?: string | null;
+          created_at?: string | null;
+          description?: string | null;
+          id?: string;
+          reason?: string;
+          reporter_email?: string | null;
+          resolved_at?: string | null;
+          status?: string;
+          vitrine_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "reports_vitrine_id_fkey";
+            columns: ["vitrine_id"];
+            isOneToOne: false;
+            referencedRelation: "vitrines";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       subscriptions: {
         Row: {
           asaas_customer_id: string | null;

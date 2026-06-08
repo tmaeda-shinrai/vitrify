@@ -91,3 +91,24 @@ export async function unblockAccountAction(userId: string): Promise<ActionResult
   revalidatePath("/admin/contas", "page");
   return { ok: true };
 }
+
+/** Atualiza o status de uma denúncia (#0023). `resolved`/`dismissed` carimbam a data. */
+export async function setReportStatusAction(
+  reportId: string,
+  status: "investigating" | "resolved" | "dismissed",
+): Promise<ActionResult> {
+  const adminUser = await getAdminUser();
+  if (!adminUser) return { ok: false, error: "Acesso negado." };
+
+  const admin = createAdminClient();
+  const resolved = status === "resolved" || status === "dismissed";
+  const { error } = await admin
+    .from("reports")
+    .update({ status, resolved_at: resolved ? new Date().toISOString() : null })
+    .eq("id", reportId);
+  if (error) return { ok: false, error: "Não foi possível atualizar a denúncia." };
+
+  await auditModeration(admin, adminUser.id, `report.${status}`, "report", reportId, null);
+  revalidatePath("/admin/denuncias", "page");
+  return { ok: true };
+}

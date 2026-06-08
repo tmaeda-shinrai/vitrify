@@ -36,9 +36,6 @@ export async function generateMetadata({
   return buildVitrineMetadata(vitrine, clientEnv.NEXT_PUBLIC_APP_URL);
 }
 
-/** Denúncia: ponto de entrada provisório; fluxo dedicado vem em #0023. */
-const REPORT_EMAIL = "suporte@vitrinio.com.br";
-
 export default async function VitrinePage({ params }: { params: { slug: string } }) {
   setRequestLocale(defaultLocale);
 
@@ -59,9 +56,7 @@ export default async function VitrinePage({ params }: { params: { slug: string }
   }
 
   const t = await getTranslations("vitrine");
-  const reportHref = `mailto:${REPORT_EMAIL}?subject=${encodeURIComponent(
-    `Denúncia de vitrine: ${vitrine.slug}`,
-  )}`;
+  const reportHref = `/denunciar?vitrine=${encodeURIComponent(vitrine.slug)}`;
   const vitrineUrl = `${clientEnv.NEXT_PUBLIC_APP_URL.replace(/\/$/, "")}/${vitrine.slug}`;
 
   return (
