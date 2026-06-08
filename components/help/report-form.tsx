@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,6 +13,7 @@ import { REPORT_REASONS, REPORT_REASON_LABELS, type ReportReason } from "@/lib/v
  * rate-limited). Resposta sempre neutra; ao enviar, mostra confirmação.
  */
 export function ReportForm({ slug }: { slug: string }) {
+  const t = useTranslations("report");
   const [reason, setReason] = useState<ReportReason>("copyright");
   const [description, setDescription] = useState("");
   const [email, setEmail] = useState("");
@@ -32,7 +34,7 @@ export function ReportForm({ slug }: { slug: string }) {
       if (!res.ok) throw new Error();
       setSent(true);
     } catch {
-      setError("Não foi possível enviar agora. Tente novamente em instantes.");
+      setError(t("error"));
     } finally {
       setPending(false);
     }
@@ -41,10 +43,8 @@ export function ReportForm({ slug }: { slug: string }) {
   if (sent) {
     return (
       <div className="rounded-lg border border-border bg-muted/30 p-5 text-sm">
-        <p className="font-medium">Denúncia enviada.</p>
-        <p className="mt-1 text-muted-foreground">
-          Obrigado. Vamos analisar e tomar as providências em até 48 horas.
-        </p>
+        <p className="font-medium">{t("sentTitle")}</p>
+        <p className="mt-1 text-muted-foreground">{t("sentText")}</p>
       </div>
     );
   }
@@ -52,7 +52,7 @@ export function ReportForm({ slug }: { slug: string }) {
   return (
     <form onSubmit={onSubmit} className="space-y-4">
       <div className="space-y-1">
-        <Label htmlFor="reason">Motivo</Label>
+        <Label htmlFor="reason">{t("reasonLabel")}</Label>
         <select
           id="reason"
           value={reason}
@@ -68,33 +68,33 @@ export function ReportForm({ slug }: { slug: string }) {
       </div>
 
       <div className="space-y-1">
-        <Label htmlFor="description">Descrição (opcional)</Label>
+        <Label htmlFor="description">{t("descriptionLabel")}</Label>
         <textarea
           id="description"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           maxLength={1000}
           rows={4}
-          placeholder="Conte o que está acontecendo."
+          placeholder={t("descriptionPlaceholder")}
           className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
         />
       </div>
 
       <div className="space-y-1">
-        <Label htmlFor="email">Seu e-mail (opcional)</Label>
+        <Label htmlFor="email">{t("emailLabel")}</Label>
         <Input
           id="email"
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          placeholder="para retorno, se necessário"
+          placeholder={t("emailPlaceholder")}
         />
       </div>
 
       {error ? <p className="text-sm text-destructive">{error}</p> : null}
 
       <Button type="submit" className="w-full" disabled={pending}>
-        {pending ? "Enviando…" : "Enviar denúncia"}
+        {pending ? t("submitting") : t("submit")}
       </Button>
     </form>
   );

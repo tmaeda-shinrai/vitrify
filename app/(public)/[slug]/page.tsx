@@ -43,12 +43,11 @@ export default async function VitrinePage({ params }: { params: { slug: string }
   if (!vitrine) {
     // Distingue vitrine bloqueada (mensagem neutra) de inexistente (404) — #0023.
     if ((await getVitrineModerationState(params.slug)) === "blocked") {
+      const tBlocked = await getTranslations("vitrine");
       return (
         <main className="flex min-h-dvh flex-col items-center justify-center gap-3 px-6 text-center">
-          <h1 className="font-display text-2xl text-foreground">Vitrine indisponível</h1>
-          <p className="max-w-sm text-sm text-muted-foreground">
-            Esta vitrine está temporariamente indisponível.
-          </p>
+          <h1 className="font-display text-2xl text-foreground">{tBlocked("blockedTitle")}</h1>
+          <p className="max-w-sm text-sm text-muted-foreground">{tBlocked("blockedDescription")}</p>
         </main>
       );
     }
