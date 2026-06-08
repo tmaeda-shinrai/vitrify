@@ -21,9 +21,15 @@ export default async function DashboardLayout({ children }: { children: React.Re
   // Onboarding incompleto vai para o fluxo de onboarding (#0008).
   const { data: profile } = await supabase
     .from("profiles")
-    .select("onboarding_completed_at")
+    .select("onboarding_completed_at, blocked_at")
     .eq("id", user.id)
     .maybeSingle();
+
+  // Conta suspensa pela moderação (#0023): derruba a sessão com mensagem neutra.
+  if (profile?.blocked_at) {
+    await supabase.auth.signOut();
+    redirect("/login?erro=conta-suspensa");
+  }
 
   if (!profile?.onboarding_completed_at) redirect("/onboarding");
 

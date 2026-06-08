@@ -12,7 +12,11 @@ import { defaultLocale } from "@/i18n";
 import { clientEnv } from "@/lib/env";
 import { cn } from "@/lib/utils";
 import { buildVitrineMetadata, themeModeClass, themePrimaryVars } from "@/lib/vitrine";
-import { getActiveVitrineSlugs, getPublicVitrine } from "@/lib/vitrine-data";
+import {
+  getActiveVitrineSlugs,
+  getPublicVitrine,
+  getVitrineModerationState,
+} from "@/lib/vitrine-data";
 
 /** ISR: cache hit servido do edge; regenera a cada 60s (ARCHITECTURE §5.4). */
 export const revalidate = 60;
@@ -39,7 +43,20 @@ export default async function VitrinePage({ params }: { params: { slug: string }
   setRequestLocale(defaultLocale);
 
   const vitrine = await getPublicVitrine(params.slug);
-  if (!vitrine) notFound();
+  if (!vitrine) {
+    // Distingue vitrine bloqueada (mensagem neutra) de inexistente (404) — #0023.
+    if ((await getVitrineModerationState(params.slug)) === "blocked") {
+      return (
+        <main className="flex min-h-dvh flex-col items-center justify-center gap-3 px-6 text-center">
+          <h1 className="font-display text-2xl text-foreground">Vitrine indisponível</h1>
+          <p className="max-w-sm text-sm text-muted-foreground">
+            Esta vitrine está temporariamente indisponível.
+          </p>
+        </main>
+      );
+    }
+    notFound();
+  }
 
   const t = await getTranslations("vitrine");
   const reportHref = `mailto:${REPORT_EMAIL}?subject=${encodeURIComponent(

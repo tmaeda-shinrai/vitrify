@@ -64,6 +64,7 @@
     "errorOauth": "Não foi possível entrar com o Google. Tente novamente.",
     "errorLinkInvalid": "Link inválido ou expirado. Solicite um novo.",
     "errorContaExcluida": "Pedido de exclusão registrado. Sua conta será removida conforme o prazo informado.",
+    "errorContaSuspensa": "Sua conta está temporariamente indisponível. Fale com o suporte.",
     "backToLogin": "Voltar para o login",
     "loginDescription": "Acesse sua vitrine.",
     "loginSubmitting": "Entrando…",

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import { BlockControls } from "@/components/admin/block-controls";
 import { getAccount } from "@/lib/admin/accounts";
 
 export const dynamic = "force-dynamic";
@@ -34,6 +35,11 @@ export default async function AdminAccountDetailPage({ params }: { params: { id:
       <div>
         <h2 className="font-display text-2xl font-bold">{account.fullName}</h2>
         <p className="text-sm text-muted-foreground">{account.email ?? "—"}</p>
+        {(account.accountBlockedAt || account.vitrineBlockedAt) && (
+          <p className="mt-1 text-sm font-medium text-destructive">
+            {account.accountBlockedAt ? "Conta suspensa" : "Vitrine bloqueada"}
+          </p>
+        )}
       </div>
 
       <section className="rounded-lg border border-border p-4">
@@ -64,9 +70,12 @@ export default async function AdminAccountDetailPage({ params }: { params: { id:
         />
       </section>
 
-      <p className="text-xs text-muted-foreground">
-        Ações de bloqueio/reativação chegam no próximo PR.
-      </p>
+      <BlockControls
+        userId={account.id}
+        vitrineId={account.vitrineId}
+        accountBlocked={!!account.accountBlockedAt}
+        vitrineBlocked={!!account.vitrineBlockedAt}
+      />
     </div>
   );
 }

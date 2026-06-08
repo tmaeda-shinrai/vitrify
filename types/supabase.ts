@@ -514,6 +514,8 @@ export type Database = {
           anonymized_at: string | null;
           avatar_url: string | null;
           bio: string | null;
+          blocked_at: string | null;
+          blocked_reason: string | null;
           created_at: string | null;
           deletion_requested_at: string | null;
           full_name: string;
@@ -532,6 +534,8 @@ export type Database = {
           anonymized_at?: string | null;
           avatar_url?: string | null;
           bio?: string | null;
+          blocked_at?: string | null;
+          blocked_reason?: string | null;
           created_at?: string | null;
           deletion_requested_at?: string | null;
           full_name: string;
@@ -550,6 +554,8 @@ export type Database = {
           anonymized_at?: string | null;
           avatar_url?: string | null;
           bio?: string | null;
+          blocked_at?: string | null;
+          blocked_reason?: string | null;
           created_at?: string | null;
           deletion_requested_at?: string | null;
           full_name?: string;
@@ -713,6 +719,8 @@ export type Database = {
       };
       vitrines: {
         Row: {
+          blocked_at: string | null;
+          blocked_reason: string | null;
           created_at: string | null;
           hero_image_url: string | null;
           id: string;
@@ -728,6 +736,8 @@ export type Database = {
           views_count: number | null;
         };
         Insert: {
+          blocked_at?: string | null;
+          blocked_reason?: string | null;
           created_at?: string | null;
           hero_image_url?: string | null;
           id?: string;
@@ -743,6 +753,8 @@ export type Database = {
           views_count?: number | null;
         };
         Update: {
+          blocked_at?: string | null;
+          blocked_reason?: string | null;
           created_at?: string | null;
           hero_image_url?: string | null;
           id?: string;
