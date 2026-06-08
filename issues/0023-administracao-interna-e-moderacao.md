@@ -31,25 +31,25 @@ Ferramentas internas não expostas ao usuário, necessárias para suporte, moder
 
 ## Tarefas
 
-- [ ] `/admin` com guarda por `ADMIN_EMAILS`; service role só no servidor
-- [ ] Listagem/busca de contas (perfil, plano, vitrine, status)
-- [ ] Bloquear/reativar conta e vitrine; vitrine bloqueada exibe mensagem neutra
-- [ ] Visualização dos `audit_logs` (filtros por ator/ação/data)
-- [ ] Dashboard de métricas agregadas (DAU/MAU/funil, por canal quando possível)
-- [ ] Health check de banco, pagamento, e-mail, Storage
-- [ ] Sistema de denúncia: formulário a partir do botão da vitrine → registro + e-mail `direitos@` + SLA 48h + ação de ocultar conteúdo
-- [ ] Alertas no Slack/e-mail conforme `ARCHITECTURE.md` §8.4 (coordena com #0024)
-- [ ] Flag/plano de embaixadora gerenciável (coordena com #0025)
-- [ ] Testes: não-admin não acessa `/admin`; bloqueio derruba a vitrine; denúncia gera registro + notificação
+- [x] `/admin` com guarda por `ADMIN_EMAILS`; service role só no servidor — PR1
+- [x] Listagem/busca de contas (perfil, plano, vitrine, status) — PR1
+- [x] Bloquear/reativar conta e vitrine; vitrine bloqueada exibe mensagem neutra — PR2 (trigger à prova da dona)
+- [x] Visualização dos `audit_logs` (filtros por ator/ação/data) — PR1
+- [x] Dashboard de métricas agregadas (DAU/MAU/funil) — PR4 (`admin_metrics()`; por canal fica como futuro)
+- [x] Health check de banco, pagamento, e-mail, Storage — PR4
+- [x] Sistema de denúncia: formulário a partir do botão da vitrine → registro + e-mail `direitos@` + SLA 48h + ação de ocultar conteúdo — PR3
+- [ ] Alertas no Slack/e-mail conforme `ARCHITECTURE.md` §8.4 — **adiado p/ #0024** (ARCHITECTURE §8.3 já registra)
+- [ ] Flag/plano de embaixadora gerenciável — **adiado p/ #0025**
+- [x] Testes: não-admin não acessa `/admin`; bloqueio derruba a vitrine; denúncia gera registro + notificação
 
 ## Critérios de aceitação
 
-- [ ] Apenas e-mails em `ADMIN_EMAILS` acessam `/admin`
-- [ ] Admin consegue ver uma conta e bloqueá-la; a vitrine bloqueada sai do ar imediatamente
-- [ ] Admin enxerga logs de auditoria e as métricas agregadas do produto
-- [ ] Health check reporta corretamente serviço fora do ar
-- [ ] "Denunciar" na vitrine cria um caso, notifica `direitos@`, e o conteúdo pode ser ocultado em < 48h
-- [ ] Alertas críticos chegam ao canal configurado
+- [x] Apenas e-mails em `ADMIN_EMAILS` acessam `/admin`
+- [x] Admin consegue ver uma conta e bloqueá-la; a vitrine bloqueada sai do ar imediatamente
+- [x] Admin enxerga logs de auditoria e as métricas agregadas do produto
+- [x] Health check reporta corretamente serviço fora do ar
+- [x] "Denunciar" na vitrine cria um caso, notifica `direitos@`, e o conteúdo pode ser ocultado em < 48h
+- [ ] Alertas críticos chegam ao canal configurado — #0024
 - [ ] Critérios genéricos de aceitação (ver `issues/README.md`)
 
 ## Referências

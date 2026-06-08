@@ -828,6 +828,7 @@ export type Database = {
       [_ in never]: never;
     };
     Functions: {
+      admin_metrics: { Args: never; Returns: Json };
       anonymize_account: { Args: { p_user: string }; Returns: undefined };
       apply_referral: { Args: { p_code: string }; Returns: boolean };
       attach_asaas_checkout: {
