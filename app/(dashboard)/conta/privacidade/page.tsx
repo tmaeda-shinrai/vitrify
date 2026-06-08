@@ -46,7 +46,7 @@ export default async function PrivacidadePage() {
             Detalhamos o que coletamos, por quê e com quem compartilhamos na{" "}
             <Link
               href={LEGAL_ROUTES.privacidade}
-              className="text-primary underline-offset-4 hover:underline"
+              className="text-primary underline underline-offset-4"
             >
               Política de Privacidade
             </Link>
@@ -54,7 +54,7 @@ export default async function PrivacidadePage() {
           </p>
           <p>
             Para acessar ou exportar seus dados, use a aba{" "}
-            <Link href="/conta/dados" className="text-primary underline-offset-4 hover:underline">
+            <Link href="/conta/dados" className="text-primary underline underline-offset-4">
               Meus dados
             </Link>
             .

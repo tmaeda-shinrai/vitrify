@@ -66,7 +66,7 @@ export default async function AdminDenunciasPage({
                           href={`/${r.slug}`}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-primary hover:underline"
+                          className="text-primary underline"
                         >
                           @{r.slug}
                         </a>

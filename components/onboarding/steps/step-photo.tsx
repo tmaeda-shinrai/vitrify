@@ -51,7 +51,7 @@ export function StepPhoto({ googleAvatarUrl }: { googleAvatarUrl: string | null 
           <button
             type="button"
             onClick={() => setUseGoogle((v) => !v)}
-            className="text-sm text-primary underline-offset-4 hover:underline"
+            className="text-sm text-primary underline underline-offset-4"
           >
             {useGoogle ? t("photoRemove") : t("photoUseGoogle")}
           </button>

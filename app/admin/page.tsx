@@ -54,7 +54,7 @@ export default async function AdminAccountsPage({
             {accounts.map((a) => (
               <tr key={a.id} className="hover:bg-muted/30">
                 <td className="px-3 py-2">
-                  <Link href={`/admin/contas/${a.id}`} className="text-primary hover:underline">
+                  <Link href={`/admin/contas/${a.id}`} className="text-primary underline">
                     {a.fullName}
                   </Link>
                 </td>

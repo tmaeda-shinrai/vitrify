@@ -28,7 +28,7 @@ export default async function AdminAccountDetailPage({ params }: { params: { id:
 
   return (
     <div className="mx-auto max-w-xl space-y-6">
-      <Link href="/admin" className="text-sm text-primary hover:underline">
+      <Link href="/admin" className="text-sm text-primary underline">
         ← Voltar para contas
       </Link>
 
@@ -52,7 +52,7 @@ export default async function AdminAccountDetailPage({ params }: { params: { id:
                 href={`/${account.slug}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-primary hover:underline"
+                className="text-primary underline"
               >
                 @{account.slug} {account.vitrineActive ? "(ativa)" : "(inativa)"}
               </a>
