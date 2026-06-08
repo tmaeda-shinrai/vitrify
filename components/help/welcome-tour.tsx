@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Package, Receipt, Share2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 import { VideoEmbed } from "@/components/help/video-embed";
 import { Button } from "@/components/ui/button";
@@ -19,28 +20,11 @@ import { clientEnv } from "@/lib/env";
 
 const FLAG_KEY = "vitrinio:welcome-tour:v1";
 
+/** Dicas do tour: ícone + destino fixos; os textos vêm do i18n por `key`. */
 const TIPS = [
-  {
-    icon: Package,
-    title: "Adicione seu primeiro produto",
-    description: "Foto, nome e preço — pronto.",
-    href: "/produtos?novo=1",
-    cta: "Adicionar produto",
-  },
-  {
-    icon: Share2,
-    title: "Compartilhe sua vitrine",
-    description: "Mande seu link para as clientes no WhatsApp e Instagram.",
-    href: "/minha-vitrine",
-    cta: "Ver minha vitrine",
-  },
-  {
-    icon: Receipt,
-    title: "Acompanhe seus pedidos",
-    description: "Cada interesse pelo WhatsApp aparece na aba Pedidos.",
-    href: "/pedidos",
-    cta: "Ver pedidos",
-  },
+  { icon: Package, key: "product", href: "/produtos?novo=1" },
+  { icon: Share2, key: "share", href: "/minha-vitrine" },
+  { icon: Receipt, key: "orders", href: "/pedidos" },
 ] as const;
 
 /**
@@ -49,6 +33,7 @@ const TIPS = [
  * (flag no localStorage, padrão do `PlanWelcome`). Limpa o param da URL ao abrir.
  */
 export function WelcomeTour() {
+  const t = useTranslations("welcomeTour");
   const params = useSearchParams();
   const [open, setOpen] = useState(false);
 
@@ -71,13 +56,11 @@ export function WelcomeTour() {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="max-w-lg">
         <DialogHeader>
-          <DialogTitle>Bem-vinda ao Vitrinio! 🎉</DialogTitle>
-          <DialogDescription>
-            Sua vitrine está no ar. Veja como dar os primeiros passos.
-          </DialogDescription>
+          <DialogTitle>{t("title")}</DialogTitle>
+          <DialogDescription>{t("description")}</DialogDescription>
         </DialogHeader>
 
-        <VideoEmbed youtubeId={introVideoId} title="Conheça o Vitrinio em 60 segundos" />
+        <VideoEmbed youtubeId={introVideoId} title={t("videoTitle")} />
 
         <ul className="space-y-3">
           {TIPS.map((tip) => {
@@ -88,12 +71,12 @@ export function WelcomeTour() {
                   <Icon className="size-4" aria-hidden />
                 </span>
                 <div className="min-w-0 flex-1">
-                  <p className="text-sm font-medium">{tip.title}</p>
-                  <p className="text-sm text-muted-foreground">{tip.description}</p>
+                  <p className="text-sm font-medium">{t(`tips.${tip.key}Title`)}</p>
+                  <p className="text-sm text-muted-foreground">{t(`tips.${tip.key}Description`)}</p>
                 </div>
                 <Button asChild variant="outline" size="sm" className="shrink-0">
                   <Link href={tip.href} onClick={() => setOpen(false)}>
-                    {tip.cta}
+                    {t(`tips.${tip.key}Cta`)}
                   </Link>
                 </Button>
               </li>
@@ -104,10 +87,10 @@ export function WelcomeTour() {
         <DialogFooter className="sm:justify-between">
           <Button asChild variant="ghost" size="sm">
             <Link href="/ajuda" onClick={() => setOpen(false)}>
-              Central de Ajuda
+              {t("help")}
             </Link>
           </Button>
-          <Button onClick={() => setOpen(false)}>Ver depois</Button>
+          <Button onClick={() => setOpen(false)}>{t("later")}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

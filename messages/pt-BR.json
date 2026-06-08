@@ -265,7 +265,60 @@
     "unavailable": "Esgotado",
     "askQuestion": "Tirar uma dúvida no WhatsApp",
     "prev": "Foto anterior",
-    "next": "Próxima foto"
+    "next": "Próxima foto",
+    "notFoundTitle": "Vitrine não encontrada",
+    "notFoundDescription": "O link pode estar incorreto ou a vitrine não está mais ativa.",
+    "notFoundBack": "Voltar ao início",
+    "blockedTitle": "Vitrine indisponível",
+    "blockedDescription": "Esta vitrine está temporariamente indisponível."
+  },
+  "offline": {
+    "metaTitle": "Sem conexão",
+    "title": "Você está sem conexão",
+    "description": "Não foi possível carregar esta página agora. As vitrines que você já visitou continuam disponíveis offline — reconecte para ver o conteúdo mais recente."
+  },
+  "ajuda": {
+    "metaTitle": "Central de Ajuda",
+    "metaDescription": "Tire suas dúvidas sobre o Vitrinio: FAQ, tutoriais em vídeo e suporte.",
+    "title": "Central de Ajuda",
+    "intro": "Encontre respostas rápidas, veja tutoriais e fale com a gente quando precisar.",
+    "tutorialsTitle": "Tutoriais em vídeo",
+    "supportTitle": "Ainda precisa de ajuda?",
+    "supportText": "Nossa equipe responde por WhatsApp. É só chamar."
+  },
+  "welcomeTour": {
+    "title": "Bem-vinda ao Vitrinio! 🎉",
+    "description": "Sua vitrine está no ar. Veja como dar os primeiros passos.",
+    "videoTitle": "Conheça o Vitrinio em 60 segundos",
+    "help": "Central de Ajuda",
+    "later": "Ver depois",
+    "tips": {
+      "productTitle": "Adicione seu primeiro produto",
+      "productDescription": "Foto, nome e preço — pronto.",
+      "productCta": "Adicionar produto",
+      "shareTitle": "Compartilhe sua vitrine",
+      "shareDescription": "Mande seu link para as clientes no WhatsApp e Instagram.",
+      "shareCta": "Ver minha vitrine",
+      "ordersTitle": "Acompanhe seus pedidos",
+      "ordersDescription": "Cada interesse pelo WhatsApp aparece na aba Pedidos.",
+      "ordersCta": "Ver pedidos"
+    }
+  },
+  "videoEmbed": {
+    "comingSoon": "Vídeo em breve",
+    "play": "Reproduzir: {title}"
+  },
+  "report": {
+    "reasonLabel": "Motivo",
+    "descriptionLabel": "Descrição (opcional)",
+    "descriptionPlaceholder": "Conte o que está acontecendo.",
+    "emailLabel": "Seu e-mail (opcional)",
+    "emailPlaceholder": "para retorno, se necessário",
+    "submit": "Enviar denúncia",
+    "submitting": "Enviando…",
+    "sentTitle": "Denúncia enviada.",
+    "sentText": "Obrigado. Vamos analisar e tomar as providências em até 48 horas.",
+    "error": "Não foi possível enviar agora. Tente novamente em instantes."
   },
   "pedidos": {
     "title": "Pedidos",

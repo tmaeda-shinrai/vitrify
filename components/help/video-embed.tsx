@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Play, Video } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 /**
  * Embed de YouTube com facade (#0022): mostra só a thumbnail até o clique — o iframe
@@ -9,13 +10,14 @@ import { Play, Video } from "lucide-react";
  * cookieless do #0021). `youtubeId` nulo → placeholder "em breve".
  */
 export function VideoEmbed({ youtubeId, title }: { youtubeId: string | null; title: string }) {
+  const t = useTranslations("videoEmbed");
   const [playing, setPlaying] = useState(false);
 
   if (!youtubeId) {
     return (
       <div className="flex aspect-video w-full flex-col items-center justify-center gap-2 rounded-lg border border-dashed border-border bg-muted text-muted-foreground">
         <Video className="size-6" aria-hidden />
-        <span className="text-sm">Vídeo em breve</span>
+        <span className="text-sm">{t("comingSoon")}</span>
       </div>
     );
   }
@@ -36,7 +38,7 @@ export function VideoEmbed({ youtubeId, title }: { youtubeId: string | null; tit
     <button
       type="button"
       onClick={() => setPlaying(true)}
-      aria-label={`Reproduzir: ${title}`}
+      aria-label={t("play", { title })}
       className="group relative aspect-video w-full overflow-hidden rounded-lg bg-black"
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
