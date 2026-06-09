@@ -21,9 +21,9 @@ A passada final antes do beta: revisar cópias, fechar a acessibilidade (LBI/WCA
 - **Testes E2E críticos com Playwright** (`docs/CONTRIBUTING.md` §3.2 / `docs/ROADMAP.md` Fase 3): (1) cadastro → onboarding → 1º produto; (2) criar produto com foto → ver na vitrine pública; (3) cliente clica "Pedir no WhatsApp" → intent registrada; (4) Free atinge limite → upgrade para Pro → produto extra liberado; (5) cancelar plano → mantém acesso até fim do período. Rodando no CI em preview.
 - **Backup automático configurado e testado** (`docs/ARCHITECTURE.md` §10, `docs/DATABASE.md` §7): backup nativo Supabase (diário, retenção 7/30d conforme plano) + **dump semanal exportado para storage externo (Wasabi/S3) com retenção 90d**; **restore testado** em ambiente isolado (RTO 4h / RPO 24h); agendar teste de restore mensal.
 - **Alertas e health check** ligados de fato (coordena com #0023): webhook Asaas falhando 3x → Slack; banco p95 > 1s → Slack; 5xx > 1% → Slack + e-mail; Storage > 80% → e-mail (`docs/ARCHITECTURE.md` §8.4).
-- **NF-e automática** (`docs/PRICING.md` §7, `docs/LEGAL.md` §8): integrar NFE.io / Webmania ou módulo do Asaas; toda fatura paga gera NFS-e em ≤ 24h via webhook; reter dados fiscais 5 anos.
+- ~~**NF-e automática**~~ → **movida para #0025** (exige conta em provedor + dados fiscais + contador; não fecha só em código). O critério "pagamento gera NFS-e em ≤24h" passa a ser da #0025.
 - **ADRs iniciais** em `docs/adr/` (`docs/ARCHITECTURE.md` §12): ADR-001 Supabase, ADR-002 Asaas, ADR-003 App Router, ADR-004 PWA, ADR-005 ISR.
-- Stress test do servidor (k6 ou similar) — pode ficar para #0025 (semana 14); registrar onde será feito.
+- Stress test do servidor (k6 ou similar) — **registrado para #0025** (Semana 14).
 
 ### Fora de escopo (vai em outra issue)
 
@@ -32,27 +32,27 @@ A passada final antes do beta: revisar cópias, fechar a acessibilidade (LBI/WCA
 
 ## Tarefas
 
-- [ ] Revisão de cópias e padronização de termos; `messages/pt-BR.json` revisado
-- [ ] Auditoria de acessibilidade (axe/Lighthouse) + correções: contraste, foco, `alt`, `aria-label`, semântica, teclado, `prefers-reduced-motion`
-- [ ] `alt` obrigatório no cadastro de imagem de produto (confirmar com #0010/#0011)
-- [ ] Otimização de imagens da landing/ativos
-- [ ] 5 fluxos E2E críticos com Playwright, rodando no CI
-- [ ] Backup nativo Supabase + dump semanal externo (Wasabi/S3, 90d) + **restore testado** em ambiente isolado; agendar teste mensal
-- [ ] Alertas (Slack/e-mail) e health check operando conforme `ARCHITECTURE.md` §8.4
-- [ ] NF-e automática via webhook (NFE.io/Webmania/Asaas); retenção fiscal 5 anos
-- [ ] ADRs 001–005 em `docs/adr/`
-- [ ] Definir/registrar onde rodar o stress test (k6) — aqui ou #0025
+- [x] Revisão de cópias e padronização de termos; `messages/pt-BR.json` revisado (PR2 #64) — strings das telas públicas movidas para `messages/`
+- [x] Auditoria de acessibilidade (axe) + correções: contraste AA, foco, links in-text, `prefers-reduced-motion`, semântica/aria (PR1b #63)
+- [x] `alt` por imagem de produto, capturado no cadastro + fallback para o nome (PR1a #62)
+- [x] Otimização de imagens da landing/ativos — auditado (public/ ~96KB, ícones já gerados por sharp, landing sem imagens); nada a otimizar
+- [x] 5 fluxos E2E críticos com Playwright, rodando no CI (PR3a #65 + PR3b #66)
+- [x] Backup nativo Supabase (config) + dump semanal externo (Wasabi/S3, 90d) automatizado + runbook (PR5 #68); **teste de restore ao vivo** é operacional (checklist em `docs/BACKUP.md`, no go-live)
+- [x] Alertas por e-mail (webhook Asaas 3x + health) operando (PR4 #67); p95/5xx/Storage como regras de plataforma (§8.4) — só e-mail (decisão; sem Slack)
+- [ ] ~~NF-e automática~~ → **movida para #0025**
+- [x] ADRs 001–005 em `docs/adr/` (PR6)
+- [x] Stress test (k6) — registrado para #0025 (Semana 14)
 
 ## Critérios de aceitação
 
-- [ ] Cópias consistentes e em pt-BR sem jargão; nenhuma string hard-coded fora de `messages/`
-- [ ] Auditoria de acessibilidade sem violações sérias; navegação por teclado completa no painel desktop; contraste AA
-- [ ] Os 5 fluxos E2E passam no CI
-- [ ] Backup roda automaticamente e um **restore foi efetivamente testado** em ambiente isolado (documentado)
-- [ ] Alertas críticos chegam ao canal; health check reporta status real
-- [ ] Pagamento confirmado gera NFS-e em ≤ 24h
-- [ ] ADRs iniciais escritos
-- [ ] Critérios genéricos de aceitação (ver `issues/README.md`)
+- [x] Cópias consistentes e em pt-BR sem jargão; telas públicas sem string hard-coded fora de `messages/` (admin interno e prosa legal mantêm literais por decisão de escopo)
+- [x] Auditoria de acessibilidade (axe) sem violações sérias; contraste AA; foco visível e navegação por teclado no painel
+- [x] Os 5 fluxos E2E passam no CI
+- [~] Backup roda automaticamente (dump semanal + runbook); o **restore ao vivo** é um passo **operacional** documentado (checklist em `docs/BACKUP.md`) — a executar no go-live
+- [x] Alertas críticos chegam por e-mail; health check reporta status real
+- [ ] ~~Pagamento confirmado gera NFS-e em ≤ 24h~~ → **#0025** (NF-e)
+- [x] ADRs iniciais escritos (`docs/adr/`)
+- [x] Critérios genéricos de aceitação (ver `issues/README.md`)
 
 ## Referências
 

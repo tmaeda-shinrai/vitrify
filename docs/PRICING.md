@@ -161,6 +161,8 @@ Para o MVP, opções:
 
 Recomendação para o MVP: começar com NFE.io ou módulo do Asaas, automatizar via webhook (toda fatura paga gera NF-e em 24h).
 
+> Status: a implementação automática da NF-e é da **#0025** (lançamento) — foi tirada da #0024 por exigir conta no provedor + dados fiscais + contador, que não fecham só em código.
+
 ### 7.3 Regime tributário
 
 Empresa começa muito provavelmente como **MEI** (até R$ 81k/ano), depois migra para **Simples Nacional** (até R$ 4,8M/ano). Atividade SaaS no Simples cai no Anexo III ou V dependendo do Fator R. Recomendação: contratar contador desde o início (R$ 200-500/mês) — não é lugar para improviso.

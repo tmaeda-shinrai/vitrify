@@ -390,10 +390,10 @@ Adotamos Supabase pelo conjunto integrado, RLS, e free tier generoso.
 - Risco de aumento de custo na escala
 ```
 
-ADRs sugeridos para escrever no início:
+ADRs iniciais escritos (#0024) em [`docs/adr/`](./adr/) — índice em [`adr/README.md`](./adr/README.md):
 
-- ADR-001: Supabase como BaaS
-- ADR-002: Asaas como gateway de pagamento
-- ADR-003: Next.js App Router em vez de Pages Router
-- ADR-004: PWA em vez de app nativo
-- ADR-005: ISR para vitrines públicas
+- [ADR-001](./adr/0001-supabase-como-baas.md): Supabase como BaaS
+- [ADR-002](./adr/0002-asaas-como-gateway-de-pagamento.md): Asaas como gateway de pagamento
+- [ADR-003](./adr/0003-nextjs-app-router.md): Next.js App Router em vez de Pages Router
+- [ADR-004](./adr/0004-pwa-em-vez-de-app-nativo.md): PWA em vez de app nativo
+- [ADR-005](./adr/0005-isr-para-vitrines-publicas.md): ISR para vitrines públicas
