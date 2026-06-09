@@ -11,14 +11,14 @@ Mês 0 (Setup)      ──► Mês 1 (Core)      ──► Mês 2 (Vitrine + UX)
 Mês 5+ (Crescimento) ◄── Mês 4 (Lançamento) ◄── Mês 3 (Pagamento + Polimento)
 ```
 
-| Fase                     | Duração       | Resultado                                  |
-| ------------------------ | ------------- | ------------------------------------------ |
-| 0. Setup                 | Semana 0      | Ambiente, contas, repositório, base do app |
-| 1. Core                  | Semanas 1-4   | Auth, CRUD de produtos, painel funcional   |
-| 2. Vitrine + UX          | Semanas 5-8   | Vitrine pública, intent de pedido, PWA     |
-| 3. Pagamento + Polimento | Semanas 9-12  | Asaas, planos, polish                      |
-| 4. Lançamento            | Semanas 13-14 | Beta com embaixadoras, ajustes finais      |
-| 5. Crescimento           | Semana 15+    | Aquisição, iterações com base em feedback  |
+| Fase                     | Duração       | Resultado                                  | Status               |
+| ------------------------ | ------------- | ------------------------------------------ | -------------------- |
+| 0. Setup                 | Semana 0      | Ambiente, contas, repositório, base do app | ✅ concluída         |
+| 1. Core                  | Semanas 1-4   | Auth, CRUD de produtos, painel funcional   | ✅ concluída         |
+| 2. Vitrine + UX          | Semanas 5-8   | Vitrine pública, intent de pedido, PWA     | ✅ concluída         |
+| 3. Pagamento + Polimento | Semanas 9-12  | Asaas, planos, polish                      | ✅ concluída (#0024) |
+| 4. Lançamento            | Semanas 13-14 | Beta com embaixadoras, ajustes finais      | ◻ a fazer (#0025)    |
+| 5. Crescimento           | Semana 15+    | Aquisição, iterações com base em feedback  | — backlog            |
 
 ## Fase 0 — Setup (Semana 0)
 
@@ -28,13 +28,13 @@ Preparar todo o ferramental e a base do projeto para começar a desenvolver sem 
 
 ### Entregáveis
 
-- [ ] Repositório GitHub criado, com branch protection no `main`
+- [x] Repositório GitHub criado, com branch protection no `main`
 - [x] Projeto Next.js 14 inicial com TypeScript, Tailwind, shadcn/ui configurados
-- [ ] Projeto Supabase criado na região São Paulo
-- [ ] Conta Vercel conectada ao repo, deploy automático funcionando
-- [ ] Conta Asaas criada (sandbox)
-- [ ] Conta Resend criada (e-mail transacional)
-- [ ] Domínio adquirido e DNS apontando
+- [x] Projeto Supabase criado na região São Paulo
+- [x] Conta Vercel conectada ao repo, deploy automático funcionando (preview por PR)
+- [x] Conta Asaas criada (sandbox)
+- [x] Conta Resend criada (e-mail transacional)
+- [x] Domínio adquirido (`vitrinio.com.br`) — DNS final de produção fica no go-live (#0025)
 - [x] Variáveis de ambiente documentadas em `.env.example`
 - [x] CI básico no GitHub Actions (typecheck + lint)
 - [x] Pasta `docs/` com toda esta documentação versionada
@@ -64,8 +64,8 @@ Construir o fluxo essencial: cadastro, login, criação de vitrine inicial, CRUD
 - [x] Fluxo de onboarding (4 passos) — #0008
 - [x] Validação de slug em tempo real — #0008
 - [x] Validação de WhatsApp (formato + envio de SMS opcional adiado) — #0008
-- [ ] Tela de perfil com edição de nome, foto, bio — #0009
-- [ ] Upload de avatar com compressão no cliente — #0009
+- [x] Tela de perfil com edição de nome, foto, bio — #0009
+- [x] Upload de avatar com compressão no cliente — #0009
 
 ### Semana 3 — CRUD de produtos (parte 1)
 
@@ -97,21 +97,21 @@ Tornar a vitrine pública acessível, registrar intenções de pedido, implement
 
 ### Semana 5 — Vitrine pública
 
-- [ ] Rota `/[slug]` com Server Component
-- [ ] Header com foto, nome, bio, contato
-- [ ] Grid responsivo de produtos
-- [ ] Modal de detalhe do produto (carrossel de fotos, descrição)
-- [ ] Botão "Pedir no WhatsApp" com mensagem pré-formatada
-- [ ] ISR com revalidate de 60s
-- [ ] Tema claro/escuro automático
+- [x] Rota `/[slug]` com Server Component — #0012
+- [x] Header com foto, nome, bio, contato — #0012
+- [x] Grid responsivo de produtos — #0012
+- [x] Modal de detalhe do produto (carrossel de fotos, descrição) — #0012
+- [x] Botão "Pedir no WhatsApp" com mensagem pré-formatada — #0013
+- [x] ISR com revalidate de 60s — #0012
+- [x] Tema claro/escuro automático — #0012
 
 ### Semana 6 — Filtros e busca
 
-- [ ] Filtro por categoria na vitrine
-- [ ] Filtro por marca
-- [ ] Busca por texto (full-text search Postgres)
-- [ ] Compartilhamento via Web Share API
-- [ ] Empty states bonitos
+- [x] Filtro por categoria na vitrine — #0014
+- [x] Filtro por marca — #0014
+- [x] Busca por texto (client-side; full-text Postgres = otimização futura) — #0014
+- [x] Compartilhamento via Web Share API — #0014 (`ShareButton`)
+- [x] Empty states bonitos — #0014
 
 ### Semana 7 — Intent de pedido + Estatísticas
 
@@ -127,7 +127,7 @@ Tornar a vitrine pública acessível, registrar intenções de pedido, implement
 - [x] Service worker com Serwist (#0017)
 - [x] Cache offline da vitrine pública (somente leitura) (#0017)
 - [x] Compressão de imagem otimizada (browser-image-compression no upload, #0010)
-- [x] Auditoria Lighthouse: alvo 90+ em mobile (#0017 — landing 100/100; vitrine verificada manualmente / final na #0024)
+- [x] Auditoria Lighthouse: alvo 90+ em mobile (#0017 — landing 100/100; vitrine pública depende de slug semeado, confirmação final no go-live #0025)
 - [x] Sentry configurado (#0017, com scrubbing de PII)
 
 ### Marco fim da Fase 2

@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository status
 
-**The MVP scaffold exists and the first milestones are implemented.** The Next.js 14 App Router app is set up (TypeScript strict, Tailwind, shadcn/ui, next-intl pt-BR, TanStack Query, Vitest + Playwright) with `supabase/` migrations + seed for the local stack. The commands and structure below are real — verify against the tree, but don't assume the repo is empty.
+**The MVP is built: milestones M0–M6 are implemented and merged to `main`; only M7 (launch — issue #0025) remains.** The Next.js 14 App Router app is set up (TypeScript strict, Tailwind, shadcn/ui, next-intl pt-BR, TanStack Query, Vitest + Playwright) with `supabase/` migrations + seed for the local stack. The commands and structure below are real — verify against the tree, but don't assume the repo is empty.
 
 **Done so far (merged to `main`):**
 
