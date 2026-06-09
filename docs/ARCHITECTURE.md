@@ -313,6 +313,22 @@ Implementado (#0017): `@sentry/nextjs` com `sentry.{client,server,edge}.config.t
 | Erro 5xx > 1% do tráfego           | Slack + e-mail | Alta       |
 | Storage acima de 80% da quota      | E-mail         | Baixa      |
 
+Implementado (#0024) — **só e-mail** (decisão do projeto; sem Slack). O app alerta o
+que controla no código, via `lib/alerts` (`notifyAdmins` → `ADMIN_EMAILS`, best-effort,
+no-op sem `RESEND_API_KEY`/`ADMIN_EMAILS`):
+
+- **Webhook Asaas falhando ≥3x seguidas** → e-mail. Contador/dedup em Upstash (zera no
+  sucesso); o disparo fica em `app/api/webhooks/asaas`.
+- **Health "down"** → e-mail. `POST /api/cron/health` roda `checkHealth()` (DB/Storage
+  com ping real) a cada 15 min (pg_cron) e alerta se algum serviço cai.
+
+As demais condições são **métricas de plataforma** que o app não mede de forma confiável
+e ficam como regras configuradas no provedor (não em código):
+
+- **Banco p95 > 1s** → alerta no Supabase Dashboard (Reports / alertas de performance).
+- **Erro 5xx > 1%** → alerta no Vercel (Monitoring) e/ou regra no Sentry (alert rate).
+- **Storage > 80% da quota** → alerta de uso no Supabase Dashboard.
+
 ## 9. Deploy e ambientes
 
 | Ambiente | URL                       | Branch      | Banco                   |

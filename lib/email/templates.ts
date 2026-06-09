@@ -26,6 +26,29 @@ function button(href: string, label: string): string {
   return `<p style="margin:20px 0"><a href="${href}" style="background:#7C3AED;color:#fff;text-decoration:none;padding:10px 18px;border-radius:8px;display:inline-block">${label}</a></p>`;
 }
 
+/**
+ * Alerta operacional para os admins (#0024, ARCHITECTURE §8.4) — não vai para
+ * usuárias. `details` é uma lista curta de pares rótulo/valor (sem PII).
+ */
+export function adminAlertEmail(params: {
+  title: string;
+  message: string;
+  details?: Record<string, string>;
+}): EmailContent {
+  const rows = Object.entries(params.details ?? {})
+    .map(([k, v]) => `<p style="margin:4px 0"><strong>${k}:</strong> ${v}</p>`)
+    .join("");
+  return {
+    subject: `⚠️ Vitrinio — ${params.title}`,
+    html: layout(
+      params.title,
+      `<p>${params.message}</p>
+       ${rows}
+       <p style="font-size:12px;color:#6B7280;margin-top:16px">Alerta operacional automático do Vitrinio.</p>`,
+    ),
+  };
+}
+
 export function subscriptionConfirmedEmail(params: { planName: string }): EmailContent {
   return {
     subject: `Bem-vinda ao ${params.planName}! 🎉`,
