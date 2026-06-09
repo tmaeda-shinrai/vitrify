@@ -1,9 +1,16 @@
 import { timingSafeEqual } from "node:crypto";
 import { NextResponse, type NextRequest } from "next/server";
 
+import {
+  clearAsaasWebhookFailures,
+  notifyAdmins,
+  recordAsaasWebhookFailure,
+  WEBHOOK_FAILURE_THRESHOLD,
+} from "@/lib/alerts";
 import { sendEmail } from "@/lib/email/client";
 import { getUserEmail } from "@/lib/email/recipient";
 import {
+  adminAlertEmail,
   invoiceReceiptEmail,
   referralConvertedEmail,
   subscriptionConfirmedEmail,
@@ -33,6 +40,23 @@ function safeEqual(a: string, b: string): boolean {
   const bb = Buffer.from(b);
   if (ba.length !== bb.length) return false;
   return timingSafeEqual(ba, bb);
+}
+
+/** Alerta best-effort (#0024): e-mail aos admins na Nª falha (5xx) seguida do webhook. */
+async function reportWebhookFailure(reason: string): Promise<void> {
+  try {
+    if (await recordAsaasWebhookFailure()) {
+      await notifyAdmins(
+        adminAlertEmail({
+          title: "Webhook do Asaas falhando",
+          message: `O webhook /api/webhooks/asaas falhou ${WEBHOOK_FAILURE_THRESHOLD} vezes seguidas. Verifique o gateway de pagamento e os logs.`,
+          details: { Motivo: reason },
+        }),
+      );
+    }
+  } catch {
+    // Alerta nunca quebra o webhook.
+  }
 }
 
 async function resolveSubscription(
@@ -95,9 +119,11 @@ export async function POST(request: NextRequest) {
   if (dedupError) {
     // 23505 = unique_violation → reentrega do mesmo evento, já processada.
     if (dedupError.code === "23505") {
+      await clearAsaasWebhookFailures().catch(() => {});
       return NextResponse.json({ ok: true, idempotent: true });
     }
     console.error("[asaas-webhook] falha ao registrar evento", { eventId, code: dedupError.code });
+    await reportWebhookFailure(`registro do evento (${dedupError.code})`);
     return new NextResponse(null, { status: 500 });
   }
 
@@ -230,14 +256,17 @@ export async function POST(request: NextRequest) {
       }
     }
 
+    await clearAsaasWebhookFailures().catch(() => {});
     return NextResponse.json({ ok: true });
   } catch (error) {
     // Libera o evento para o Asaas reentregar (não perde o efeito numa falha).
     await admin.from("payment_webhook_events").delete().eq("event_id", eventId);
+    const message = error instanceof Error ? error.message : "desconhecido";
     console.error("[asaas-webhook] erro ao processar; evento liberado p/ retry", {
       eventId,
-      message: error instanceof Error ? error.message : "desconhecido",
+      message,
     });
+    await reportWebhookFailure(message);
     return new NextResponse(null, { status: 500 });
   }
 }
