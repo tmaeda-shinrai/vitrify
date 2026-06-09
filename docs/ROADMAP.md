@@ -169,14 +169,16 @@ Permitir cobrança real, lidar com upgrades, refinar tudo o que já está pronto
 
 ### Semana 12 — Polimento geral
 
-- [ ] Revisão de todas as cópias (tom de voz) — #0024
-- [ ] Acessibilidade: contraste, foco, aria-labels — #0024
-- [ ] Otimização de imagens da landing — #0024
-- [ ] Testes E2E críticos com Playwright — #0024
-- [ ] Backup automático configurado e testado — #0024
-- [~] Health check e alertas — health check feito em #0023 (`/admin/health`); alertas Slack/e-mail → #0024
+- [x] Revisão de cópias (tom de voz) — #0024: strings das telas públicas movidas para `messages/`
+- [x] Acessibilidade: contraste AA, foco, links in-text, `alt` por foto — #0024 (auditoria axe)
+- [x] Otimização de imagens da landing — #0024: auditado, nada a otimizar (sem imagens; ícones já gerados)
+- [x] Testes E2E críticos com Playwright (5 fluxos) rodando no CI — #0024
+- [~] Backup automático — #0024: dump semanal + runbook (`docs/BACKUP.md`); restore ao vivo é operacional (go-live)
+- [x] Health check e alertas — health em #0023 (`/admin/health`); alertas por e-mail (webhook Asaas + health) em #0024 (só e-mail)
+- [x] ADRs 001–005 (`docs/adr/`) — #0024
+- [→] NF-e automática — movida para #0025 (lançamento)
 
-> Nota: a administração interna e moderação (#0023, painel `/admin`, bloqueio, denúncia DMCA, métricas, health check) também concluiu na Fase 3 — ver `issues/0023`. Resta o polimento da #0024 para fechar a fase.
+> Semana 12 / Fase 3 concluída: a #0024 (polimento, a11y, E2E, backup, alertas, ADRs) fechou a fase, junto com #0023 (admin/moderação). Itens operacionais (teste de restore ao vivo, NF-e, stress test) seguem na #0025.
 
 ### Marco fim da Fase 3
 

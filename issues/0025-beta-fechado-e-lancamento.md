@@ -27,7 +27,8 @@ Fechar o ciclo do MVP: validar o produto com revendedoras reais, ajustar com bas
 
 - Implementar **top 5 melhorias** do feedback do beta.
 - **Stress test** do servidor (k6 ou similar) — cenário de tráfego de lançamento.
-- **Pagamento testado em produção**: ≥ 5 transações reais (assinaturas pagas de verdade) confirmadas via webhook, com NF-e emitida (coordena com #0018/#0024).
+- **NF-e automática** (movida da #0024): integrar NFE.io / Webmania ou módulo do Asaas; toda fatura paga gera NFS-e em ≤ 24h via webhook; reter dados fiscais 5 anos (`docs/PRICING.md` §7, `docs/LEGAL.md` §8). Exige conta no provedor + dados fiscais + contador.
+- **Pagamento testado em produção**: ≥ 5 transações reais (assinaturas pagas de verdade) confirmadas via webhook, com NF-e emitida (coordena com #0018).
 - **Configurar analytics de conversão** do funil (`docs/GTM.md` §5, §7) — segmentado por canal de origem.
 - **Conteúdo de lançamento** (`docs/GTM.md` §6.1): landing page (`/` com hero, demo em vídeo, depoimentos, planos, FAQ); 3 vídeos curtos para Instagram/TikTok; post de lançamento (carrossel de 7 telas); e-mail para lista de espera (se houver); press release para blogs do nicho.
 - Ativar o cupom **`PRIMEIRA50`** (50% off na 1ª mensalidade) — coordena com #0019.
@@ -48,6 +49,7 @@ Fechar o ciclo do MVP: validar o produto com revendedoras reais, ajustar com bas
 - [ ] Coleta de feedback estruturado (a cada 2–3 dias) + correções urgentes
 - [ ] Documento "Acordo com Embaixadoras" (com advogado)
 - [ ] Implementar top 5 melhorias do feedback
+- [ ] NF-e automática via webhook (NFE.io/Webmania/Asaas), retenção fiscal 5 anos — movida da #0024
 - [ ] Stress test (k6) com cenário de lançamento
 - [ ] ≥ 5 transações reais de assinatura em produção, confirmadas + NF-e emitida
 - [ ] Analytics de conversão do funil configurado (por canal)
