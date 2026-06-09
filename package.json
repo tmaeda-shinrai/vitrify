@@ -19,6 +19,7 @@
     "test:ui": "vitest --ui",
     "test:e2e": "playwright test",
     "test:rls": "vitest run --config vitest.rls.config.ts",
+    "load": "k6 run tests/load/vitrine-launch.js",
     "db:start": "supabase start",
     "db:stop": "supabase stop",
     "db:reset": "supabase db reset",

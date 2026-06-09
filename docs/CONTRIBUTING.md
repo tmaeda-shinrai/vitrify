@@ -115,11 +115,12 @@ Quanto menos client components, mais rápido.
 
 ### 3.1 Estratégia
 
-| Camada     | Ferramenta               | Cobertura alvo                                                       |
-| ---------- | ------------------------ | -------------------------------------------------------------------- |
-| Unitários  | Vitest                   | Funções utilitárias, validators, hooks complexos                     |
-| Integração | Vitest + Testing Library | Componentes com lógica de estado                                     |
-| E2E        | Playwright               | Fluxos críticos: cadastro, criar produto, vitrine pública, pagamento |
+| Camada     | Ferramenta               | Cobertura alvo                                                            |
+| ---------- | ------------------------ | ------------------------------------------------------------------------- |
+| Unitários  | Vitest                   | Funções utilitárias, validators, hooks complexos                          |
+| Integração | Vitest + Testing Library | Componentes com lógica de estado                                          |
+| E2E        | Playwright               | Fluxos críticos: cadastro, criar produto, vitrine pública, pagamento      |
+| Carga      | k6                       | Pico de lançamento da vitrine pública (`tests/load/`, rodado manualmente) |
 
 **Não buscar 100% de cobertura.** Buscar cobertura **dos caminhos críticos**.
 
