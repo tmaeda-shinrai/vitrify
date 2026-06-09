@@ -40,9 +40,14 @@ test("cadastro → onboarding → primeiro produto", async ({ page }) => {
     c.query("update auth.users set email_confirmed_at = now() where email = $1", [EMAIL]),
   );
 
-  // 3) O cadastro já autentica a sessão; a guarda de rota leva ao onboarding
-  // (perfil ainda sem onboarding_completed_at).
-  await page.goto("/produtos");
+  // 3) Login explícito (a usuária já está confirmada). Limpa cookies antes para não
+  // depender de o cadastro ter criado sessão (varia com a config de confirmação do
+  // Supabase: o local criava sessão, o do CI não). A guarda de rota leva ao onboarding.
+  await page.context().clearCookies();
+  await page.goto("/login");
+  await page.locator("#email").fill(EMAIL);
+  await page.locator("#password").fill(PASSWORD);
+  await page.getByRole("button", { name: "Entrar", exact: true }).click();
   await page.waitForURL("**/onboarding");
 
   // 4) Onboarding — nome (pré-preenchido), slug, whatsapp, foto.
