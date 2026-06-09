@@ -112,3 +112,67 @@ export async function setReportStatusAction(
   revalidatePath("/admin/denuncias", "page");
   return { ok: true };
 }
+
+/**
+ * Concede/encerra o status de "Embaixadora Pioneira" (#0025, `docs/GTM.md` §2.1).
+ * Conceder dá Plus vitalício — assinatura `plus`/`active` sem fim de período, reusando o
+ * gating de plano (`lib/plan`); encerrar volta para Free (produtos preservados; a vitrine
+ * esconde o excedente, ver `lib/billing/limits`). O selo é à prova da dona via trigger
+ * `protect_profile_ambassador` (só `service_role` liga/desliga). Auditado.
+ */
+export async function setAmbassadorAction(
+  userId: string,
+  makeAmbassador: boolean,
+): Promise<ActionResult> {
+  const adminUser = await getAdminUser();
+  if (!adminUser) return { ok: false, error: "Acesso negado." };
+
+  const admin = createAdminClient();
+
+  const { error: profileError } = await admin
+    .from("profiles")
+    .update(
+      makeAmbassador
+        ? { is_ambassador: true, ambassador_since: new Date().toISOString() }
+        : { is_ambassador: false, ambassador_since: null },
+    )
+    .eq("id", userId);
+  if (profileError) return { ok: false, error: "Não foi possível atualizar o selo." };
+
+  const { error: subError } = await admin
+    .from("subscriptions")
+    .update(
+      makeAmbassador
+        ? {
+            plan: "plus",
+            status: "active",
+            canceled_at: null,
+            past_due_since: null,
+            current_period_end: null,
+          }
+        : { plan: "free", status: "active" },
+    )
+    .eq("owner_id", userId);
+  if (subError) return { ok: false, error: "Não foi possível atualizar o plano." };
+
+  await auditModeration(
+    admin,
+    adminUser.id,
+    makeAmbassador ? "account.ambassador_granted" : "account.ambassador_revoked",
+    "profile",
+    userId,
+    null,
+  );
+
+  // Best-effort: revalida a vitrine para o selo aparecer/sumir já (ISR 60s de qualquer modo).
+  const { data: vitrine } = await admin
+    .from("vitrines")
+    .select("slug")
+    .eq("owner_id", userId)
+    .eq("is_default", true)
+    .maybeSingle();
+  if (vitrine?.slug) revalidatePath(`/${vitrine.slug}`);
+
+  revalidatePath("/admin/contas", "page");
+  return { ok: true };
+}

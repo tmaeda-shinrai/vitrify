@@ -25,6 +25,7 @@ export interface AdminAccountDetail extends AdminAccountRow {
   onboardingCompletedAt: string | null;
   deletionRequestedAt: string | null;
   accountBlockedAt: string | null;
+  isAmbassador: boolean;
   vitrineId: string | null;
   vitrineTitle: string | null;
   vitrineBlockedAt: string | null;
@@ -98,7 +99,7 @@ export async function getAccount(id: string): Promise<AdminAccountDetail | null>
     admin
       .from("profiles")
       .select(
-        "id, full_name, whatsapp, bio, created_at, onboarding_completed_at, deletion_requested_at, blocked_at",
+        "id, full_name, whatsapp, bio, created_at, onboarding_completed_at, deletion_requested_at, blocked_at, is_ambassador",
       )
       .eq("id", id)
       .maybeSingle(),
@@ -128,6 +129,7 @@ export async function getAccount(id: string): Promise<AdminAccountDetail | null>
     vitrineTitle: vitrine?.title ?? null,
     vitrineBlockedAt: vitrine?.blocked_at ?? null,
     accountBlockedAt: profile.blocked_at,
+    isAmbassador: profile.is_ambassador,
     onboardingCompletedAt: profile.onboarding_completed_at,
     deletionRequestedAt: profile.deletion_requested_at,
     createdAt: profile.created_at,

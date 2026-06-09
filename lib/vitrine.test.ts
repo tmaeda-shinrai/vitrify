@@ -24,6 +24,7 @@ const vitrineFixture: PublicVitrine = {
     bio: "Revendo Natura e Avon",
     avatarUrl: "https://x/avatar.webp",
     whatsapp: "5511999998888",
+    isAmbassador: false,
   },
   products: [
     {

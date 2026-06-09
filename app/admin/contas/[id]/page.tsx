@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import { AmbassadorControls } from "@/components/admin/ambassador-controls";
 import { BlockControls } from "@/components/admin/block-controls";
 import { getAccount } from "@/lib/admin/accounts";
 
@@ -69,6 +70,8 @@ export default async function AdminAccountDetailPage({ params }: { params: { id:
           value={account.deletionRequestedAt ? fmt(account.deletionRequestedAt) : "—"}
         />
       </section>
+
+      <AmbassadorControls userId={account.id} isAmbassador={account.isAmbassador} />
 
       <BlockControls
         userId={account.id}

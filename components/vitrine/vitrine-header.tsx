@@ -1,5 +1,6 @@
 import Image from "next/image";
-import { MessageCircle } from "lucide-react";
+import { BadgeCheck, MessageCircle } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 import { ShareButton } from "@/components/shared/share-button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -12,6 +13,7 @@ import { formatWhatsappDisplay, vitrineTitle, type PublicVitrine } from "@/lib/v
  * React já escapa). O botão "Pedir no WhatsApp" é #0013 (não entra aqui).
  */
 export function VitrineHeader({ vitrine }: { vitrine: PublicVitrine }) {
+  const t = useTranslations("vitrine");
   const { owner } = vitrine;
   const heading = vitrineTitle({ title: vitrine.title, ownerName: owner.fullName });
   const initial = (owner.fullName || heading).charAt(0).toUpperCase();
@@ -50,6 +52,12 @@ export function VitrineHeader({ vitrine }: { vitrine: PublicVitrine }) {
         </Avatar>
 
         <h1 className="mt-3 font-display text-2xl text-foreground sm:text-3xl">{heading}</h1>
+        {owner.isAmbassador ? (
+          <p className="mt-2 inline-flex items-center gap-1.5 rounded-full bg-brand-primary/10 px-3 py-1 text-xs font-medium text-brand-primary">
+            <BadgeCheck className="size-3.5" aria-hidden />
+            {t("ambassadorBadge")}
+          </p>
+        ) : null}
         {vitrine.subtitle ? (
           <p className="mt-1 text-base text-muted-foreground">{vitrine.subtitle}</p>
         ) : null}

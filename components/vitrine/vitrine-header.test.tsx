@@ -14,7 +14,13 @@ const base: PublicVitrine = {
   heroImageUrl: null,
   themeMode: "auto",
   themePrimary: null,
-  owner: { fullName: "Maria Silva", bio: null, avatarUrl: null, whatsapp: null },
+  owner: {
+    fullName: "Maria Silva",
+    bio: null,
+    avatarUrl: null,
+    whatsapp: null,
+    isAmbassador: false,
+  },
   products: [],
 };
 
