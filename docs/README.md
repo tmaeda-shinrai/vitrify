@@ -12,7 +12,13 @@ O mercado brasileiro de venda direta movimenta cerca de R$ 50 bilhões/ano com a
 
 ## Estado atual
 
-MVP em fase de planejamento. Esta documentação é o ponto de partida.
+MVP **construído**: as fases 0–3 do roadmap estão concluídas e mergeadas na `main` —
+auth, CRUD de produtos, vitrine pública (ISR), PWA, pagamentos Asaas (planos, cupons,
+indicação, inadimplência), conformidade LGPD, suporte/ajuda, administração/moderação e o
+polimento da #0024 (acessibilidade AA, i18n, 5 fluxos E2E no CI, backup externo + runbook,
+alertas por e-mail, ADRs). Falta a **Fase 4 — Lançamento** (issue #0025: beta com
+embaixadoras, NF-e automática, stress test e go-live com transações reais). Ver
+[ROADMAP.md](./ROADMAP.md) e `CLAUDE.md` (seção "Done so far") para o detalhe por issue.
 
 ## Índice da documentação
 
