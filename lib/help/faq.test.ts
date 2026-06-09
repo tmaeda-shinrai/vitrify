@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { FAQ_ITEMS, faqCategories, filterFaq } from "@/lib/help/faq";
+import { FAQ_ITEMS, faqCategories, filterFaq, LANDING_FAQ_IDS, landingFaq } from "@/lib/help/faq";
 import { TUTORIALS } from "@/lib/help/tutorials";
 
 describe("FAQ", () => {
@@ -30,6 +30,12 @@ describe("FAQ", () => {
     const cats = faqCategories(FAQ_ITEMS);
     expect(cats[0]).toBe("Primeiros passos");
     expect(new Set(cats).size).toBe(cats.length);
+  });
+
+  it("landingFaq resolve todos os ids curados, na ordem", () => {
+    const items = landingFaq();
+    expect(items).toHaveLength(LANDING_FAQ_IDS.length);
+    expect(items.map((i) => i.id)).toEqual([...LANDING_FAQ_IDS]);
   });
 });
 

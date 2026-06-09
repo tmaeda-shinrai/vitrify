@@ -207,3 +207,22 @@ export function faqCategories(items: FaqItem[]): string[] {
   for (const item of items) if (!seen.includes(item.category)) seen.push(item.category);
   return seen;
 }
+
+/**
+ * Subconjunto curado para a landing (#0025) — as perguntas mais decisivas na
+ * conversão, nesta ordem. A FAQ completa e pesquisável vive em `/ajuda`.
+ */
+export const LANDING_FAQ_IDS = [
+  "o-que-e",
+  "precisa-pagar",
+  "como-recebo-pedido",
+  "pedido-e-venda",
+  "diferenca-planos",
+  "cancelar",
+] as const;
+
+export function landingFaq(): FaqItem[] {
+  return LANDING_FAQ_IDS.map((id) => FAQ_ITEMS.find((item) => item.id === id)).filter(
+    (item): item is FaqItem => item !== undefined,
+  );
+}
