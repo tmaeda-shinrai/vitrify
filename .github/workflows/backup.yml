@@ -1,0 +1,60 @@
+name: Backup semanal (dump externo)
+
+# Backup adicional ao nativo do Supabase (#0024, ARCHITECTURE §10 / DATABASE §7):
+# dump lógico semanal do Postgres de produção exportado para storage externo
+# (Wasabi/S3) com retenção de 90 dias (via lifecycle do bucket). O restore e o
+# teste mensal estão em docs/BACKUP.md.
+#
+# Secrets necessários (Settings → Secrets and variables → Actions):
+#   BACKUP_DB_URL          connection string do Postgres de produção (Supabase)
+#   BACKUP_S3_BUCKET       ex.: vitrinio-backups
+#   BACKUP_S3_ENDPOINT     ex.: https://s3.us-east-1.wasabisys.com (Wasabi) — vazio p/ AWS
+#   BACKUP_S3_REGION       ex.: us-east-1
+#   AWS_ACCESS_KEY_ID      credencial do storage externo
+#   AWS_SECRET_ACCESS_KEY  credencial do storage externo
+# Sem os secrets o job falha de propósito (não há o que exportar).
+
+on:
+  schedule:
+    - cron: "0 4 * * 0" # domingos 04:00 UTC (01:00 BRT)
+  workflow_dispatch: {}
+
+concurrency:
+  group: backup
+  cancel-in-progress: false
+
+jobs:
+  dump:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Instalar pg_dump 15 (PGDG)
+        run: |
+          sudo sh -c 'echo "deb https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+          curl -fsSL https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo gpg --dearmor -o /usr/share/keyrings/pgdg.gpg
+          sudo sed -i 's|deb |deb [signed-by=/usr/share/keyrings/pgdg.gpg] |' /etc/apt/sources.list.d/pgdg.list
+          sudo apt-get update
+          sudo apt-get install -y postgresql-client-15
+
+      - name: Dump + gzip
+        env:
+          BACKUP_DB_URL: ${{ secrets.BACKUP_DB_URL }}
+        run: |
+          test -n "$BACKUP_DB_URL" || { echo "BACKUP_DB_URL ausente"; exit 1; }
+          STAMP=$(date -u +%Y%m%dT%H%M%SZ)
+          echo "FILE=vitrinio-$STAMP.sql.gz" >> "$GITHUB_ENV"
+          pg_dump --no-owner --no-privileges "$BACKUP_DB_URL" | gzip > "vitrinio-$STAMP.sql.gz"
+          ls -lh "vitrinio-$STAMP.sql.gz"
+
+      - name: Upload para o storage externo (S3/Wasabi)
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ secrets.BACKUP_S3_REGION }}
+          BUCKET: ${{ secrets.BACKUP_S3_BUCKET }}
+          ENDPOINT: ${{ secrets.BACKUP_S3_ENDPOINT }}
+        run: |
+          ENDPOINT_ARG=""
+          [ -n "$ENDPOINT" ] && ENDPOINT_ARG="--endpoint-url $ENDPOINT"
+          aws s3 cp "$FILE" "s3://$BUCKET/weekly/$FILE" $ENDPOINT_ARG
+          echo "Backup enviado: s3://$BUCKET/weekly/$FILE"

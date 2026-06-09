@@ -561,6 +561,7 @@ Os índices full-text (`GIN`) e os parciais já entram na própria `initial_sche
 
 - Backup nativo Supabase: diário, retenção de 7 ou 30 dias dependendo do plano
 - Backup adicional: dump semanal exportado para storage externo (Wasabi/S3) com retenção de 90 dias
+- **Implementado em #0024**: o dump semanal externo é automatizado por GitHub Actions (`.github/workflows/backup.yml`); o procedimento de restore, os alvos RTO 4h/RPO 24h e o checklist de teste mensal estão no runbook [BACKUP.md](./BACKUP.md).
 - Dados de usuária excluída (LGPD): anonimização em 30 dias, exclusão definitiva em 90 dias — conforme política em [LEGAL.md](./LEGAL.md) §1.5
 - **Implementado em #0021**: `POST /api/cron/retention` (agendado por pg_cron, migration `*_retention_cron.sql`) aplica as janelas — apaga `audit_logs` > 180 dias, anula `ip_hash` de `order_intents` > 12 meses, anonimiza contas aos 30d (`anonymize_account`, carimba `profiles.anonymized_at`) e exclui aos 90d (`hard_delete_account` → `DELETE FROM auth.users` em cascata). A retenção fiscal de 5 anos é preservada arquivando os campos não-PII das faturas em **`invoice_archive`** antes do hard delete. Janelas puras em `lib/retention/windows.ts`.
 - Colunas LGPD adicionadas a `profiles` (#0021): `terms_version`/`terms_accepted_at` (aceite versionado), `marketing_opt_in` (consentimento opcional), `anonymized_at` (marcador do job dos 30d).
