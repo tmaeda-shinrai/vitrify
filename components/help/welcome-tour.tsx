@@ -16,6 +16,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { trackEvent } from "@/lib/analytics/plausible";
 import { clientEnv } from "@/lib/env";
 
 const FLAG_KEY = "vitrinio:welcome-tour:v1";
@@ -39,6 +40,9 @@ export function WelcomeTour() {
 
   useEffect(() => {
     if (params.get("bemvinda") !== "1" || typeof window === "undefined") return;
+
+    // O param só vem no redirect pós-onboarding → conta como conclusão do funil.
+    trackEvent("Onboarding completed");
 
     // Remove o param da URL independentemente de mostrar (evita reabrir no reload).
     const url = new URL(window.location.href);

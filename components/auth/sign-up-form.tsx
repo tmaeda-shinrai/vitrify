@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { trackEvent } from "@/lib/analytics/plausible";
 import { LEGAL_ROUTES } from "@/lib/legal/links";
 import { signUpSchema, type SignUpInput } from "@/lib/validators/auth";
 
@@ -34,6 +35,7 @@ export function SignUpForm() {
       toast.error(result.error);
       return;
     }
+    trackEvent("Signup", { method: "email" });
     router.replace("/cadastro/verifique-email");
   }
 
