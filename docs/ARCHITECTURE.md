@@ -348,6 +348,12 @@ Deploy para produção é manual (botão), mesmo com CI passando, durante MVP.
 - Restore testado mensalmente em ambiente de staging
 - RTO alvo: 4 horas. RPO alvo: 24 horas
 
+Implementado (#0024): o dump semanal externo roda via GitHub Actions
+(`.github/workflows/backup.yml`: `pg_dump` → gzip → S3/Wasabi). O runbook de restore
+(nativo e a partir do dump), os secrets necessários, a retenção de 90d e o **checklist
+de teste de restore mensal** estão em [BACKUP.md](./BACKUP.md). O teste de restore ao
+vivo é um passo operacional (depende de credenciais/projeto real), registrado no go-live.
+
 ## 11. Custos estimados (mensal, ambiente produção)
 
 Com até 1.500 usuárias ativas e tráfego de até 100k pageviews/mês:
