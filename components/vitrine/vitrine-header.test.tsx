@@ -14,7 +14,13 @@ const base: PublicVitrine = {
   heroImageUrl: null,
   themeMode: "auto",
   themePrimary: null,
-  owner: { fullName: "Maria Silva", bio: null, avatarUrl: null, whatsapp: null },
+  owner: {
+    fullName: "Maria Silva",
+    bio: null,
+    avatarUrl: null,
+    whatsapp: null,
+    isAmbassador: false,
+  },
   products: [],
 };
 
@@ -37,5 +43,15 @@ describe("VitrineHeader", () => {
     expect(screen.getByRole("heading", { name: "Beleza da Maria" })).toBeInTheDocument();
     expect(screen.getByText("Revendo Natura e Avon")).toBeInTheDocument();
     expect(screen.getByText("(11) 99999-8888")).toBeInTheDocument();
+  });
+
+  it("mostra o selo de Embaixadora Pioneira quando isAmbassador", () => {
+    render(<VitrineHeader vitrine={{ ...base, owner: { ...base.owner, isAmbassador: true } }} />);
+    expect(screen.getByText("ambassadorBadge")).toBeInTheDocument();
+  });
+
+  it("não mostra o selo quando não é embaixadora", () => {
+    render(<VitrineHeader vitrine={base} />);
+    expect(screen.queryByText("ambassadorBadge")).not.toBeInTheDocument();
   });
 });

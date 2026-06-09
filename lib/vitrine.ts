@@ -17,6 +17,8 @@ export interface PublicOwner {
   bio: string | null;
   avatarUrl: string | null;
   whatsapp: string | null;
+  /** Selo "Embaixadora Pioneira" (#0025) — concedido pelo admin. */
+  isAmbassador: boolean;
 }
 
 export interface PublicVitrine {

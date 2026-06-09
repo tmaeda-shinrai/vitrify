@@ -44,7 +44,7 @@ Fechar o ciclo do MVP: validar o produto com revendedoras reais, ajustar com bas
 ## Tarefas
 
 - [ ] Recrutar 10 embaixadoras (critérios de engajamento validados)
-- [ ] Plano "embaixadora" interno + selo "Embaixadora Pioneira" (flag no admin)
+- [x] Plano "embaixadora" interno + selo "Embaixadora Pioneira" (flag no admin) — `profiles.is_ambassador`/`ambassador_since` + `setAmbassadorAction` (Plus vitalício) + selo no `VitrineHeader`
 - [ ] Onboarding 1:1 com cada embaixadora
 - [ ] Coleta de feedback estruturado (a cada 2–3 dias) + correções urgentes
 - [ ] Documento "Acordo com Embaixadoras" (com advogado)

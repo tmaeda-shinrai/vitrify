@@ -52,7 +52,7 @@ async function fetchPublicOwner(ownerId: string): Promise<PublicOwner> {
   const admin = createAdminClient();
   const { data } = await admin
     .from("profiles")
-    .select("full_name, bio, avatar_url, whatsapp")
+    .select("full_name, bio, avatar_url, whatsapp, is_ambassador")
     .eq("id", ownerId)
     .maybeSingle();
 
@@ -61,6 +61,7 @@ async function fetchPublicOwner(ownerId: string): Promise<PublicOwner> {
     bio: data?.bio ?? null,
     avatarUrl: data?.avatar_url ?? null,
     whatsapp: data?.whatsapp ?? null,
+    isAmbassador: data?.is_ambassador ?? false,
   };
 }
 

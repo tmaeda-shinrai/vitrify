@@ -73,6 +73,10 @@ describe("decideBillingAction", () => {
       ),
     ).toBe("none");
   });
+
+  it("embaixadora (plus vitalício, sem período) → nunca rebaixa", () => {
+    expect(decideBillingAction(sub({ plan: "plus", status: "active" }), now)).toBe("none");
+  });
 });
 
 describe("dunningStage", () => {

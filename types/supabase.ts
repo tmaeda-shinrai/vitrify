@@ -511,6 +511,7 @@ export type Database = {
       };
       profiles: {
         Row: {
+          ambassador_since: string | null;
           anonymized_at: string | null;
           avatar_url: string | null;
           bio: string | null;
@@ -520,6 +521,7 @@ export type Database = {
           deletion_requested_at: string | null;
           full_name: string;
           id: string;
+          is_ambassador: boolean;
           marketing_opt_in: boolean;
           onboarding_completed_at: string | null;
           referral_code: string | null;
@@ -531,6 +533,7 @@ export type Database = {
           whatsapp_verified_at: string | null;
         };
         Insert: {
+          ambassador_since?: string | null;
           anonymized_at?: string | null;
           avatar_url?: string | null;
           bio?: string | null;
@@ -540,6 +543,7 @@ export type Database = {
           deletion_requested_at?: string | null;
           full_name: string;
           id: string;
+          is_ambassador?: boolean;
           marketing_opt_in?: boolean;
           onboarding_completed_at?: string | null;
           referral_code?: string | null;
@@ -551,6 +555,7 @@ export type Database = {
           whatsapp_verified_at?: string | null;
         };
         Update: {
+          ambassador_since?: string | null;
           anonymized_at?: string | null;
           avatar_url?: string | null;
           bio?: string | null;
@@ -560,6 +565,7 @@ export type Database = {
           deletion_requested_at?: string | null;
           full_name?: string;
           id?: string;
+          is_ambassador?: boolean;
           marketing_opt_in?: boolean;
           onboarding_completed_at?: string | null;
           referral_code?: string | null;
