@@ -53,7 +53,7 @@ Fechar o ciclo do MVP: validar o produto com revendedoras reais, ajustar com bas
 - [ ] Stress test (k6) com cenário de lançamento
 - [ ] ≥ 5 transações reais de assinatura em produção, confirmadas + NF-e emitida
 - [ ] Analytics de conversão do funil configurado (por canal)
-- [ ] Landing page de lançamento + 3 vídeos + post carrossel + e-mail lista de espera + press release
+- [ ] Landing page de lançamento (**página implementada** — hero, vídeo demo, "como funciona", planos, FAQ; falta gravar os vídeos/conteúdo) + 3 vídeos + post carrossel + e-mail lista de espera + press release
 - [ ] Ativar cupom `PRIMEIRA50`
 - [ ] Executar o cronograma de lançamento da semana 14
 - [ ] Verificar o checklist pré-lançamento de `LEGAL.md` §8 item a item

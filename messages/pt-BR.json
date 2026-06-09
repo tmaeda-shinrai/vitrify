@@ -43,9 +43,32 @@
     "iosInstructions": "Toque em Compartilhar e depois em \"Adicionar à Tela de Início\"."
   },
   "landing": {
+    "metaTitle": "Vitrinio — sua vitrine digital em um link",
+    "metaDescription": "Monte sua vitrine, compartilhe o link nas redes e venda direto pelo WhatsApp. Plano grátis para começar.",
+    "navLogin": "Entrar",
+    "navSignup": "Criar conta",
     "title": "Sua vitrine digital em um link",
     "subtitle": "Monte sua loja, compartilhe nas redes e venda pelo WhatsApp.",
-    "cta": "Começar agora"
+    "cta": "Criar conta grátis",
+    "heroSecondary": "Já tenho conta",
+    "heroNote": "Grátis para começar • Sem cartão de crédito",
+    "demoTitle": "Veja como funciona",
+    "demoSubtitle": "Em menos de 1 minuto você entende tudo.",
+    "stepsTitle": "Da sua loja ao WhatsApp em 3 passos",
+    "step1Title": "Monte sua vitrine",
+    "step1Text": "Crie sua conta, escolha o @ do seu link e deixe com a sua cara.",
+    "step2Title": "Cadastre seus produtos",
+    "step2Text": "Foto, nome, preço e descrição — de várias marcas, tudo num lugar só.",
+    "step3Title": "Compartilhe e venda",
+    "step3Text": "Mande o link nas redes. A cliente pede no WhatsApp com um toque.",
+    "plansTitle": "Planos para cada fase do seu negócio",
+    "plansSubtitle": "Comece no grátis. Assine o Pro ou o Plus quando quiser mais.",
+    "plansCta": "Criar conta grátis",
+    "faqTitle": "Perguntas frequentes",
+    "faqAll": "Ver todas as perguntas",
+    "finalTitle": "Pronta para montar sua vitrine?",
+    "finalSubtitle": "Leva poucos minutos e o plano grátis é para sempre.",
+    "finalCta": "Criar minha vitrine grátis"
   },
   "auth": {
     "login": "Entrar",
