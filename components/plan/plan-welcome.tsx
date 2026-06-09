@@ -14,6 +14,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { useCurrentUser } from "@/hooks/use-current-user";
+import { trackEvent } from "@/lib/analytics/plausible";
 import { isPaidPlan } from "@/lib/plan";
 
 const PLAN_LABEL: Record<string, string> = { pro: "Pro", plus: "Plus" };
@@ -37,6 +38,7 @@ export function PlanWelcome() {
     const key = `vitrinio:welcomed:${plan}`;
     if (localStorage.getItem(key)) return;
     localStorage.setItem(key, "1");
+    trackEvent("Subscription active", { plan });
     toast.success(t("welcomeToast", { plan: PLAN_LABEL[plan] ?? plan }));
     setOpen(true);
   }, [plan, paid, t]);

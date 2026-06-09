@@ -52,7 +52,7 @@ Fechar o ciclo do MVP: validar o produto com revendedoras reais, ajustar com bas
 - [ ] NF-e automática via webhook (NFE.io/Webmania/Asaas), retenção fiscal 5 anos — movida da #0024
 - [ ] Stress test (k6) com cenário de lançamento
 - [ ] ≥ 5 transações reais de assinatura em produção, confirmadas + NF-e emitida
-- [ ] Analytics de conversão do funil configurado (por canal)
+- [x] Analytics de conversão do funil configurado (por canal) — Plausible (`PlausibleScript`) + eventos `Signup`/`Onboarding completed`/`Product created`/`Subscription active` em `lib/analytics/plausible`; falta só setar `NEXT_PUBLIC_PLAUSIBLE_DOMAIN` + criar o site no Plausible (operacional)
 - [ ] Landing page de lançamento (**página implementada** — hero, vídeo demo, "como funciona", planos, FAQ; falta gravar os vídeos/conteúdo) + 3 vídeos + post carrossel + e-mail lista de espera + press release
 - [ ] Ativar cupom `PRIMEIRA50`
 - [ ] Executar o cronograma de lançamento da semana 14

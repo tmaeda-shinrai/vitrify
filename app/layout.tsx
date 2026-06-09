@@ -3,6 +3,7 @@ import { Inter, Plus_Jakarta_Sans } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages, setRequestLocale } from "next-intl/server";
 
+import { PlausibleScript } from "@/components/analytics/plausible-script";
 import { QueryProvider } from "@/components/shared/query-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { defaultLocale } from "@/i18n";
@@ -60,6 +61,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
           <QueryProvider>{children}</QueryProvider>
           <Toaster richColors closeButton />
         </NextIntlClientProvider>
+        <PlausibleScript />
       </body>
     </html>
   );

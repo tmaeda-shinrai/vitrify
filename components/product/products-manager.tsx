@@ -41,6 +41,7 @@ import {
 import { BRANDS_QUERY_KEY, useBrands } from "@/hooks/use-brands";
 import { useCategories } from "@/hooks/use-categories";
 import { PRODUCTS_QUERY_KEY, useProducts } from "@/hooks/use-products";
+import { trackEvent } from "@/lib/analytics/plausible";
 import { moveById, type BrandItem, type CategoryItem, type ProductListItem } from "@/lib/products";
 import { cn } from "@/lib/utils";
 
@@ -103,12 +104,14 @@ export function ProductsManager({
   }
 
   function handleSaved(product: ProductListItem) {
+    const isNew = !products.some((p) => p.id === product.id);
     queryClient.setQueryData<ProductListItem[]>(PRODUCTS_QUERY_KEY, (old = []) => {
       const exists = old.some((p) => p.id === product.id);
       return exists ? old.map((p) => (p.id === product.id ? product : p)) : [product, ...old];
     });
     void queryClient.invalidateQueries({ queryKey: PRODUCTS_QUERY_KEY });
     void queryClient.invalidateQueries({ queryKey: BRANDS_QUERY_KEY });
+    if (isNew) trackEvent("Product created", { total: products.length + 1 });
     setFormOpen(false);
     setEditing(null);
   }
@@ -136,6 +139,7 @@ export function ProductsManager({
       ...old,
     ]);
     void queryClient.invalidateQueries({ queryKey: PRODUCTS_QUERY_KEY });
+    trackEvent("Product created", { total: products.length + 1, source: "duplicate" });
     toast.success(t("duplicated"));
   }
 
