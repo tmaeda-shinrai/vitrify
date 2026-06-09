@@ -67,7 +67,7 @@ export function ProductsManager({
   const t = useTranslations("produtos");
   const searchParams = useSearchParams();
   const queryClient = useQueryClient();
-  const { data: products } = useProducts(initialProducts);
+  const { data: products } = useProducts(initialProducts, vitrineId);
   const { data: categories } = useCategories(initialCategories);
   const { data: brands } = useBrands(initialBrands);
   const [formOpen, setFormOpen] = useState(false);

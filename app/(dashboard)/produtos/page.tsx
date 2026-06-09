@@ -15,15 +15,7 @@ export default async function ProdutosPage() {
   } = await supabase.auth.getUser();
   if (!user) redirect("/login");
 
-  // RLS restringe produtos/categorias/marcas à dona; suggested_brands é referência global.
-  const [
-    { data: vitrine },
-    { data: subscription },
-    { data: rows },
-    { data: categoryRows },
-    { data: brandRows },
-    { data: suggestedRows },
-  ] = await Promise.all([
+  const [{ data: vitrine }, { data: subscription }, { data: suggestedRows }] = await Promise.all([
     supabase
       .from("vitrines")
       .select("id, slug")
@@ -31,22 +23,34 @@ export default async function ProdutosPage() {
       .eq("is_default", true)
       .maybeSingle(),
     supabase.from("subscriptions").select("plan").eq("owner_id", user.id).maybeSingle(),
+    supabase.from("suggested_brands").select("name").order("name", { ascending: true }),
+  ]);
+
+  if (!vitrine) redirect("/onboarding");
+
+  // Escopa explicitamente por `vitrine_id`: a policy pública de `products` também vale
+  // p/ usuárias autenticadas, então confiar só no RLS traria itens de outras vitrines
+  // (inflando a contagem do limite Free e vazando produtos de terceiros no painel).
+  const [{ data: rows }, { data: categoryRows }, { data: brandRows }] = await Promise.all([
     supabase
       .from("products")
       .select(PRODUCT_LIST_SELECT)
+      .eq("vitrine_id", vitrine.id)
       .order("display_order", { ascending: true })
       .order("created_at", { ascending: false })
       .limit(100),
     supabase
       .from("categories")
       .select("id, name, display_order")
+      .eq("vitrine_id", vitrine.id)
       .order("display_order", { ascending: true })
       .order("name", { ascending: true }),
-    supabase.from("brands").select("id, name").order("name", { ascending: true }),
-    supabase.from("suggested_brands").select("name").order("name", { ascending: true }),
+    supabase
+      .from("brands")
+      .select("id, name")
+      .eq("vitrine_id", vitrine.id)
+      .order("name", { ascending: true }),
   ]);
-
-  if (!vitrine) redirect("/onboarding");
 
   const initialProducts = (rows ?? []).map(toProductListItem);
   const initialCategories = (categoryRows ?? []).map((c) => ({

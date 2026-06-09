@@ -51,3 +51,19 @@ export async function loginAs(page: Page, email: string, password: string = SEED
   await page.waitForURL("**/produtos");
   await expect(page).toHaveURL(/\/produtos/);
 }
+
+/** Imagem de produto usada nos uploads dos E2E (relativa à raiz do repo). */
+export const FIXTURE_IMAGE = "tests/e2e/fixtures/product.png";
+
+/**
+ * Envia uma foto pelo `ImageUploader` aberto na tela: seleciona o arquivo, confirma
+ * o recorte ("Salvar") e espera a foto entrar na lista (o input de descrição aparece).
+ */
+export async function uploadProductPhoto(page: Page) {
+  await page.locator('input[type="file"]').first().setInputFiles(FIXTURE_IMAGE);
+  const dialog = page.getByRole("dialog");
+  await expect(dialog.getByText("Ajuste a foto")).toBeVisible();
+  await dialog.getByRole("button", { name: "Salvar", exact: true }).click();
+  // Após o upload (onUploaded), a 1ª foto entra na lista e ganha o campo de descrição.
+  await expect(page.getByLabel(/descrição da foto 1/i)).toBeVisible({ timeout: 30_000 });
+}
