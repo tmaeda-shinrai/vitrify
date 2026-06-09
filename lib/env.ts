@@ -53,7 +53,21 @@ const clientSchema = z.object({
   NEXT_PUBLIC_INTRO_VIDEO_ID: z.string().optional(),
 });
 
-const clientParsed = clientSchema.safeParse(process.env);
+// O Next só substitui acessos diretos a `process.env.NEXT_PUBLIC_*` no bundle do
+// cliente — o objeto `process.env` "bare" fica sem essas chaves. Por isso montamos
+// o objeto explicitamente (cada acesso vira o valor no build); `safeParse(process.env)`
+// no cliente devolveria tudo `undefined`.
+const clientParsed = clientSchema.safeParse({
+  NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
+  NEXT_PUBLIC_APP_NAME: process.env.NEXT_PUBLIC_APP_NAME,
+  NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
+  NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+  NEXT_PUBLIC_SENTRY_DSN: process.env.NEXT_PUBLIC_SENTRY_DSN,
+  NEXT_PUBLIC_PLAUSIBLE_DOMAIN: process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN,
+  NEXT_PUBLIC_SUPPORT_WHATSAPP: process.env.NEXT_PUBLIC_SUPPORT_WHATSAPP,
+  NEXT_PUBLIC_SUPPORT_EMAIL: process.env.NEXT_PUBLIC_SUPPORT_EMAIL,
+  NEXT_PUBLIC_INTRO_VIDEO_ID: process.env.NEXT_PUBLIC_INTRO_VIDEO_ID,
+});
 if (!clientParsed.success) {
   console.error("Variáveis NEXT_PUBLIC_* inválidas:", clientParsed.error.flatten().fieldErrors);
   throw new Error("Configuração de ambiente (cliente) inválida. Verifique .env.local.");
