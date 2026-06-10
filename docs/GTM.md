@@ -259,13 +259,13 @@ Cada degrau do funil é uma oportunidade de melhoria. Instrumentar todos no anal
 
 ### 6.1 Materiais a preparar
 
-- [ ] Landing page (`vitrinio.com.br`) com hero, demo em vídeo, depoimentos, planos, FAQ
+- [x] Landing page com hero, demo em vídeo, planos, FAQ — **implementada** (#0025, `app/page.tsx`); depoimentos omitidos até haver reais; falta publicar no domínio + gravar o vídeo demo
 - [ ] 3 vídeos curtos para Instagram/TikTok mostrando o produto
 - [ ] Post de lançamento no Instagram (carrossel de 7 telas mostrando a jornada)
 - [ ] E-mail de lançamento para lista de espera (se houver)
 - [ ] Press release (e-mail para blogs do nicho — Catraca Livre Empreendedorismo, Pequenas Empresas Grandes Negócios online)
-- [ ] Cupom **PRIMEIRA50** com 50% de desconto na primeira mensalidade
-- [ ] FAQ de 20 perguntas
+- [x] Cupom **PRIMEIRA50** (50% off na 1ª mensalidade) — **semeado** no banco (#0019); ativar/divulgar é operacional
+- [x] FAQ de 20 perguntas — **24 publicadas** em `/ajuda` (#0022)
 - [ ] Tutoriais em vídeo: "como cadastrar produto", "como compartilhar vitrine", "como ver pedidos"
 
 ### 6.2 Cronograma do lançamento (semana 14)

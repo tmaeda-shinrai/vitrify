@@ -4,6 +4,8 @@ Esta pasta quebra a especificação do produto (`docs/SPEC.md`, principalmente �
 
 Cada arquivo `NNNN-slug.md` é uma issue auto-contida: contexto, escopo (e o que fica de fora), tarefas, critérios de aceitação e referências aos docs. As issues seguem a ordem de construção do `ROADMAP.md`; respeite o campo **Depende de** antes de começar.
 
+> **Status: backlog de código concluído.** As issues #0001–#0024 estão implementadas e mergeadas na `main`, e a #0025 (lançamento, M7) teve **todo o código entregue** — plano embaixadora + selo, landing, analytics de funil, stress test (k6) e NF-e automática. O que falta na #0025 é **operacional/go-live** (recrutar embaixadoras, conteúdo, ≥5 transações reais, ligar provedores, revisão jurídica), não-código.
+
 ## Convenções
 
 - **Prioridade (MoSCoW):** `Must` = obrigatório no MVP · `Should` = desejável, aceitável adiar para v1.1 · `Could` = v2.
