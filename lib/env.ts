@@ -18,6 +18,10 @@ const serverSchema = z.object({
   ASAAS_PLAN_PLUS_MONTHLY_ID: z.string().optional(),
   ASAAS_PLAN_PLUS_YEARLY_ID: z.string().optional(),
 
+  // NF-e (#0025): `asaas` liga o módulo de NF-e do Asaas; `none` (padrão) → cron no-op.
+  FISCAL_PROVIDER: z.enum(["asaas", "none"]).default("none"),
+  ASAAS_MUNICIPAL_SERVICE_CODE: z.string().optional(),
+
   RESEND_API_KEY: requiredInProd(z.string().min(1)),
   EMAIL_FROM: requiredInProd(z.string().min(1)),
   EMAIL_REPLY_TO: requiredInProd(z.string().email()),
