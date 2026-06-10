@@ -186,10 +186,12 @@ Sistema funcional ponta a ponta. Uma usuária pode subir do Free para o Pro, pag
 
 ## Fase 4 — Lançamento (Semanas 13 a 14)
 
+> **Código concluído (#0025 mergeada):** plano embaixadora + selo, landing de lançamento, analytics de funil (Plausible), stress test (k6) e NF-e automática (Asaas). Os itens `[x]` abaixo são a parte de código; os `[ ]` são **operacionais/go-live** (não-código).
+
 ### Semana 13 — Beta fechado
 
 - [ ] Recrutar 10 embaixadoras (revendedoras reais via Instagram, indicação, grupos)
-- [ ] Criar plano "embaixadora" interno (gratuito vitalício do Plus)
+- [x] Criar plano "embaixadora" interno (gratuito vitalício do Plus) — admin concede Plus vitalício + selo "Embaixadora Pioneira"
 - [ ] Onboarding 1:1 via WhatsApp ou call
 - [ ] Coletar feedback estruturado a cada 3 dias
 - [ ] Fix de bugs e ajustes urgentes
@@ -198,9 +200,10 @@ Sistema funcional ponta a ponta. Uma usuária pode subir do Free para o Pro, pag
 ### Semana 14 — Ajustes e go-live
 
 - [ ] Implementar top 5 melhorias do feedback do beta
-- [ ] Stress test do servidor (k6 ou similar)
-- [ ] Configurar analytics de conversão
-- [ ] Preparar conteúdo de lançamento (posts Instagram, vídeo TikTok)
+- [x] Stress test do servidor (k6) — `tests/load/` (cenário de pico + `pnpm load`)
+- [x] NF-e automática (módulo do Asaas) — `lib/fiscal/` + `POST /api/cron/nfe` (desligada por padrão; ligar é operacional)
+- [x] Configurar analytics de conversão — Plausible + eventos do funil (falta só criar o site no Plausible)
+- [~] Preparar conteúdo de lançamento — **landing implementada**; falta gravar posts/vídeos
 - [ ] Lançar publicamente com cupom de primeira mensalidade
 
 ### Marco fim da Fase 4

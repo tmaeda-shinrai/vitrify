@@ -228,12 +228,12 @@ Antes de aceitar o primeiro pagamento real, verificar:
 - [x] Processo de export de dados funcionando (JSON pessoais + CSV/JSON produtos) — #0021
 - [ ] E-mail `dpo@dominio` ativo e monitorado (referenciado no código/docs; ativar caixa/DNS — #0025)
 - [ ] E-mail `direitos@dominio` ativo para denúncias (referenciado; ativar caixa/DNS — #0025)
-- [ ] Sistema de denúncia funcionando na vitrine pública (#0023)
+- [x] Sistema de denúncia funcionando na vitrine pública (#0023) — botão "Denunciar" → `/denunciar` + gestão em `/admin/denuncias`
 - [x] Logs de auditoria funcionando (triggers automáticos + retenção 180d) — #0021
-- [ ] Backup automático testado (#0024)
+- [ ] Backup automático **configurado** (#0024, dump semanal + runbook); falta o **teste de restore** em ambiente isolado (operacional)
 - [x] Plano de resposta a incidentes documentado (`docs/security-incidents.md`) — #0021
 - [ ] Revisão jurídica feita por advogado especializado
-- [ ] NF-e emitindo automaticamente após pagamentos
+- [ ] NF-e emitindo automaticamente após pagamentos — **camada implementada** (#0025, `lib/fiscal/` + `POST /api/cron/nfe`); falta **ligar o provedor** (módulo de NF-e do Asaas + inscrição municipal + `FISCAL_PROVIDER=asaas` + contador)
 
 ## 9. Documentos a redigir (com advogado)
 

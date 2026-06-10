@@ -107,3 +107,5 @@ O MVP é considerado pronto para lançamento quando:
 5. Score Lighthouse mobile da vitrine pública acima de 90
 6. Backup automático do banco configurado e testado (restore em ambiente isolado)
 7. Documentação de suporte básica publicada (FAQ + 5 tutoriais em vídeo curto)
+
+> **Status de engenharia (#0025 mergeada):** tudo que depende de código está pronto — funcionalidades do escopo implementadas e testadas (1), legal publicado (3), Lighthouse (5), backup automatizado + runbook (6) e FAQ + estrutura de tutoriais (7, faltam só os vídeos gravados). Pendentes são **operacionais/go-live**: validação por 10 usuárias-piloto por ≥2 semanas (2) e ≥5 transações reais em produção (4).

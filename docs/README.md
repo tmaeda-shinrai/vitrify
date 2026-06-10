@@ -12,12 +12,15 @@ O mercado brasileiro de venda direta movimenta cerca de R$ 50 bilhões/ano com a
 
 ## Estado atual
 
-MVP **construído**: as fases 0–3 do roadmap estão concluídas e mergeadas na `main` —
-auth, CRUD de produtos, vitrine pública (ISR), PWA, pagamentos Asaas (planos, cupons,
-indicação, inadimplência), conformidade LGPD, suporte/ajuda, administração/moderação e o
-polimento da #0024 (acessibilidade AA, i18n, 5 fluxos E2E no CI, backup externo + runbook,
-alertas por e-mail, ADRs). Falta a **Fase 4 — Lançamento** (issue #0025: beta com
-embaixadoras, NF-e automática, stress test e go-live com transações reais). Ver
+MVP **com o código concluído**: as fases 0–4 do roadmap estão implementadas e mergeadas
+na `main` — auth, CRUD de produtos, vitrine pública (ISR), PWA, pagamentos Asaas (planos,
+cupons, indicação, inadimplência), conformidade LGPD, suporte/ajuda, administração/moderação,
+o polimento da #0024 (acessibilidade AA, i18n, 5 fluxos E2E no CI, backup externo + runbook,
+alertas por e-mail, ADRs) e a **#0025 de lançamento** (plano embaixadora + selo, landing,
+analytics de funil via Plausible, stress test k6, NF-e automática via Asaas). Resta apenas o
+**operacional/go-live** da Fase 4 (não-código): recrutar embaixadoras e onboarding 1:1,
+gravar conteúdo/vídeos, ≥5 transações reais em produção, ligar os provedores (NF-e via
+`FISCAL_PROVIDER`, site no Plausible), caixas `dpo@`/`direitos@` e revisão jurídica. Ver
 [ROADMAP.md](./ROADMAP.md) e `CLAUDE.md` (seção "Done so far") para o detalhe por issue.
 
 ## Índice da documentação
