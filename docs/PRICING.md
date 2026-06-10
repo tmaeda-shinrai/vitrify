@@ -161,7 +161,7 @@ Para o MVP, opções:
 
 Recomendação para o MVP: começar com NFE.io ou módulo do Asaas, automatizar via webhook (toda fatura paga gera NF-e em 24h).
 
-> Status: a implementação automática da NF-e é da **#0025** (lançamento) — foi tirada da #0024 por exigir conta no provedor + dados fiscais + contador, que não fecham só em código.
+> Status (#0025): a camada de emissão automática **está implementada** — `lib/fiscal/` (abstração neutra + `AsaasFiscalGateway`) + `POST /api/cron/nfe` (pg*cron de hora em hora) emitem a NFS-e de cada fatura paga ainda sem nota (com teto de tentativas e alerta), colunas `nfe*\*`em`invoices`e retenção fiscal em`invoice_archive`. Fica **desligada por padrão** (`FISCAL_PROVIDER=none`, no-op); ligar exige a parte operacional — módulo de NF-e habilitado no Asaas + inscrição municipal + código de serviço + contador.
 
 ### 7.3 Regime tributário
 

@@ -244,6 +244,8 @@ export type Database = {
           asaas_payment_id: string | null;
           due_date: string | null;
           id: string;
+          nfe_id: string | null;
+          nfe_url: string | null;
           paid_at: string | null;
           payment_method: string | null;
           status: string;
@@ -254,6 +256,8 @@ export type Database = {
           asaas_payment_id?: string | null;
           due_date?: string | null;
           id?: string;
+          nfe_id?: string | null;
+          nfe_url?: string | null;
           paid_at?: string | null;
           payment_method?: string | null;
           status: string;
@@ -264,6 +268,8 @@ export type Database = {
           asaas_payment_id?: string | null;
           due_date?: string | null;
           id?: string;
+          nfe_id?: string | null;
+          nfe_url?: string | null;
           paid_at?: string | null;
           payment_method?: string | null;
           status?: string;
@@ -278,6 +284,12 @@ export type Database = {
           due_date: string;
           id: string;
           invoice_url: string | null;
+          nfe_attempts: number;
+          nfe_error: string | null;
+          nfe_id: string | null;
+          nfe_issued_at: string | null;
+          nfe_status: string | null;
+          nfe_url: string | null;
           paid_at: string | null;
           payment_method: string | null;
           status: string;
@@ -290,6 +302,12 @@ export type Database = {
           due_date: string;
           id?: string;
           invoice_url?: string | null;
+          nfe_attempts?: number;
+          nfe_error?: string | null;
+          nfe_id?: string | null;
+          nfe_issued_at?: string | null;
+          nfe_status?: string | null;
+          nfe_url?: string | null;
           paid_at?: string | null;
           payment_method?: string | null;
           status: string;
@@ -302,6 +320,12 @@ export type Database = {
           due_date?: string;
           id?: string;
           invoice_url?: string | null;
+          nfe_attempts?: number;
+          nfe_error?: string | null;
+          nfe_id?: string | null;
+          nfe_issued_at?: string | null;
+          nfe_status?: string | null;
+          nfe_url?: string | null;
           paid_at?: string | null;
           payment_method?: string | null;
           status?: string;

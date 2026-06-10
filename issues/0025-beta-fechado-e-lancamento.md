@@ -49,7 +49,7 @@ Fechar o ciclo do MVP: validar o produto com revendedoras reais, ajustar com bas
 - [ ] Coleta de feedback estruturado (a cada 2–3 dias) + correções urgentes
 - [ ] Documento "Acordo com Embaixadoras" (com advogado)
 - [ ] Implementar top 5 melhorias do feedback
-- [ ] NF-e automática via webhook (NFE.io/Webmania/Asaas), retenção fiscal 5 anos — movida da #0024
+- [x] NF-e automática (módulo do Asaas) — `lib/fiscal/` + `POST /api/cron/nfe` (pg*cron), colunas `nfe*\*`em`invoices` + retenção fiscal 5 anos (`invoice_archive`); desligada por padrão (`FISCAL_PROVIDER`), ligar é operacional (módulo/inscrição/contador) — movida da #0024
 - [x] Stress test (k6) com cenário de lançamento — `tests/load/vitrine-launch.js` (scenarios `browse` + `pings`) + `tests/load/README.md`; rodar com `pnpm load`
 - [ ] ≥ 5 transações reais de assinatura em produção, confirmadas + NF-e emitida
 - [x] Analytics de conversão do funil configurado (por canal) — Plausible (`PlausibleScript`) + eventos `Signup`/`Onboarding completed`/`Product created`/`Subscription active` em `lib/analytics/plausible`; falta só setar `NEXT_PUBLIC_PLAUSIBLE_DOMAIN` + criar o site no Plausible (operacional)
