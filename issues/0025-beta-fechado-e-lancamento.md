@@ -1,16 +1,18 @@
 # [0025] Beta fechado com embaixadoras e go-live
 
-|                |                                               |
-| -------------- | --------------------------------------------- |
-| **Milestone**  | M7 — Lançamento                               |
-| **Roadmap**    | Fase 4 — Lançamento (Semanas 13–14)           |
-| **Prioridade** | Must                                          |
-| **Planos**     | Todos (embaixadoras recebem Plus vitalício)   |
-| **Depende de** | #0001–#0024 (produto funcional ponta a ponta) |
+|                |                                                                                              |
+| -------------- | -------------------------------------------------------------------------------------------- |
+| **Milestone**  | M7 — Lançamento                                                                              |
+| **Roadmap**    | Fase 4 — Lançamento (Semanas 13–14)                                                          |
+| **Prioridade** | Must                                                                                         |
+| **Planos**     | Todos (embaixadoras recebem Plus vitalício)                                                  |
+| **Depende de** | #0001–#0024 (produto funcional ponta a ponta); #0028, #0030 (go-live técnico + gates legais) |
 
 ## Contexto
 
 Fechar o ciclo do MVP: validar o produto com revendedoras reais, ajustar com base no feedback e lançar publicamente. Atende aos critérios de pronto "10 usuárias-piloto usaram por ≥ 2 semanas e validaram o fluxo" e "pagamento recorrente testado em produção com ≥ 5 transações reais" (`docs/SPEC.md` §8). Boa parte desta issue é operacional/marketing, não código — está aqui para fechar o backlog do MVP.
+
+> **Nota de fatiamento (pós-#0025):** o **go-live técnico** que esta issue pressupunha ("aplicação em produção") foi extraído para issues próprias — **#0026** (provisionar serviços), **#0027** (banco/crons/Auth), **#0028** (deploy Vercel/webhook/backup) — e o **NF-e em produção** para **#0029** e os **gates legais** para **#0030**. As tarefas operacionais/marketing de lançamento (recrutar embaixadoras, conteúdo, ≥5 transações, cronograma) são executadas em **#0031**. Esta #0025 permanece como registro do MVP e do código de M7 já entregue; os checkboxes abaixo refletem esse código.
 
 ## Escopo
 
