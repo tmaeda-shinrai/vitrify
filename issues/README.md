@@ -4,7 +4,7 @@ Esta pasta quebra a especificação do produto (`docs/SPEC.md`, principalmente �
 
 Cada arquivo `NNNN-slug.md` é uma issue auto-contida: contexto, escopo (e o que fica de fora), tarefas, critérios de aceitação e referências aos docs. As issues seguem a ordem de construção do `ROADMAP.md`; respeite o campo **Depende de** antes de começar.
 
-> **Status: backlog de código concluído.** As issues #0001–#0024 estão implementadas e mergeadas na `main`, e a #0025 (lançamento, M7) teve **todo o código entregue** — plano embaixadora + selo, landing, analytics de funil, stress test (k6) e NF-e automática. O que falta na #0025 é **operacional/go-live** (recrutar embaixadoras, conteúdo, ≥5 transações reais, ligar provedores, revisão jurídica), não-código.
+> **Status: backlog de código concluído.** As issues #0001–#0024 estão implementadas e mergeadas na `main`, e a #0025 (lançamento, M7) teve **todo o código entregue** — plano embaixadora + selo, landing, analytics de funil, stress test (k6) e NF-e automática. O que falta para o lançamento é **operacional/go-live** (provisionar provedores, deploy, ativar NF-e, revisão jurídica, recrutar embaixadoras, ≥5 transações reais), não-código — fatiado nas issues **#0026–#0031** (caminho crítico técnico #0026→#0027→#0028; #0030 em paralelo; #0029/#0031 depois). A #0025 permanece como registro do MVP.
 
 ## Convenções
 
@@ -47,6 +47,12 @@ Cada arquivo `NNNN-slug.md` é uma issue auto-contida: contexto, escopo (e o que
 | [0023](./0023-administracao-interna-e-moderacao.md)   | Administração interna e moderação                                   | M6 — Conformidade e polimento | Fase 3, Sem. 12    | Must          |
 | [0024](./0024-polimento-acessibilidade-e2e-backup.md) | Polimento, acessibilidade, E2E e backup                             | M6 — Conformidade e polimento | Fase 3, Sem. 12    | Must          |
 | [0025](./0025-beta-fechado-e-lancamento.md)           | Beta fechado com embaixadoras e go-live                             | M7 — Lançamento               | Fase 4, Sem. 13–14 | Must          |
+| [0026](./0026-provisionar-servicos-producao.md)       | Provisionar serviços de produção                                    | M7 — Lançamento               | Fase 4, Sem. 13    | Must          |
+| [0027](./0027-banco-producao-migrations-crons.md)     | Banco de produção: migrations, crons e Auth                         | M7 — Lançamento               | Fase 4, Sem. 13    | Must          |
+| [0028](./0028-deploy-vercel-webhook-backup.md)        | Deploy na Vercel, webhook Asaas e backup                            | M7 — Lançamento               | Fase 4, Sem. 13–14 | Must          |
+| [0029](./0029-nfe-producao.md)                        | NF-e automática em produção                                         | M7 — Lançamento               | Fase 4, Sem. 14    | Must          |
+| [0030](./0030-gates-legais-pre-pagamento.md)          | Gates legais pré-pagamento                                          | M7 — Lançamento               | Fase 4, Sem. 13–14 | Must          |
+| [0031](./0031-beta-execucao-lancamento.md)            | Beta + execução do lançamento                                       | M7 — Lançamento               | Fase 4, Sem. 13–14 | Must          |
 
 ## Mapa SPEC.md → issues
 
@@ -65,9 +71,9 @@ Cada arquivo `NNNN-slug.md` é uma issue auto-contida: contexto, escopo (e o que
 | Critério de pronto do MVP (`SPEC.md` §8)                             | Issues             |
 | -------------------------------------------------------------------- | ------------------ |
 | Funcionalidades do escopo implementadas e testadas                   | todas + 0024 (E2E) |
-| 10 usuárias-piloto validaram por 2 semanas                           | 0025               |
-| Política de privacidade, termos de uso, exclusão de conta publicados | 0021               |
-| Pagamento recorrente testado em produção (≥5 transações reais)       | 0025               |
+| 10 usuárias-piloto validaram por 2 semanas                           | 0025, 0031         |
+| Política de privacidade, termos de uso, exclusão de conta publicados | 0021, 0030         |
+| Pagamento recorrente testado em produção (≥5 transações reais)       | 0025, 0028, 0031   |
 | Lighthouse mobile da vitrine > 90                                    | 0017               |
-| Backup automático configurado e testado                              | 0024               |
+| Backup automático configurado e testado                              | 0024, 0028, 0030   |
 | Documentação de suporte (FAQ + 5 tutoriais em vídeo)                 | 0022               |
